@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Software Architecture Enthusiast" version="4">
+  <OBJECT>
+    <ID name="Software Architecture Enthusiast" mc="Standard.Actor" uid="cc48dec7-a339-405f-87c1-e9333effc67b"/>
+    <PID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
+    <ATTRIBUTES>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Software Architecture Enthusiast]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedEnd">
+        <REFOBJ>
+          <ID name="" mc="Standard.AssociationEnd" uid="e15cb46e-0633-47ac-862e-ce44f656c1cc"/>
+        </REFOBJ>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

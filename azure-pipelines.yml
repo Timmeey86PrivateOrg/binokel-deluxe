@@ -1,0 +1,31 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+# Build on MacOS 
+pool:
+  vmImage: 'macOS-10.13'
+
+variables:
+  buildConfiguration: 'Release'
+  outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@0
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '**/*.sln'
+- task: ShellScript@2
+  inputs:
+    scriptPath: azure/install.sh
+    
+- task: XamarinAndroid@1
+  inputs:
+    projectFile: '**/*Android*.csproj'
+    outputDirectory: '$(outputDirectory)'
+    configuration: '$(buildConfiguration)'

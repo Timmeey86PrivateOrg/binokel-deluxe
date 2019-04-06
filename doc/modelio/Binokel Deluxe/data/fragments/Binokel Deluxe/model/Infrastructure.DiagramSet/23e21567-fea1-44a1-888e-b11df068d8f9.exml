@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Binokel Deluxe" version="4">
+  <OBJECT>
+    <ID name="Binokel Deluxe" mc="Infrastructure.DiagramSet" uid="23e21567-fea1-44a1-888e-b11df068d8f9"/>
+    <PID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[Binokel Deluxe]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

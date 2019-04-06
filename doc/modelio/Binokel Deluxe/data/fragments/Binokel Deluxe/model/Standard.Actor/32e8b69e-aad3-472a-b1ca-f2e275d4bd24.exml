@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Developer" version="4">
+  <OBJECT>
+    <ID name="Developer" mc="Standard.Actor" uid="32e8b69e-aad3-472a-b1ca-f2e275d4bd24"/>
+    <PID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
+    <ATTRIBUTES>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Developer]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedEnd">
+        <REFOBJ>
+          <ID name="" mc="Standard.AssociationEnd" uid="c4f90a9f-a68a-4f77-aeb5-8a1a12fd99e1"/>
+        </REFOBJ>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

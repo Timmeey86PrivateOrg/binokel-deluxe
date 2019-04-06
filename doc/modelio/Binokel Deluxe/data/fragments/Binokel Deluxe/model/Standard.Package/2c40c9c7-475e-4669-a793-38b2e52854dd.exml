@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="binokel deluxe" version="4">
+  <OBJECT>
+    <ID name="binokel deluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+    <PID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[binokel deluxe]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

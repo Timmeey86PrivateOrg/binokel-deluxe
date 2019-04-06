@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Binokel Deluxe" version="4">
+  <OBJECT>
+    <ID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[Binokel Deluxe]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="binokel deluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+        <COMPID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="Binokel Deluxe" mc="Infrastructure.DiagramSet" uid="23e21567-fea1-44a1-888e-b11df068d8f9"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

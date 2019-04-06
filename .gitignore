@@ -1,0 +1,26 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Ll]og/
+
+# Visual Studio cache directory
+.vs/
+
+# Gradle cache directory
+.gradle/
+
+*.suo
+*.tmp
+*.user
+*.userprefss
+*.pdb
+*.mdb
+*.opendb
+
+# Builds
+*.apk
+bin/
+obj/
