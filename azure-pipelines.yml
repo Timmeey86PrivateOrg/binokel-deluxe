@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- AzureTest
 
 # Build on MacOS 
 pool:
