@@ -12,7 +12,7 @@ variables:
   buildConfiguration: 'Release'
   outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
   packageName: 'com.github.timmeey86.BinokelDeluxe'
-  exeSourceDirectory: 'BinokelDeluxe.Desktop/bin/DesktopGL/AnyCPU/release'
+  exeSourceDirectory: 'src/BinokelDeluxe.Desktop/bin/DesktopGL/AnyCPU/release'
 
 # Note for the following tasks: The number behind the @ symbol indicates the version of that task
 # We always use the current task version which can be found out by checking 
