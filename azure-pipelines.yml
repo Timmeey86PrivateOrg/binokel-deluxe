@@ -1,32 +1,95 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
+# Trigger the Azure DevOps build upon changes in the master or setup branches
 trigger:
 - master
-- AzureTest
+- setup
 
 # Build on MacOS 
 pool:
   vmImage: 'macOS-10.13'
 
+# Configure paths here
 variables:
   buildConfiguration: 'Release'
   outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+  packageName: 'com.github.timmeey86.BinokelDeluxe'
+  exeSourceDirectory: 'BinokelDeluxe.Desktop/bin/DesktopGL/AnyCPU/release'
+
+# Note for the following tasks: The number behind the @ symbol indicates the version of that task
+# We always use the current task version which can be found out by checking 
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/index?view=azure-devops
+# and then clicking on the relevant task and viewing the example.
+# If you know a faster way, please update this comment.
 
 steps:
+# Install NuGet
 - task: NuGetToolInstaller@0
 
+# Restore any missing dependencies
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '**/*.sln'
-- task: ShellScript@2
-  inputs:
-    scriptPath: azure/install.sh
     
+# Install MonoGame and other dependencies
+- script: |
+    # Download Monogame 3.7.1 (-L is important so curl follows redirects)
+    curl -L -O https://github.com/MonoGame/MonoGame/releases/download/v3.7.1/MonoGame.pkg
+    # Install the MonoGame package
+    sudo installer -pkg "$(pwd)/MonoGame.pkg" -target /
+  displayName: 'Installing MonoGame'
+    
+# Build the desktop project as a regular MSBuild project
+- task: MSBuild@1
+  inputs:
+    solution: '**/*Desktop.csproj' 
+    platform: AnyCPU
+    configuration: release
+    
+ # Zip the exe files as .zip and .tar.gz
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(exeSourceDirectory)' 
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(outputDirectory)/BinokelDeluxe.zip' 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(exeSourceDirectory)'
+    includeRootFolder: false
+    archiveType: 'tar'
+    tarCompression: 'gz'
+    archiveFile: '$(outputDirectory)/BinokelDeluxe.tar.gz' 
+    
+# Publish artifacts for Windows/Linux versions
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'WindowsArtifact'
+    targetPath: '$(outputDirectory)/BinokelDeluxe.zip'
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'LinuxArtifact'
+    targetPath: '$(outputDirectory)/BinokelDeluxe.tar.gz'
+    
+# Build any .csproj containing "Droid" as a Xamarin project
 - task: XamarinAndroid@1
   inputs:
-    projectFile: '**/*Android*.csproj'
+    projectFile: '**/*Droid*.csproj'
     outputDirectory: '$(outputDirectory)'
     configuration: '$(buildConfiguration)'
+    
+# Sign the app using the decrypted keystore and the passwords stored in the Azure Pipeline
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.apk'
+    apksign: true
+    apksignerKeystoreFile: 'BinokelDeluxe.keystore'
+    apksignerKeystorePassword: '$(keystore.pass)'
+    apksignerKeystoreAlias: '$(keystore.alias)'
+    apksignerKeyPassword: '$(keystore.aliaspass)'
+    zipalign: true
+    
+# Publish an artifact to be used for Android
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'AndroidArtifact' 
+    targetPath: '$(outputDirectory)/$(packageName).apk'
+    
