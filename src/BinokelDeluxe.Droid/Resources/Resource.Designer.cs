@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("AndroidTest.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("BinokelDeluxe.Droid.Resource", IsApplication=true)]
 
-namespace AndroidTest
+namespace BinokelDeluxe.Droid
 {
 	
 	

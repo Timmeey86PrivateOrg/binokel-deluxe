@@ -1,26 +1,22 @@
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace AndroidTest
+namespace BinokelDeluxe.Shared
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public abstract class GameBase : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        public Game1()
+        protected GraphicsDeviceManager Graphics { private set; get; }
+        protected SpriteBatch SpriteBatch { private set; get; }
+        
+        protected GameBase()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 480;
-            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
         }
 
         /// <summary>
@@ -32,8 +28,8 @@ namespace AndroidTest
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
+
         }
 
         /// <summary>
@@ -43,9 +39,9 @@ namespace AndroidTest
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            //TODO: Use Content to load your game content here 
         }
 
         /// <summary>
@@ -64,13 +60,21 @@ namespace AndroidTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (ExitButtonsArePressed())
+            {
                 Exit();
+            }
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic here            
 
             base.Update(gameTime);
         }
+
+        /// <summary>
+        /// Check whether or not the exit buttons are currently pressed. This is usually the back or escape key.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract bool ExitButtonsArePressed();
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -78,11 +82,12 @@ namespace AndroidTest
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            //TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
     }
 }
+

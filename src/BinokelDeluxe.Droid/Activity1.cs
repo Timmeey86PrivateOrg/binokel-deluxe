@@ -3,9 +3,9 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 
-namespace AndroidTest
+namespace BinokelDeluxe.Droid
 {
-    [Activity(Label = "AndroidTest"
+    [Activity(Label = "BinokelDeluxe.Droid"
         , MainLauncher = true
         , Icon = "@drawable/icon"
         , Theme = "@style/Theme.Splash"
@@ -18,7 +18,7 @@ namespace AndroidTest
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var g = new Game1();
+            var g = new AndroidGame();
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();
         }
