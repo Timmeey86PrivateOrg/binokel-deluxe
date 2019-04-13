@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Core" version="4">
+  <OBJECT>
+    <ID name="Core" mc="Standard.Component" uid="8d8808c8-4757-43da-96d2-ac5552ec55c6"/>
+    <PID name="Components" mc="Standard.Package" uid="991fa102-2df5-431a-a591-fc568d9f4280"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Core]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="CoreSetttings" mc="Standard.Class" uid="a37b0211-2bdd-4c50-8c38-5ce346667893"/>
+        <COMPID name="SettingsStorage" mc="Standard.Class" uid="1cbc0ab2-b85d-4daa-8cf6-1ac4d103ddf7"/>
+      </COMP>
+      <COMP relation="DependsOnDependency">
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Dependency" uid="385efc96-f80f-4664-a4e7-15a68a34c13e"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="GameLogic" mc="Standard.Component" uid="dbc9c108-fa5a-4821-afb3-fb938b17d37c"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Dependency" uid="b577991f-d9b8-4522-ad01-c1a7ad7978d2"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="UI" mc="Standard.Component" uid="477cbf6f-0a5b-4bbf-befc-3ec1a9e7ffd3"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Dependency" uid="bf3964df-4e36-4160-91b0-633e5fb9e7ff"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="Validation" mc="Standard.Component" uid="d4c354cb-600e-4800-878d-7ef0d4cf846e"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Dependency" uid="64f4fd7a-d361-419a-ba1d-7a0b56470e86"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="Learning" mc="Standard.Component" uid="35074b96-7c27-457b-827d-cb78e5e48fe6"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Infrastructure.Dependency" uid="af33bfbe-4b40-4a09-91f0-1dfbf61c5317"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="Shared" mc="Standard.Component" uid="003ef4f4-53e5-4e4f-b8c3-5ff1136e0fd0"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
