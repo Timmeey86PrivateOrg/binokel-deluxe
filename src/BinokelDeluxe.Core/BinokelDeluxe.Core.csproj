@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.Learning\BinokelDeluxe.Learning.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.UI\BinokelDeluxe.UI.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.Validation\BinokelDeluxe.Validation.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems" Label="Shared" />
+
+</Project>
