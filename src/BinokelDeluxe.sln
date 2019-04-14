@@ -3,29 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BinokelDeluxe.Shared", "BinokelDeluxe.Shared\BinokelDeluxe.Shared.shproj", "{3C00814F-5FAC-47FA-92DD-669B48EA3C11}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Content", "BinokelDeluxe.Content\BinokelDeluxe.Content.csproj", "{24C67D05-7CDE-4AF0-8018-23EEA5E4575B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Droid", "BinokelDeluxe.Droid\BinokelDeluxe.Droid.csproj", "{411D0235-3D50-40D4-9258-6B6FE9559EF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Desktop", "BinokelDeluxe.Desktop\BinokelDeluxe.Desktop.csproj", "{5D1F3346-D495-41C2-8A1D-A04F85D4F4B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.GameLogic", "BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj", "{ACE8E0D9-AF61-45F3-98E2-97442C3ADB44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.GameLogic", "BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj", "{ACE8E0D9-AF61-45F3-98E2-97442C3ADB44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Validation", "BinokelDeluxe.Validation\BinokelDeluxe.Validation.csproj", "{83C242B6-0331-4D6F-8FF5-7222899E8CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Validation", "BinokelDeluxe.Validation\BinokelDeluxe.Validation.csproj", "{83C242B6-0331-4D6F-8FF5-7222899E8CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.UI", "BinokelDeluxe.UI\BinokelDeluxe.UI.csproj", "{8F1DF4F8-44F9-4F3E-89FD-96CA35D30BA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.UI", "BinokelDeluxe.UI\BinokelDeluxe.UI.csproj", "{8F1DF4F8-44F9-4F3E-89FD-96CA35D30BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Learning", "BinokelDeluxe.Learning\BinokelDeluxe.Learning.csproj", "{186ECB6C-FEFD-459C-A1B7-D785FEAEA6BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Learning", "BinokelDeluxe.Learning\BinokelDeluxe.Learning.csproj", "{186ECB6C-FEFD-459C-A1B7-D785FEAEA6BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Core", "BinokelDeluxe.Core\BinokelDeluxe.Core.csproj", "{B202B28E-7C24-486B-ADEF-5E2DE28EC8ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Core", "BinokelDeluxe.Core\BinokelDeluxe.Core.csproj", "{B202B28E-7C24-486B-ADEF-5E2DE28EC8ED}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BinokelDeluxe.MonoGameShared", "BinokelDeluxe.MonoGameShared\BinokelDeluxe.MonoGameShared.shproj", "{3C00814F-5FAC-47FA-92DD-669B48EA3C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Common", "BinokelDeluxe.Common\BinokelDeluxe.Common.csproj", "{C1F3589D-431D-4ED9-BECB-3A786424672F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems*{3c00814f-5fac-47fa-92dd-669b48ea3c11}*SharedItemsImports = 13
-		BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems*{411d0235-3d50-40d4-9258-6b6fe9559ef6}*SharedItemsImports = 4
-		BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems*{5d1f3346-d495-41c2-8a1d-a04f85d4f4b0}*SharedItemsImports = 4
+		BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems*{3c00814f-5fac-47fa-92dd-669b48ea3c11}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +168,22 @@ Global
 		{B202B28E-7C24-486B-ADEF-5E2DE28EC8ED}.Release|x64.Build.0 = Release|Any CPU
 		{B202B28E-7C24-486B-ADEF-5E2DE28EC8ED}.Release|x86.ActiveCfg = Release|Any CPU
 		{B202B28E-7C24-486B-ADEF-5E2DE28EC8ED}.Release|x86.Build.0 = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|ARM.Build.0 = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|x64.Build.0 = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C1F3589D-431D-4ED9-BECB-3A786424672F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

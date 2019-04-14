@@ -31,6 +31,7 @@ namespace BinokelDeluxe.GameLogic
     /// <summary>
     /// This class contains any setting which affects the game logic.
     /// </summary>
+    [Serializable()]
     public class RuleSettings : Shared.IConfigurable
     {
         /// <summary>
