@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.Common\BinokelDeluxe.Common.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.Learning\BinokelDeluxe.Learning.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.UI\BinokelDeluxe.UI.csproj" />
+    <ProjectReference Include="..\BinokelDeluxe.Validation\BinokelDeluxe.Validation.csproj" />
+  </ItemGroup>
+
+</Project>

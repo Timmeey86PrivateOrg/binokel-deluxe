@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,8 @@
     <AssemblyName>BinokelDeluxe.Desktop</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +41,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DesktopGame.cs" />
@@ -105,9 +109,20 @@
     <MonoGameContentReference Include="..\BinokelDeluxe.Content\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
     </MonoGameContentReference>
+    <None Include="app.config" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <Import Project="..\BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.Core\BinokelDeluxe.Core.csproj">
+      <Project>{b202b28e-7c24-486b-adef-5e2de28ec8ed}</Project>
+      <Name>BinokelDeluxe.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj">
+      <Project>{ace8e0d9-af61-45f3-98e2-97442c3adb44}</Project>
+      <Name>BinokelDeluxe.GameLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
