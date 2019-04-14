@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BinokelDeluxe.Shared
+namespace BinokelDeluxe.Common
 {
     /// <summary>
     /// This interface is used to identify classes which store settings.

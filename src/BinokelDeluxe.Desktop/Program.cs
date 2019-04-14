@@ -15,7 +15,7 @@ namespace BinokelDeluxe.Desktop
         {
             // TEMP TEST CODE
 
-            var ruleSettings = new GameLogic.RuleSettings();
+            Core.Test.TestMethod();
 
             // /TEMP TEST CODE
 

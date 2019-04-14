@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\BinokelDeluxe.Shared\BinokelDeluxe.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.Common\BinokelDeluxe.Common.csproj" />
+  </ItemGroup>
 
 </Project>

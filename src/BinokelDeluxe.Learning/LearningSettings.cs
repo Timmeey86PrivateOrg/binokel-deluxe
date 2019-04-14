@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BinokelDeluxe.Learning
 {
-    public class LearningSettings : Shared.IConfigurable
+    public class LearningSettings : Common.IConfigurable
     {
     }
 }

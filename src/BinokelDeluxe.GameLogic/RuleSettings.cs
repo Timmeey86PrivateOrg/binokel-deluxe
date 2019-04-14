@@ -31,58 +31,57 @@ namespace BinokelDeluxe.GameLogic
     /// <summary>
     /// This class contains any setting which affects the game logic.
     /// </summary>
-    [Serializable()]
-    public class RuleSettings : Shared.IConfigurable
+    public class RuleSettings : Common.IConfigurable
     {
         /// <summary>
         /// Defines whether three or four player binokel is being played.
         /// </summary>
-        public GameType GameType { private set; get; }
+        public GameType GameType { set; get; } = GameType.ThreePlayerGame;
 
         /// <summary>
         /// True if the cards which display a seven shall be included.
         /// </summary>
-        public bool SevensAreIncluded { private set; get; }
+        public bool SevensAreIncluded { set; get; } = true;
 
         /// <summary>
         /// Defines the score of each card.
         /// </summary>
-        public CountingType CountingType { private set; get; }
+        public CountingType CountingType { set; get; } = CountingType.DecreasingPointsForAceToUnter;
 
         /// <summary>
         /// True if the score for each player/team shall be rounded towards the next multiple of ten.
         /// </summary>
-        public bool ScoresWillBeRounded { private set; get; }
+        public bool ScoresWillBeRounded { set; get; } = true;
 
         /// <summary>
         /// True if, when one player goes out, all others will receive 10 points per player in addition to their meld.
         /// </summary>
-        public bool ExtraPointsForOthersWhenGoingOut { private set; get; }
-        
+        public bool ExtraPointsForOthersWhenGoingOut { set; get; } = true;
+
         /// <summary>
         /// True if the seven of trumps can be melded for ten points.
         /// </summary>
-        public bool ExtraPointsForSevenOfTrumps { private set; get; }
+        public bool ExtraPointsForSevenOfTrumps { set; get; } = true;
 
         /// <summary>
         /// True if the ten points are awarded for winning the last trick, false if ten points are awarded for winning the first trick.
         /// </summary>
-        public bool ExtraPointsForLastTrickInsteadOfFirst { private set; get; }
+        public bool ExtraPointsForLastTrickInsteadOfFirst { set; get; } = true;
 
         /// <summary>
         /// True if the seven of trumps may be discarded despite being melded.
         /// </summary>
-        public bool SevenOfTrumpsCanBeMeldedAndDiscarded { private set; get; }
+        public bool SevenOfTrumpsCanBeMeldedAndDiscarded { set; get; } = true;
 
         /// <summary>
         /// True if a Bettel (attempt to lose all tricks, and gaining 1000 points in case of success) is allowed.
         /// </summary>
-        public bool BettelsAreAllowed { private set; get; }
+        public bool BettelsAreAllowed { set; get; } = false;
 
         /// <summary>
         /// True if when player B plays a trump because he cannot follow suit, player C is forced to play a higher trump if he has one and also cannot follow suit.
         /// If false, player C still needs to play a trump but may play a lower trump than player B.
         /// </summary>
-        public bool SecondTrumpMustAlsoWin { private set; get; }
+        public bool SecondTrumpMustAlsoWin { set; get; } = true;
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BinokelDeluxe.UI
 {
-    public class UISettings : Shared.IConfigurable
+    public class UISettings : Common.IConfigurable
     {
     }
 }

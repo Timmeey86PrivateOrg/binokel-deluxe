@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Core", "Binok
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BinokelDeluxe.MonoGameShared", "BinokelDeluxe.MonoGameShared\BinokelDeluxe.MonoGameShared.shproj", "{3C00814F-5FAC-47FA-92DD-669B48EA3C11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Common", "BinokelDeluxe.Common\BinokelDeluxe.Common.csproj", "{C1F3589D-431D-4ED9-BECB-3A786424672F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Common", "BinokelDeluxe.Common\BinokelDeluxe.Common.csproj", "{C1F3589D-431D-4ED9-BECB-3A786424672F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems*{3c00814f-5fac-47fa-92dd-669b48ea3c11}*SharedItemsImports = 13
+		BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems*{411d0235-3d50-40d4-9258-6b6fe9559ef6}*SharedItemsImports = 4
+		BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems*{5d1f3346-d495-41c2-8a1d-a04f85d4f4b0}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
