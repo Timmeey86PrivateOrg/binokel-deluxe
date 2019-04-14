@@ -1,0 +1,1308 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="State Machine" version="4">
+  <OBJECT>
+    <ID name="State Machine" mc="Standard.StateMachine" uid="85ee29f3-40d4-4222-b725-0f7c2dedd3cd"/>
+    <PID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
+    <ATTRIBUTES>
+      <ATT name="Kind">Dynamic</ATT>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[State Machine]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Top">
+        <OBJECT>
+          <ID name="" mc="Standard.Region" uid="0262a88c-049a-41d1-882a-799ed7174a71"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Sub">
+              <OBJECT>
+                <ID name="Initial State" mc="Standard.InitialPseudoState" uid="ab178e59-064f-4b95-9a6a-22d8747e8679"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Initial State]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="6760c624-10d0-43f2-be60-3a163aacd298"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Dealing" mc="Standard.State" uid="8d474fbc-8ec3-49f6-ae7f-e04b498e1af0"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="Descriptor">
+                    <OBJECT>
+                      <ID name="Note" mc="Infrastructure.Note" uid="756d319d-8cc3-49d4-a8b8-07b59e2959cf"/>
+                      <ATTRIBUTES>
+                        <ATT name="Content"><![CDATA[This state machine handles a single game from start to end. It is triggered through events and will fire events whenever entering or leaving a state.
+Currently, only the current and next players and the number of cards remaining are being tracked by the machine.
+]]></ATT>
+                        <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                        <ATT name="Name"><![CDATA[Note]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Model">
+                          <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Dealing" mc="Standard.State" uid="8d474fbc-8ec3-49f6-ae7f-e04b498e1af0"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Dealing]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Internal">
+                    <OBJECT>
+                      <ID name="Do" mc="Standard.InternalTransition" uid="67ac3451-4e41-498c-a652-08998d83d0cb"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"><![CDATA[Current player = righthand player of dealer]]></ATT>
+                        <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Do]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES></DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="Do" mc="Standard.InternalTransition" uid="79471703-6850-4735-b526-b05c1c63dadd"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"><![CDATA[Next player = righthand player of current player]]></ATT>
+                        <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Do]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES></DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="f7b7c399-bc2b-4304-aa82-4d7101bee8c3"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="" mc="Standard.EntryPointPseudoState" uid="1a32e541-d4ff-461a-91b9-d9e9671a481e"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Bidding" mc="Standard.State" uid="72587986-2b3b-4580-b89d-aa547e4981b4"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Bidding]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="ExitPoint">
+                    <OBJECT>
+                      <ID name="" mc="Standard.ExitPointPseudoState" uid="77d1beda-a037-4c74-9745-a9e8a927897e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="OutGoing">
+                          <OBJECT>
+                            <ID name="Transition" mc="Standard.Transition" uid="eee1a457-bc9f-4135-9ab6-4a9a8867818c"/>
+                            <ATTRIBUTES>
+                              <ATT name="Effect"></ATT>
+                              <ATT name="ReceivedEvents"></ATT>
+                              <ATT name="SentEvents"></ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="PostCondition"></ATT>
+                              <ATT name="Name"><![CDATA[Transition]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="Exchanging cards with the dabb" mc="Standard.State" uid="7c0771ea-336d-4b1f-be45-7ed27c398ef5"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="EntryPoint">
+                    <OBJECT>
+                      <ID name="" mc="Standard.EntryPointPseudoState" uid="1a32e541-d4ff-461a-91b9-d9e9671a481e"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="OutGoing">
+                          <OBJECT>
+                            <ID name="Transition" mc="Standard.Transition" uid="d466dcd7-1b5d-437b-a0e7-23c026eb3634"/>
+                            <ATTRIBUTES>
+                              <ATT name="Effect"></ATT>
+                              <ATT name="ReceivedEvents"></ATT>
+                              <ATT name="SentEvents"></ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="PostCondition"></ATT>
+                              <ATT name="Name"><![CDATA[Transition]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="OwnedRegion">
+                    <OBJECT>
+                      <ID name="Region" mc="Standard.Region" uid="8a44bae5-ede9-49f1-9eb9-3ce20c509965"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"><![CDATA[Region]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="Sub">
+                          <OBJECT>
+                            <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Waiting for current player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="43394046-acae-443d-97d3-640db2db6c4b"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="BidPlaced" mc="Standard.Event" uid="c0b169fc-3fdb-46de-80cb-f5c323391b58"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="e18abc64-0798-4929-b194-89138b1b3c8c"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="Passed" mc="Standard.Event" uid="04e7f8ee-3fdf-4f62-aae5-180e4642a806"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Switching current player" mc="Standard.State" uid="eb90ebf3-453b-4fe9-8bc8-31c92f2dcd41"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <COMP relation="Descriptor">
+                                      <OBJECT>
+                                        <ID name="Note" mc="Infrastructure.Note" uid="903741b4-0f39-458e-82e1-cd79555a34bf"/>
+                                        <ATTRIBUTES>
+                                          <ATT name="Content"><![CDATA[For n players, only the first n-2 are allowed to pass, unless a bid has been made already]]></ATT>
+                                          <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                                          <ATT name="Name"><![CDATA[Note]]></ATT>
+                                          <ATT name="status">1970354901745664</ATT>
+                                        </ATTRIBUTES>
+                                        <DEPENDENCIES>
+                                          <LINK relation="Model">
+                                            <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                                          </LINK>
+                                        </DEPENDENCIES>
+                                      </OBJECT>
+                                    </COMP>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Waiting for next player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="895ca309-b4ad-4bca-ba20-efc97b417aa1"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="BidCountered" mc="Standard.Event" uid="aa337db3-a06b-4a3a-b9c5-37cbd5ddcc81"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="f3a4325a-94bd-4c39-8e31-1408c6aa495d"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="Passed" mc="Standard.Event" uid="04e7f8ee-3fdf-4f62-aae5-180e4642a806"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Switching next player" mc="Standard.State" uid="221e5a41-4086-48c6-9bbc-0c0e2783ca18"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Switching current player" mc="Standard.State" uid="eb90ebf3-453b-4fe9-8bc8-31c92f2dcd41"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Switching current player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="20ab1443-a5d9-45fa-895a-0d72102a8ad6"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[Current player = next player]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <COMP relation="Descriptor">
+                                      <OBJECT>
+                                        <ID name="" mc="Infrastructure.Note" uid="58f70e4a-7515-4ca5-b9ff-eb4e24506672"/>
+                                        <ATTRIBUTES>
+                                          <ATT name="Content"><![CDATA[<Enter note text here>]]></ATT>
+                                          <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                                          <ATT name="Name"></ATT>
+                                          <ATT name="status">1970354901745664</ATT>
+                                        </ATTRIBUTES>
+                                        <DEPENDENCIES>
+                                          <LINK relation="Model">
+                                            <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                                          </LINK>
+                                        </DEPENDENCIES>
+                                      </OBJECT>
+                                    </COMP>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="e57cc675-a088-4933-a032-997ec0beb573"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[next player = righthand player of next player]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES></DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="fe7eda59-25e0-49c2-aefa-9e1b828ffbf4"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="NoNextPlayer" mc="Standard.Event" uid="4e505979-c060-4d3c-8a0f-c2837204c6e2"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="" mc="Standard.ExitPointPseudoState" uid="77d1beda-a037-4c74-9745-a9e8a927897e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="6912ff0c-b521-49aa-a00d-ca02860f0638"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="PlayerSwitched" mc="Standard.Event" uid="3430573b-324b-4d8d-89a7-e938d67a2e81"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Switching next player" mc="Standard.State" uid="221e5a41-4086-48c6-9bbc-0c0e2783ca18"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Switching next player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="94276a50-0f25-4d67-97e8-a653ddec9cf8"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[next player = righthand player of next player]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES></DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="3eba594b-a940-40cc-a4bd-cc923ec584d4"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="NoNextPlayer" mc="Standard.Event" uid="4e505979-c060-4d3c-8a0f-c2837204c6e2"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="" mc="Standard.ExitPointPseudoState" uid="77d1beda-a037-4c74-9745-a9e8a927897e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="36b85821-085b-4e08-a300-46bee7110b2c"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="PlayerSwitched" mc="Standard.Event" uid="3430573b-324b-4d8d-89a7-e938d67a2e81"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                        <COMP relation="Descriptor">
+                          <OBJECT>
+                            <ID name="" mc="Infrastructure.Note" uid="779339dc-d56d-4f4a-af26-827cd6dc3462"/>
+                            <ATTRIBUTES>
+                              <ATT name="Content"><![CDATA[<Enter note text here>]]></ATT>
+                              <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                              <ATT name="Name"></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Model">
+                                <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Exchanging cards with the dabb" mc="Standard.State" uid="7c0771ea-336d-4b1f-be45-7ed27c398ef5"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Exchanging cards with the dabb]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="7314c806-6aec-45c1-b251-299153539e32"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Trigger">
+                          <REFOBJ>
+                            <ID name="TrumpSelected" mc="Standard.Event" uid="3ad0db0d-48fe-47bb-af08-4bfc0c27ad1c"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Melding" mc="Standard.State" uid="2fab40f5-fa2f-41e5-9869-716e085d5585"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="Transition1" mc="Standard.Transition" uid="00a8ac73-21f6-445d-9e75-0cc1ec1a8f5d"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Trigger">
+                          <REFOBJ>
+                            <ID name="DurchAnnounced" mc="Standard.Event" uid="7b8514d9-10a1-4d5b-a8e2-51b6767f1ac6"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="TODO: Durch" mc="Standard.State" uid="8b04f99d-ae7a-4144-a499-811ea708b33a"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                    <OBJECT>
+                      <ID name="Transition2" mc="Standard.Transition" uid="c9ebe99e-00de-4712-b3e3-cdc13efff030"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition2]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Trigger">
+                          <REFOBJ>
+                            <ID name="GoingOut" mc="Standard.Event" uid="7d8f23c9-6d52-444b-9017-a50c5fe95db2"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Counting going-out score" mc="Standard.State" uid="6872d76d-5a7f-4175-85b7-ad1796751321"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Melding" mc="Standard.State" uid="2fab40f5-fa2f-41e5-9869-716e085d5585"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Melding]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="074cea38-be97-4cf6-8c52-926057f8daa0"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Trigger">
+                          <REFOBJ>
+                            <ID name="MeldsSeenByAllPlayers" mc="Standard.Event" uid="e148a317-af4a-4120-8db2-8159225d5c87"/>
+                          </REFOBJ>
+                        </LINK>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="" mc="Standard.EntryPointPseudoState" uid="bb820508-6fca-4610-875e-a3ddd0dedfc9"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="TODO: Durch" mc="Standard.State" uid="8b04f99d-ae7a-4144-a499-811ea708b33a"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[TODO: Durch]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="TrickTaking" mc="Standard.State" uid="662e0aa7-20ab-4a2b-84d0-9424ce55fc57"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[TrickTaking]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="Internal">
+                    <OBJECT>
+                      <ID name="Do" mc="Standard.InternalTransition" uid="469016af-a14c-4d34-b4c5-b88285b635e4"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"><![CDATA[cardsRemaining = maximumCards()]]></ATT>
+                        <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Do]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES></DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="EntryPoint">
+                    <OBJECT>
+                      <ID name="" mc="Standard.EntryPointPseudoState" uid="bb820508-6fca-4610-875e-a3ddd0dedfc9"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="OutGoing">
+                          <OBJECT>
+                            <ID name="Transition" mc="Standard.Transition" uid="1193aeb1-a61c-422d-8463-478d527507bf"/>
+                            <ATTRIBUTES>
+                              <ATT name="Effect"></ATT>
+                              <ATT name="ReceivedEvents"></ATT>
+                              <ATT name="SentEvents"></ATT>
+                              <ATT name="Guard"></ATT>
+                              <ATT name="PostCondition"></ATT>
+                              <ATT name="Name"><![CDATA[Transition]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <LINK relation="Target">
+                                <REFOBJ>
+                                  <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
+                                </REFOBJ>
+                              </LINK>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                  <COMP relation="OwnedRegion">
+                    <OBJECT>
+                      <ID name="Region" mc="Standard.Region" uid="a6669b63-f38f-49f8-8f4c-5ffd918fc1a7"/>
+                      <ATTRIBUTES>
+                        <ATT name="Name"><![CDATA[Region]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <COMP relation="Sub">
+                          <OBJECT>
+                            <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Waiting for current player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="256cfd45-a4e9-49ca-aaec-6c491f0f9f9c"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="CardPlaced" mc="Standard.Event" uid="27badaf0-987e-4468-a34f-5f9658ce7b4e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Validating card" mc="Standard.State" uid="06e5110c-6af8-4abf-8d77-976e7dbe66d4"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Validating card" mc="Standard.State" uid="06e5110c-6af8-4abf-8d77-976e7dbe66d4"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Validating card]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="bf908be5-1ef8-40ea-a00d-ea01c4ee7e9f"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="InvalidCardPlaced" mc="Standard.Event" uid="ae29d0e9-a390-432c-afab-0c38c5cd6669"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Reverting invalid move" mc="Standard.State" uid="41982125-a5d7-446f-911a-3b94435a9e35"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="65100e2a-7ef4-48fe-9615-1b08f4de6b4a"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="ValidCardPlaced" mc="Standard.Event" uid="1e13df45-b549-4346-8798-d27a2721076e"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Switching to next player" mc="Standard.State" uid="dddef162-cc58-4437-9daf-9e9ce596e844"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Reverting invalid move" mc="Standard.State" uid="41982125-a5d7-446f-911a-3b94435a9e35"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Reverting invalid move]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="ef2f7f1d-6621-410a-ba87-7df2d9b4a7ce"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="Descriptor">
+                                <OBJECT>
+                                  <ID name="Note" mc="Infrastructure.Note" uid="1b6fb35b-cab7-4cab-875b-4207c5065712"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Content"><![CDATA[Human players should get a notification and maybe have their valid cards highlighted.]]></ATT>
+                                    <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                                    <ATT name="Name"><![CDATA[Note]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Model">
+                                      <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Switching to next player" mc="Standard.State" uid="dddef162-cc58-4437-9daf-9e9ce596e844"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Switching to next player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="fa5aba06-934a-48f9-9dd6-b03d6a28949a"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="PlayerSwitched" mc="Standard.Event" uid="3430573b-324b-4d8d-89a7-e938d67a2e81"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="dc9aa247-ccc3-4333-aae2-cf91e4c4f786"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="NoNextPlayer" mc="Standard.Event" uid="4e505979-c060-4d3c-8a0f-c2837204c6e2"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Finding out trick winner" mc="Standard.State" uid="4749731a-4c57-4bd5-b20c-7838228052e7"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Finding out trick winner" mc="Standard.State" uid="4749731a-4c57-4bd5-b20c-7838228052e7"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Finding out trick winner]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="ac02ba55-f262-4efe-89a8-aacff517fc76"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[current player = trick winner]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Exit]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES></DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="7dfeec94-90f9-4c36-b5ff-e0578ea7c318"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[cardsRemaining -= numberOfPlayers()]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Exit]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES></DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="f7a36e93-a9e5-4d8e-bb0a-52c2c71d8a06"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"><![CDATA[cardsRemaining > 0]]></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="f956e88f-f882-4413-bfd3-0da6a53f4ce3"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"><![CDATA[cardsRemaining = 0]]></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="" mc="Standard.ExitPointPseudoState" uid="1a12877e-04c7-4d89-9d55-dfc20ef3afd0"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                        </COMP>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Final State" mc="Standard.FinalState" uid="81da2938-e5c0-4a0b-8f94-d214cd866d4c"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Final State]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Counting going-out score" mc="Standard.State" uid="6872d76d-5a7f-4175-85b7-ad1796751321"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Counting going-out score]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="91e16e49-3f53-4ecc-9c92-c83c19e95935"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Final State" mc="Standard.FinalState" uid="81da2938-e5c0-4a0b-8f94-d214cd866d4c"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Counting player/team scores" mc="Standard.State" uid="645b31e8-3930-4b51-bf1d-2c7f4ffd0ee3"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Counting player/team scores]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <COMP relation="OutGoing">
+                    <OBJECT>
+                      <ID name="Transition" mc="Standard.Transition" uid="8be48b61-ec07-4c3f-87fc-c91685861c32"/>
+                      <ATTRIBUTES>
+                        <ATT name="Effect"></ATT>
+                        <ATT name="ReceivedEvents"></ATT>
+                        <ATT name="SentEvents"></ATT>
+                        <ATT name="Guard"></ATT>
+                        <ATT name="PostCondition"></ATT>
+                        <ATT name="Name"><![CDATA[Transition]]></ATT>
+                        <ATT name="status">1970354901745664</ATT>
+                      </ATTRIBUTES>
+                      <DEPENDENCIES>
+                        <LINK relation="Target">
+                          <REFOBJ>
+                            <ID name="Final State1" mc="Standard.FinalState" uid="09645b29-0a60-4614-8728-08637b6dbc1c"/>
+                          </REFOBJ>
+                        </LINK>
+                      </DEPENDENCIES>
+                    </OBJECT>
+                  </COMP>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="State" mc="Standard.State" uid="827ba5cb-21c1-44de-92d8-3cff7357dfdf"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[State]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Final State1" mc="Standard.FinalState" uid="09645b29-0a60-4614-8728-08637b6dbc1c"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Final State1]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="ExitPoint">
+        <OBJECT>
+          <ID name="" mc="Standard.ExitPointPseudoState" uid="1a12877e-04c7-4d89-9d55-dfc20ef3afd0"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="OutGoing">
+              <OBJECT>
+                <ID name="Transition" mc="Standard.Transition" uid="67bb83ee-3775-408d-85af-15f592a302f7"/>
+                <ATTRIBUTES>
+                  <ATT name="Effect"></ATT>
+                  <ATT name="ReceivedEvents"></ATT>
+                  <ATT name="SentEvents"></ATT>
+                  <ATT name="Guard"></ATT>
+                  <ATT name="PostCondition"></ATT>
+                  <ATT name="Name"><![CDATA[Transition]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Target">
+                    <REFOBJ>
+                      <ID name="Counting player/team scores" mc="Standard.State" uid="645b31e8-3930-4b51-bf1d-2c7f4ffd0ee3"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="EComponent">
+        <OBJECT>
+          <ID name="BidPlaced" mc="Standard.Event" uid="c0b169fc-3fdb-46de-80cb-f5c323391b58"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[BidPlaced]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="BidPlaced" mc="Standard.Signal" uid="66cbe594-a6b1-4122-88f3-136d70b0ca83"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Passed" mc="Standard.Event" uid="04e7f8ee-3fdf-4f62-aae5-180e4642a806"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[Passed]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="Passed" mc="Standard.Signal" uid="2f096da6-d320-43fa-ae3b-97406b86071a"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="NoNextPlayer" mc="Standard.Event" uid="4e505979-c060-4d3c-8a0f-c2837204c6e2"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[NoNextPlayer]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="NoNextPlayer" mc="Standard.Signal" uid="cdc02f45-2143-4693-acbf-694bafdb6c6f"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="PlayerSwitched" mc="Standard.Event" uid="3430573b-324b-4d8d-89a7-e938d67a2e81"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[PlayerSwitched]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="PlayerSwitched" mc="Standard.Signal" uid="e4e3c6f1-d2b8-41e5-845d-9377726a472b"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="BidCountered" mc="Standard.Event" uid="aa337db3-a06b-4a3a-b9c5-37cbd5ddcc81"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[BidCountered]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="BidCountered" mc="Standard.Signal" uid="f1c8523d-1284-43fd-9691-683fdcc8626b"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="TrumpSelected" mc="Standard.Event" uid="3ad0db0d-48fe-47bb-af08-4bfc0c27ad1c"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[TrumpSelected]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="TrumpSelected" mc="Standard.Signal" uid="0cd43415-0901-4965-84bc-0b264de54222"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="DurchAnnounced" mc="Standard.Event" uid="7b8514d9-10a1-4d5b-a8e2-51b6767f1ac6"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[DurchAnnounced]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="DurchAnnounced" mc="Standard.Signal" uid="2de7a913-98ae-4120-a955-fb706eed62ea"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="MeldsSeenByAllPlayers" mc="Standard.Event" uid="e148a317-af4a-4120-8db2-8159225d5c87"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[MeldsSeenByAllPlayers]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="MeldsSeenByAllPlayers" mc="Standard.Signal" uid="dffb23b4-c8c3-427d-9416-c539631172b0"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="GoingOut" mc="Standard.Event" uid="7d8f23c9-6d52-444b-9017-a50c5fe95db2"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[GoingOut]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="GoingOut" mc="Standard.Signal" uid="d7eeb45e-bdf2-4868-994b-5f27b7688556"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="CardPlaced" mc="Standard.Event" uid="27badaf0-987e-4468-a34f-5f9658ce7b4e"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[CardPlaced]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="CardPlaced" mc="Standard.Signal" uid="5a9490ba-d34f-40c8-8a30-9a8f3f8f8f16"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="InvalidCardPlaced" mc="Standard.Event" uid="ae29d0e9-a390-432c-afab-0c38c5cd6669"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[InvalidCardPlaced]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="InvalidCardPlaced" mc="Standard.Signal" uid="218b5200-764f-4285-b0f0-778be204937a"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="ValidCardPlaced" mc="Standard.Event" uid="1e13df45-b549-4346-8798-d27a2721076e"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[ValidCardPlaced]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="ValidCardPlaced" mc="Standard.Signal" uid="fa56af2f-86b0-48d7-9e23-2c31988a4365"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Single Game State Machine" mc="Standard.StateMachineDiagram" uid="afd71466-a864-4979-85be-766fae49233a"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

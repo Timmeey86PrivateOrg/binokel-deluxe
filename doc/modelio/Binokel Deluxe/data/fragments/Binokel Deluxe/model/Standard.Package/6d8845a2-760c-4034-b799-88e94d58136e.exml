@@ -13,6 +13,9 @@
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="State Machine" mc="Standard.StateMachine" uid="85ee29f3-40d4-4222-b725-0f7c2dedd3cd"/>
+      </COMP>
       <COMP relation="OwnedElement">
         <COMPID name="Player" mc="Standard.Actor" uid="048cc6d4-c435-4233-80a6-028babc09d29"/>
         <COMPID name="Learn the Game" mc="Standard.UseCase" uid="18e0b654-e04f-406b-b991-c4805adf791d"/>
@@ -29,6 +32,7 @@
         <COMPID name="Software Architecture Enthusiast" mc="Standard.Actor" uid="cc48dec7-a339-405f-87c1-e9333effc67b"/>
         <COMPID name="Components" mc="Standard.Package" uid="991fa102-2df5-431a-a591-fc568d9f4280"/>
         <COMPID name="Shared" mc="Standard.Component" uid="003ef4f4-53e5-4e4f-b8c3-5ff1136e0fd0"/>
+        <COMPID name="Signals" mc="Standard.Package" uid="54f21889-4e01-4cc9-8405-87f1272841c3"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="High Level Use Cases" mc="Standard.UseCaseDiagram" uid="16bece41-04d9-44db-8ee0-47ef852f0574"/>

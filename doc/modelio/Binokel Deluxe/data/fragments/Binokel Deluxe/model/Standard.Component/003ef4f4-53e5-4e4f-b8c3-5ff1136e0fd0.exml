@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Shared" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Common" version="4">
   <OBJECT>
-    <ID name="Shared" mc="Standard.Component" uid="003ef4f4-53e5-4e4f-b8c3-5ff1136e0fd0"/>
+    <ID name="Common" mc="Standard.Component" uid="003ef4f4-53e5-4e4f-b8c3-5ff1136e0fd0"/>
     <PID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -11,7 +11,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Shared]]></ATT>
+      <ATT name="Name"><![CDATA[Common]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
