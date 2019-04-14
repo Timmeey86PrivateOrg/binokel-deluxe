@@ -26,6 +26,7 @@
         <COMPID name="CardPlaced" mc="Standard.Signal" uid="5a9490ba-d34f-40c8-8a30-9a8f3f8f8f16"/>
         <COMPID name="InvalidCardPlaced" mc="Standard.Signal" uid="218b5200-764f-4285-b0f0-778be204937a"/>
         <COMPID name="ValidCardPlaced" mc="Standard.Signal" uid="fa56af2f-86b0-48d7-9e23-2c31988a4365"/>
+        <COMPID name="BettelAnnounced" mc="Standard.Signal" uid="bc96b76d-2528-40b7-bb06-f3cf7a271cb5"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
