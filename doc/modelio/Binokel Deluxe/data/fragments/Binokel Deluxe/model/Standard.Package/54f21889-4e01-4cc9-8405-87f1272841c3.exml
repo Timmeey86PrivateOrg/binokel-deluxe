@@ -25,8 +25,14 @@
         <COMPID name="GoingOut" mc="Standard.Signal" uid="d7eeb45e-bdf2-4868-994b-5f27b7688556"/>
         <COMPID name="CardPlaced" mc="Standard.Signal" uid="5a9490ba-d34f-40c8-8a30-9a8f3f8f8f16"/>
         <COMPID name="InvalidCardPlaced" mc="Standard.Signal" uid="218b5200-764f-4285-b0f0-778be204937a"/>
-        <COMPID name="ValidCardPlaced" mc="Standard.Signal" uid="fa56af2f-86b0-48d7-9e23-2c31988a4365"/>
         <COMPID name="BettelAnnounced" mc="Standard.Signal" uid="bc96b76d-2528-40b7-bb06-f3cf7a271cb5"/>
+        <COMPID name="GameStarted" mc="Standard.Signal" uid="3b318459-2a07-4835-9d1d-bcba637b71f8"/>
+        <COMPID name="ScoreCalculationFinished" mc="Standard.Signal" uid="c49d58c1-33e5-452d-8206-0b562d765609"/>
+        <COMPID name="DealingFinished" mc="Standard.Signal" uid="94dcd3a9-0216-4d89-a113-ed2f3de1bb1c"/>
+        <COMPID name="RevertingFinished" mc="Standard.Signal" uid="f8cb4877-aa7a-47ba-be18-3ec7f29d6f6f"/>
+        <COMPID name="WinningCardPlaced" mc="Standard.Signal" uid="78daf6a4-4f39-446d-83ff-f188bbce7157"/>
+        <COMPID name="LosingCardPlaced" mc="Standard.Signal" uid="5248097b-1d74-42ce-99e9-7e14e74e1a64"/>
+        <COMPID name="NewRoundStarted" mc="Standard.Signal" uid="f92eb578-f9b0-41be-b76a-fe829f33412f"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
