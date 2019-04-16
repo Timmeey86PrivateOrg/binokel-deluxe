@@ -197,7 +197,7 @@ Currently, only the current and next players and the number of cards remaining a
                             <DEPENDENCIES>
                               <LINK relation="Target">
                                 <REFOBJ>
-                                  <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                                  <ID name="Waiting for first bid" mc="Standard.State" uid="38275c51-1a95-4662-ad65-407647a05a92"/>
                                 </REFOBJ>
                               </LINK>
                             </DEPENDENCIES>
@@ -269,22 +269,6 @@ Currently, only the current and next players and the number of cards remaining a
                                         <ID name="Switching current player" mc="Standard.State" uid="eb90ebf3-453b-4fe9-8bc8-31c92f2dcd41"/>
                                       </REFOBJ>
                                     </LINK>
-                                    <COMP relation="Descriptor">
-                                      <OBJECT>
-                                        <ID name="Note" mc="Infrastructure.Note" uid="903741b4-0f39-458e-82e1-cd79555a34bf"/>
-                                        <ATTRIBUTES>
-                                          <ATT name="Content"><![CDATA[For n players, only the first n-2 are allowed to pass, unless a bid has been made already]]></ATT>
-                                          <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
-                                          <ATT name="Name"><![CDATA[Note]]></ATT>
-                                          <ATT name="status">1970354901745664</ATT>
-                                        </ATTRIBUTES>
-                                        <DEPENDENCIES>
-                                          <LINK relation="Model">
-                                            <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
-                                          </LINK>
-                                        </DEPENDENCIES>
-                                      </OBJECT>
-                                    </COMP>
                                   </DEPENDENCIES>
                                 </OBJECT>
                               </COMP>
@@ -361,7 +345,7 @@ Currently, only the current and next players and the number of cards remaining a
                                   <ID name="Do" mc="Standard.InternalTransition" uid="20ab1443-a5d9-45fa-895a-0d72102a8ad6"/>
                                   <ATTRIBUTES>
                                     <ATT name="Effect"><![CDATA[Current player = next player]]></ATT>
-                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
                                     <ATT name="SentEvents"></ATT>
                                     <ATT name="Guard"></ATT>
                                     <ATT name="PostCondition"></ATT>
@@ -391,14 +375,31 @@ Currently, only the current and next players and the number of cards remaining a
                                   <ID name="Do" mc="Standard.InternalTransition" uid="e57cc675-a088-4933-a032-997ec0beb573"/>
                                   <ATTRIBUTES>
                                     <ATT name="Effect"><![CDATA[next player = righthand player of next player]]></ATT>
-                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
                                     <ATT name="SentEvents"></ATT>
                                     <ATT name="Guard"></ATT>
                                     <ATT name="PostCondition"></ATT>
                                     <ATT name="Name"><![CDATA[Do]]></ATT>
                                     <ATT name="status">1970354901745664</ATT>
                                   </ATTRIBUTES>
-                                  <DEPENDENCIES></DEPENDENCIES>
+                                  <DEPENDENCIES>
+                                    <COMP relation="Descriptor">
+                                      <OBJECT>
+                                        <ID name="" mc="Infrastructure.Note" uid="e799693e-27c9-409f-a67b-dc20d4148149"/>
+                                        <ATTRIBUTES>
+                                          <ATT name="Content"><![CDATA[<Enter note text here>]]></ATT>
+                                          <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                                          <ATT name="Name"></ATT>
+                                          <ATT name="status">1970354901745664</ATT>
+                                        </ATTRIBUTES>
+                                        <DEPENDENCIES>
+                                          <LINK relation="Model">
+                                            <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                                          </LINK>
+                                        </DEPENDENCIES>
+                                      </OBJECT>
+                                    </COMP>
+                                  </DEPENDENCIES>
                                 </OBJECT>
                               </COMP>
                               <COMP relation="OutGoing">
@@ -408,7 +409,7 @@ Currently, only the current and next players and the number of cards remaining a
                                     <ATT name="Effect"></ATT>
                                     <ATT name="ReceivedEvents"></ATT>
                                     <ATT name="SentEvents"></ATT>
-                                    <ATT name="Guard"><![CDATA[out of players]]></ATT>
+                                    <ATT name="Guard"><![CDATA[current player = dealer]]></ATT>
                                     <ATT name="PostCondition"></ATT>
                                     <ATT name="Name"><![CDATA[Transition]]></ATT>
                                     <ATT name="status">1970354901745664</ATT>
@@ -440,7 +441,7 @@ Currently, only the current and next players and the number of cards remaining a
                                     </LINK>
                                     <LINK relation="Target">
                                       <REFOBJ>
-                                        <ID name="Waiting for current player" mc="Standard.State" uid="df53fd37-1075-4d7b-831d-d31012c7f238"/>
+                                        <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
                                       </REFOBJ>
                                     </LINK>
                                   </DEPENDENCIES>
@@ -460,7 +461,7 @@ Currently, only the current and next players and the number of cards remaining a
                                   <ID name="Do" mc="Standard.InternalTransition" uid="94276a50-0f25-4d67-97e8-a653ddec9cf8"/>
                                   <ATTRIBUTES>
                                     <ATT name="Effect"><![CDATA[next player = righthand player of next player]]></ATT>
-                                    <ATT name="ReceivedEvents"><![CDATA[Do]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
                                     <ATT name="SentEvents"></ATT>
                                     <ATT name="Guard"></ATT>
                                     <ATT name="PostCondition"></ATT>
@@ -477,7 +478,7 @@ Currently, only the current and next players and the number of cards remaining a
                                     <ATT name="Effect"></ATT>
                                     <ATT name="ReceivedEvents"></ATT>
                                     <ATT name="SentEvents"></ATT>
-                                    <ATT name="Guard"><![CDATA[out of players]]></ATT>
+                                    <ATT name="Guard"><![CDATA[next player = righthand player of dealer]]></ATT>
                                     <ATT name="PostCondition"></ATT>
                                     <ATT name="Name"><![CDATA[Transition]]></ATT>
                                     <ATT name="status">1970354901745664</ATT>
@@ -510,6 +511,164 @@ Currently, only the current and next players and the number of cards remaining a
                                     <LINK relation="Target">
                                       <REFOBJ>
                                         <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Waiting for first bid" mc="Standard.State" uid="38275c51-1a95-4662-ad65-407647a05a92"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Waiting for first bid]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="5e163b39-262b-4d21-8a15-560ec0941386"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="Passed" mc="Standard.Event" uid="04e7f8ee-3fdf-4f62-aae5-180e4642a806"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Switching first bid player" mc="Standard.State" uid="628cc2f4-4459-4715-a743-c28a38d64252"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="3ef60a07-e25a-40b9-8fae-c07fa6719362"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="BidPlaced" mc="Standard.Event" uid="c0b169fc-3fdb-46de-80cb-f5c323391b58"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for next player" mc="Standard.State" uid="c385b5d1-60ce-4b3a-b4f3-af1f82f60ac5"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                            </DEPENDENCIES>
+                          </OBJECT>
+                          <OBJECT>
+                            <ID name="Switching first bid player" mc="Standard.State" uid="628cc2f4-4459-4715-a743-c28a38d64252"/>
+                            <ATTRIBUTES>
+                              <ATT name="Name"><![CDATA[Switching first bid player]]></ATT>
+                              <ATT name="status">1970354901745664</ATT>
+                            </ATTRIBUTES>
+                            <DEPENDENCIES>
+                              <COMP relation="Internal">
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="b0bd2a94-45a3-4c76-b254-74a2b7c9f4ed"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[Current player = next player]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <COMP relation="Descriptor">
+                                      <OBJECT>
+                                        <ID name="" mc="Infrastructure.Note" uid="ad854429-5213-4fd8-b7b2-9d31ac4c60f3"/>
+                                        <ATTRIBUTES>
+                                          <ATT name="Content"><![CDATA[<Enter note text here>]]></ATT>
+                                          <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                                          <ATT name="Name"></ATT>
+                                          <ATT name="status">1970354901745664</ATT>
+                                        </ATTRIBUTES>
+                                        <DEPENDENCIES>
+                                          <LINK relation="Model">
+                                            <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                                          </LINK>
+                                        </DEPENDENCIES>
+                                      </OBJECT>
+                                    </COMP>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Do" mc="Standard.InternalTransition" uid="9ad835f3-3b33-4610-bfbe-1533e2c00bba"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"><![CDATA[next player = righthand player of next player]]></ATT>
+                                    <ATT name="ReceivedEvents"><![CDATA[Entry]]></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Do]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES></DEPENDENCIES>
+                                </OBJECT>
+                              </COMP>
+                              <COMP relation="OutGoing">
+                                <OBJECT>
+                                  <ID name="Transition" mc="Standard.Transition" uid="927d3c0f-a3f2-4a06-ba18-3a5c69a485f8"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Trigger">
+                                      <REFOBJ>
+                                        <ID name="PlayerSwitched" mc="Standard.Event" uid="3430573b-324b-4d8d-89a7-e938d67a2e81"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="Waiting for first bid" mc="Standard.State" uid="38275c51-1a95-4662-ad65-407647a05a92"/>
+                                      </REFOBJ>
+                                    </LINK>
+                                  </DEPENDENCIES>
+                                </OBJECT>
+                                <OBJECT>
+                                  <ID name="Transition1" mc="Standard.Transition" uid="7aa16542-54cf-4da9-94ea-291d0f5f3cda"/>
+                                  <ATTRIBUTES>
+                                    <ATT name="Effect"></ATT>
+                                    <ATT name="ReceivedEvents"></ATT>
+                                    <ATT name="SentEvents"></ATT>
+                                    <ATT name="Guard"><![CDATA[currentPlayer = dealer]]></ATT>
+                                    <ATT name="PostCondition"></ATT>
+                                    <ATT name="Name"><![CDATA[Transition1]]></ATT>
+                                    <ATT name="status">1970354901745664</ATT>
+                                  </ATTRIBUTES>
+                                  <DEPENDENCIES>
+                                    <LINK relation="Target">
+                                      <REFOBJ>
+                                        <ID name="" mc="Standard.ExitPointPseudoState" uid="fc3301ec-eab1-4384-bb91-35e6093bd4f1"/>
                                       </REFOBJ>
                                     </LINK>
                                   </DEPENDENCIES>
@@ -1246,6 +1405,36 @@ Currently, only the current and next players and the number of cards remaining a
                   <LINK relation="Target">
                     <REFOBJ>
                       <ID name="Counting player/team scores" mc="Standard.State" uid="645b31e8-3930-4b51-bf1d-2c7f4ffd0ee3"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.ExitPointPseudoState" uid="fc3301ec-eab1-4384-bb91-35e6093bd4f1"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="OutGoing">
+              <OBJECT>
+                <ID name="Transition" mc="Standard.Transition" uid="8123ff2d-8183-4d95-a494-98f60fa7885b"/>
+                <ATTRIBUTES>
+                  <ATT name="Effect"></ATT>
+                  <ATT name="ReceivedEvents"></ATT>
+                  <ATT name="SentEvents"></ATT>
+                  <ATT name="Guard"></ATT>
+                  <ATT name="PostCondition"></ATT>
+                  <ATT name="Name"><![CDATA[Transition]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Target">
+                    <REFOBJ>
+                      <ID name="Exchanging cards with the dabb" mc="Standard.State" uid="7c0771ea-336d-4b1f-be45-7ed27c398ef5"/>
                     </REFOBJ>
                   </LINK>
                 </DEPENDENCIES>

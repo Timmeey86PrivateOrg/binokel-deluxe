@@ -13,35 +13,22 @@ namespace BinokelDeluxe.GameLogic
         Initial,
         Dealing,
         Bidding,
+        Bidding_WaitingForCurrentPlayer,
+        Bidding_WaitingForNextPlayer,
+        Bidding_SwitchingCurrentPlayer,
+        Bidding_SwitchingNextPlayer,
         ExchangingCardsWithTheDabb,
         Durch,
         Bettel,
         CountingGoingOutScore,
         Melding,
         TrickTaking,
+        TrickTaking_WaitingForCurrentPlayer,
+        TrickTaking_ValidatingCard,
+        TrickTaking_RevertingInvalidMove,
+        TrickTaking_RememberingWinningPlayer,
+        TrickTaking_SwitchingToNextPlayer,
+        TrickTaking_StartingNewRound,
         CountingGameScore
-    }
-
-    /// <summary>
-    /// Defines the sub states of the SingleGameState.Bidding state.
-    /// </summary>
-    public enum BiddingState
-    {
-        WaitingForCurrentPlayer,
-        WaitingForNextPlayer,
-        SwitchingCurrentPlayer,
-        SwitchingNextPlayer
-    }
-
-    /// <summary>
-    /// Defines the sub states of the SingleGameState.TrickTaking state.
-    /// </summary>
-    public enum TrickTackingState
-    {
-        WaitingForCurrentPlayer,
-        ValidatingCard,
-        RevertingInvalidMove,
-        SwitchingToNextPlayer,
-        FindingOutTrickWinner
     }
 }

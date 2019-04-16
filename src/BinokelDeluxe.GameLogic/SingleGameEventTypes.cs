@@ -10,7 +10,7 @@ namespace BinokelDeluxe.GameLogic
     /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a used triggers and related transitions.
     /// Check the comment of each event to know which trigger to fire.
     /// </summary>
-    public enum TriggerType
+    public enum SingleGameTrigger
     {
         GameStarted,
         DealingFinished,
@@ -29,7 +29,8 @@ namespace BinokelDeluxe.GameLogic
         LosingCardPlaced,
         RevertingFinished,
         NewRoundStarted,
-        ScoreCalculationFinished
+        ScoreCalculationFinished,
+        Internal_SwitchToDabbExchange
     }
 
     /// <summary>
@@ -39,11 +40,8 @@ namespace BinokelDeluxe.GameLogic
     [System.Serializable]
     public class UnconnectedEventException : Exception
     {
-        public UnconnectedEventException(Type eventType)
-            : base(String.Format(
-                "Event {0} is not handled and would cause the application to be stuck. Connect something to this event and fire the right trigger at the end of it.", 
-                eventType.FullName
-                ))
+        public UnconnectedEventException()
+            : base("An event is not handled and would cause the application to be stuck. Connect something to this event and fire the right trigger at the end of it.")
         {
         }
 
@@ -53,22 +51,37 @@ namespace BinokelDeluxe.GameLogic
         }
     }
 
+    public class PlayerPairEventArgs : EventArgs
+    {
+        public PlayerPairEventArgs(int currentPlayerNumber, int nextPlayerNumber)
+        {
+            CurrentPlayerNumber = currentPlayerNumber;
+            NextPlayerNumber = nextPlayerNumber;
+        }
+
+        public int CurrentPlayerNumber { get; set; }
+        public int NextPlayerNumber { get; set; }
+    }
+    public class PlayerNumberEventArgs : EventArgs
+    {
+        public PlayerNumberEventArgs(int playerNumber)
+        {
+            PlayerNumber = playerNumber;
+        }
+
+        public int PlayerNumber { get; set; }
+    }
     /// <summary>
     /// Defines events which are sent by the machine whenever it is waiting for a trigger.
     /// </summary>
-    public static class Events
+    public interface ISingleGameEventSender
     {
-        public class DealingStartedEventArgs : EventArgs
-        {
-            public int CurrentPlayerNumber { get; set; }
-            public int NextPlayerNumber { get; set; }
-        }
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Start a dealing animation and uncover each player's own cards.
         /// Send a DealingFinished trigger when done.
         /// </summary>
-        public static event EventHandler<DealingStartedEventArgs> DealingStarted;
+        event EventHandler<PlayerPairEventArgs> DealingStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -76,7 +89,7 @@ namespace BinokelDeluxe.GameLogic
         /// Send a BidPlaced or Passed trigger when done.
         /// Make sure the player cannot accidentally send a trigger twice in this state.
         /// </summary>
-        public static event EventHandler WaitingForBidOrPassStarted;
+        event EventHandler WaitingForBidOrPassStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -84,36 +97,23 @@ namespace BinokelDeluxe.GameLogic
         /// Send a BidPlaced or Passed trigger when done.
         /// Make sure the player cannot accidentally send a trigger twice in this state.
         /// </summary>
-        public static event EventHandler WaitingForCounterOrPassStarted;
+        event EventHandler WaitingForCounterOrPassStarted;
 
-        public class SwitchingCurrentPlayerEventArgs : EventArgs
-        {
-            public int CurrentPlayerNumber { get; set; }
-            public int NextPlayerNumber { get; set; }
-        }
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Switch the current (and the next) player for bidding (but do not offer them options yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        public static event EventHandler<SwitchingCurrentPlayerEventArgs> SwitchingCurrentPlayerStarted;
+        event EventHandler<PlayerPairEventArgs> SwitchingCurrentPlayerStarted;
 
-        public class SwitchingNextPlayerEventArgs : EventArgs
-        {
-            public int NextPlayerNumber { get; set; }
-        }
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Switch the next player for counter-bidding (but do not offer them options yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        public static event EventHandler<SwitchingNextPlayerEventArgs> SwitchingNextPlayerStarted;
+        event EventHandler<PlayerNumberEventArgs> SwitchingNextPlayerStarted;
 
 
-        public class PlayerNumberEventArgs : EventArgs
-        {
-            public int PlayerNumber { get; set; }
-        }
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Offer the player who won the bid the option to exchange cards with the dabb and give them the following choices:
@@ -127,14 +127,14 @@ namespace BinokelDeluxe.GameLogic
         /// - DurchAnnounced
         /// - BettelAnnouced
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> ExchangingCardsWithDabbStarted;
+        event EventHandler<PlayerNumberEventArgs> ExchangingCardsWithDabbStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Calculate the score for each player after the player who won the bid goes out.
         /// Send a ScoreCalculationFinished trigger when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> CalculatingGoingOutScoreStarted;
+        event EventHandler<PlayerNumberEventArgs> CalculatingGoingOutScoreStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -142,14 +142,14 @@ namespace BinokelDeluxe.GameLogic
         /// Ask every player for confirmation that they saw the melds.
         /// Send a MeldsSeenByAllPlayers trigger when done.
         /// </summary>
-        public static event EventHandler MeldingStarted;
+        event EventHandler MeldingStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Offer the player the chance to play a card of their choice (including invalid cards).
         /// Send a CardPlaced trigger when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> WaitingForCardStarted;
+        event EventHandler<PlayerNumberEventArgs> WaitingForCardStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -157,34 +157,34 @@ namespace BinokelDeluxe.GameLogic
         /// In case of a valid card, find out if the card beats the current winning card.
         /// Send either an InvalidCardPlaced, a WinningCardPlaced or a LosingCardPlaced event when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> ValidatingCardStarted;
+        event EventHandler<PlayerNumberEventArgs> ValidatingCardStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Revert the last move and highlight the cards which are valid.
         /// Send a RevertingFinished trigger when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> RevertingInvalidMoveStarted;
+        event EventHandler<PlayerNumberEventArgs> RevertingInvalidMoveStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Switch to the player which is identified by the player number in the event arguments (but do not offer them choices yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> SwitchingToNextPlayerStarted;
+        event EventHandler<PlayerNumberEventArgs> SwitchingToNextPlayerStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Switch to the trick-winning player which is identified by the player number in the event arguments and remember the cards won by this player.
         /// Send a NewRoundStarted trigger when done.
         /// </summary>
-        public static event EventHandler<PlayerNumberEventArgs> StartingNewRoundStarted;
+        event EventHandler<PlayerNumberEventArgs> StartingNewRoundStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Calculate the scores for each player or team.
         /// Send a ScoreCalculationFinished trigger when done.
         /// </summary>
-        public static event EventHandler CountingPlayerOrTeamScoresStarted;
+        event EventHandler CountingPlayerOrTeamScoresStarted;
     }
 }
