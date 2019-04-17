@@ -103,9 +103,10 @@ namespace BinokelDeluxe.GameLogic
             ConfigureDealingPhase(properties);
             ConfigureBiddingPhase(properties);
             ConfigureDabbPhase(properties);
-            ConfigureDurchPhase(properties);
-            ConfigureBettelPhase(properties);
-            ConfigureMeldingPhase(properties);
+            ConfigureDurchPhase();
+            ConfigureBettelPhase();
+            ConfigureMeldingPhase();
+            ConfigureTrickTakingPhase(properties);
         }
 
         private void ConfigureDealingPhase(SingleGameProperties properties)
@@ -229,25 +230,34 @@ namespace BinokelDeluxe.GameLogic
                 .OnEntry(() => FireEvent(CalculatingGoingOutScoreStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
         }
 
-        private void ConfigureDurchPhase(SingleGameProperties properties)
+        private void ConfigureDurchPhase()
         {
             _stateMachine.Configure(SingleGameState.Durch)
                 .OnEntry(() => throw new NotImplementedException());
         }
 
-        private void ConfigureBettelPhase(SingleGameProperties properties)
+        private void ConfigureBettelPhase()
         {
             _stateMachine.Configure(SingleGameState.Bettel)
                 .OnEntry(() => throw new NotImplementedException());
         }
 
-        private void ConfigureMeldingPhase(SingleGameProperties properties)
+        private void ConfigureMeldingPhase()
         {
             _stateMachine.Configure(SingleGameState.Melding)
                 .Permit(SingleGameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
                 // (human) players that they have seen the melds.
                 .OnEntry(() => FireEvent(MeldingStarted));
+        }
+
+        private void ConfigureTrickTakingPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.CardPlaced, SingleGameState.TrickTaking_ValidatingCard)
+                // Let the UI know we are waiting for the current player to place a card.
+                .OnEntry(() => FireEvent(WaitingForCardStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
         }
     }
 }
