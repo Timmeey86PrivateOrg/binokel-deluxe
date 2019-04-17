@@ -85,6 +85,20 @@ namespace BinokelDeluxe.GameLogic
 
         /// <summary>
         /// Event listeners should be implemented as follows:
+        /// Offer the player the choice between placing the initial bid or passing.
+        /// Send a BidPlaced or Passed trigger when done.
+        /// </summary>
+        event EventHandler WaitingForFirstBidStarted;
+
+        /// <summary>
+        /// Event listeners should be implemented as follows:
+        /// Switch the current (and the next) player (but do not offer them options yet).
+        /// Send a PlayerSwitched trigger when done.
+        /// </summary>
+        event EventHandler<PlayerPairEventArgs> SwitchingPlayerBeforeFirstBidStarted;
+
+        /// <summary>
+        /// Event listeners should be implemented as follows:
         /// Offer the player the choice between placing a bid (the initial one or the previous one +10) and passing.
         /// Send a BidPlaced or Passed trigger when done.
         /// Make sure the player cannot accidentally send a trigger twice in this state.
@@ -116,7 +130,8 @@ namespace BinokelDeluxe.GameLogic
 
         /// <summary>
         /// Event listeners should be implemented as follows:
-        /// Offer the player who won the bid the option to exchange cards with the dabb and give them the following choices:
+        /// Uncover the dabb and wait for confirmation of all players that they have seen it.
+        /// Then, offer the player who won the bid the option to exchange cards with the dabb and give them the following choices:
         /// - Selecting a trump and playing normally
         /// - Selecting a trump and going out
         /// - Announcing a Durch

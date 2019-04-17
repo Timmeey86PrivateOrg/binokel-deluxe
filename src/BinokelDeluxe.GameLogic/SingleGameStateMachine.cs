@@ -9,6 +9,8 @@ namespace BinokelDeluxe.GameLogic
     {
         // Interface implementation. See ISingleGameEventSender for comments.
         public event EventHandler<PlayerPairEventArgs> DealingStarted;
+        public event EventHandler WaitingForFirstBidStarted;
+        public event EventHandler<PlayerPairEventArgs> SwitchingPlayerBeforeFirstBidStarted;
         public event EventHandler WaitingForBidOrPassStarted;
         public event EventHandler WaitingForCounterOrPassStarted;
         public event EventHandler<PlayerPairEventArgs> SwitchingCurrentPlayerStarted;
@@ -98,6 +100,16 @@ namespace BinokelDeluxe.GameLogic
             _stateMachine.Configure(SingleGameState.Initial)
                 .Permit(SingleGameTrigger.GameStarted, SingleGameState.Dealing);
 
+            ConfigureDealingPhase(properties);
+            ConfigureBiddingPhase(properties);
+            ConfigureDabbPhase(properties);
+            ConfigureDurchPhase(properties);
+            ConfigureBettelPhase(properties);
+            ConfigureMeldingPhase(properties);
+        }
+
+        private void ConfigureDealingPhase(SingleGameProperties properties)
+        {
             // Dealing phase
             _stateMachine.Configure(SingleGameState.Dealing)
                 .Permit(SingleGameTrigger.DealingFinished, SingleGameState.Bidding_WaitingForCurrentPlayer)
@@ -106,39 +118,74 @@ namespace BinokelDeluxe.GameLogic
                     properties.CurrentPlayerNumber = (properties.DealerNumber + 1) % properties.NumberOfPlayers;
                     properties.NextPlayerNumber = (properties.DealerNumber + 2) % properties.NumberOfPlayers;
 
-                    FireEvent(DealingStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber,properties.NextPlayerNumber));
+                    FireEvent(DealingStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber, properties.NextPlayerNumber));
                 });
+        }
 
+        private void ConfigureBiddingPhase(SingleGameProperties properties)
+        {
             // Bidding phase
-            _stateMachine.Configure(SingleGameState.Bidding_WaitingForCurrentPlayer)
+            _stateMachine.Configure(SingleGameState.Bidding_WaitingForFirstBid)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingCurrentPlayer)
-                .OnEntry(() => FireEvent(WaitingForBidOrPassStarted));
+                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingFirstBidPlayer)
+                // Let listeners know we are waiting for a player to either make the first bid or pass.
+                .OnEntry(() => FireEvent(WaitingForFirstBidStarted));
+
+            _stateMachine.Configure(SingleGameState.Bidding_SwitchingFirstBidPlayer)
+                .SubstateOf(SingleGameState.Bidding)
+                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForFirstBid)
+                .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
+                .OnEntry(() =>
+                {
+                    properties.CurrentPlayerNumber = properties.NextPlayerNumber;
+                    properties.NextPlayerNumber = (properties.CurrentPlayerNumber + 1) % properties.NumberOfPlayers;
+
+                    // If the dealer is the current player and there still is no bid, the dealer automatically wins the round for 0 points 
+                    // (this is extremely rare and not clearly defined in any rules)
+                    if (properties.CurrentPlayerNumber == properties.DealerNumber)
+                    {
+                        _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
+                    }
+                    else
+                    {
+                        // Let listeners know we are waiting for the UI to perform a player switch.
+                        FireEvent(SwitchingPlayerBeforeFirstBidStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber, properties.NextPlayerNumber));
+                    }
+                });
 
             _stateMachine.Configure(SingleGameState.Bidding_WaitingForNextPlayer)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.BidCountered, SingleGameState.Bidding_WaitingForCurrentPlayer)
                 .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingNextPlayer)
+                // Let the UI know we are waiting for the next player to either counter bid or pass.
                 .OnEntry(() => FireEvent(WaitingForCounterOrPassStarted));
+
+            _stateMachine.Configure(SingleGameState.Bidding_WaitingForCurrentPlayer)
+                .SubstateOf(SingleGameState.Bidding)
+                .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
+                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingCurrentPlayer)
+                // Let the UI know we are waiting for the current player to either increase their bid (i.e. counter the next player) or pass.
+                .OnEntry(() => FireEvent(WaitingForBidOrPassStarted));
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForCurrentPlayer)
+                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
                 .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
-                    xxx wenn der letzte current passed, sollte der next player noch zum current werden.
-                    if ((properties.CurrentPlayerNumber + 1) % properties.NumberOfPlayers == dealerNumber)
+                    properties.CurrentPlayerNumber = properties.NextPlayerNumber;
+                    properties.NextPlayerNumber = (properties.CurrentPlayerNumber + 1) % properties.NumberOfPlayers;
+
+                    // if the new current player is the dealer, this means the dealer won the bidding round since the dealer countered the previous bid
+                    // and whoever placed that bid passed.
+                    if (properties.CurrentPlayerNumber == properties.DealerNumber)
                     {
-                        // All players had the chance to bid and n-1 players passed. End the bidding phase.
                         _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
                     }
                     else
                     {
-                        properties.CurrentPlayerNumber = properties.NextPlayerNumber;
-                        properties.NextPlayerNumber = (properties.CurrentPlayerNumber + 1) % properties.NumberOfPlayers;
-
+                        // Let the UI know we are waiting for the current and next players to be shifted counterclockwise.
                         FireEvent(SwitchingCurrentPlayerStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber, properties.NextPlayerNumber));
                     }
                 });
@@ -149,11 +196,58 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
-                    if (properties.NextPlayerNumber == dealerNumber)
-                    {
+                    properties.NextPlayerNumber = (properties.NextPlayerNumber + 1) % properties.NumberOfPlayers;
 
+                    // if the new next player would be the player right of the dealer, this means the current player won the bidding roudn
+                    // since every player after them (and before them) passed.
+                    if (properties.NextPlayerNumber == (properties.DealerNumber + 1) % properties.NumberOfPlayers)
+                    {
+                        _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
+                    }
+                    else
+                    {
+                        // Let the UI know we are waiting for the next player to be switched.
+                        FireEvent(SwitchingNextPlayerStarted, new PlayerNumberEventArgs(properties.NextPlayerNumber));
                     }
                 });
+        }
+
+        private void ConfigureDabbPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(SingleGameTrigger.GoingOut, SingleGameState.CountingGoingOutScore)
+                .Permit(SingleGameTrigger.DurchAnnounced, SingleGameState.Durch)
+                .Permit(SingleGameTrigger.BettelAnnounced, SingleGameState.Bettel)
+                .Permit(SingleGameTrigger.TrumpSelected, SingleGameState.Melding)
+                // Let the UI know we are waiting for the current player to exchange cards with the dabb and do a choice between
+                // going out, selecting a trump or announcing a durch or bettel (if allowed).
+                .OnEntry(() => FireEvent(ExchangingCardsWithDabbStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
+
+            _stateMachine.Configure(SingleGameState.CountingGoingOutScore)
+                .Permit(SingleGameTrigger.ScoreCalculationFinished, SingleGameState.End)
+                // Let the UI know we are waiting for the going out score to be calculated.
+                .OnEntry(() => FireEvent(CalculatingGoingOutScoreStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
+        }
+
+        private void ConfigureDurchPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.Durch)
+                .OnEntry(() => throw new NotImplementedException());
+        }
+
+        private void ConfigureBettelPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.Bettel)
+                .OnEntry(() => throw new NotImplementedException());
+        }
+
+        private void ConfigureMeldingPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.Melding)
+                .Permit(SingleGameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
+                // (human) players that they have seen the melds.
+                .OnEntry(() => FireEvent(MeldingStarted));
         }
     }
 }

@@ -13,6 +13,8 @@ namespace BinokelDeluxe.GameLogic
         Initial,
         Dealing,
         Bidding,
+        Bidding_WaitingForFirstBid,
+        Bidding_SwitchingFirstBidPlayer,
         Bidding_WaitingForCurrentPlayer,
         Bidding_WaitingForNextPlayer,
         Bidding_SwitchingCurrentPlayer,
@@ -29,6 +31,7 @@ namespace BinokelDeluxe.GameLogic
         TrickTaking_RememberingWinningPlayer,
         TrickTaking_SwitchingToNextPlayer,
         TrickTaking_StartingNewRound,
-        CountingGameScore
+        CountingGameScore,
+        End
     }
 }
