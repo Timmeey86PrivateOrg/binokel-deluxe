@@ -30,7 +30,7 @@ namespace BinokelDeluxe.GameLogic
         RevertingFinished,
         NewRoundStarted,
         ScoreCalculationFinished,
-        Internal_SwitchToDabbExchange
+        Internal
     }
 
     /// <summary>
@@ -118,14 +118,14 @@ namespace BinokelDeluxe.GameLogic
         /// Switch the current (and the next) player for bidding (but do not offer them options yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        event EventHandler<PlayerPairEventArgs> SwitchingCurrentPlayerStarted;
+        event EventHandler<PlayerPairEventArgs> SwitchingCurrentBidPlayerStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Switch the next player for counter-bidding (but do not offer them options yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        event EventHandler<PlayerNumberEventArgs> SwitchingNextPlayerStarted;
+        event EventHandler<PlayerNumberEventArgs> SwitchingCounterBidPlayerStarted;
 
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace BinokelDeluxe.GameLogic
         /// Switch to the player which is identified by the player number in the event arguments (but do not offer them choices yet).
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
-        event EventHandler<PlayerNumberEventArgs> SwitchingToNextPlayerStarted;
+        event EventHandler<PlayerNumberEventArgs> SwitchingCurrentTrickPlayerStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -198,8 +198,9 @@ namespace BinokelDeluxe.GameLogic
         /// <summary>
         /// Event listeners should be implemented as follows:
         /// Calculate the scores for each player or team.
+        /// The player argument identifies the player who won the last trick.
         /// Send a ScoreCalculationFinished trigger when done.
         /// </summary>
-        event EventHandler CountingPlayerOrTeamScoresStarted;
+        event EventHandler<PlayerNumberEventArgs> CountingPlayerOrTeamScoresStarted;
     }
 }

@@ -13,17 +13,17 @@ namespace BinokelDeluxe.GameLogic
         public event EventHandler<PlayerPairEventArgs> SwitchingPlayerBeforeFirstBidStarted;
         public event EventHandler WaitingForBidOrPassStarted;
         public event EventHandler WaitingForCounterOrPassStarted;
-        public event EventHandler<PlayerPairEventArgs> SwitchingCurrentPlayerStarted;
-        public event EventHandler<PlayerNumberEventArgs> SwitchingNextPlayerStarted;
+        public event EventHandler<PlayerPairEventArgs> SwitchingCurrentBidPlayerStarted;
+        public event EventHandler<PlayerNumberEventArgs> SwitchingCounterBidPlayerStarted;
         public event EventHandler<PlayerNumberEventArgs> ExchangingCardsWithDabbStarted;
         public event EventHandler<PlayerNumberEventArgs> CalculatingGoingOutScoreStarted;
         public event EventHandler MeldingStarted;
         public event EventHandler<PlayerNumberEventArgs> WaitingForCardStarted;
         public event EventHandler<PlayerNumberEventArgs> ValidatingCardStarted;
         public event EventHandler<PlayerNumberEventArgs> RevertingInvalidMoveStarted;
-        public event EventHandler<PlayerNumberEventArgs> SwitchingToNextPlayerStarted;
+        public event EventHandler<PlayerNumberEventArgs> SwitchingCurrentTrickPlayerStarted;
         public event EventHandler<PlayerNumberEventArgs> StartingNewRoundStarted;
-        public event EventHandler CountingPlayerOrTeamScoresStarted;
+        public event EventHandler<PlayerNumberEventArgs> CountingPlayerOrTeamScoresStarted;
 
         public struct SingleGameProperties
         {
@@ -107,6 +107,7 @@ namespace BinokelDeluxe.GameLogic
             ConfigureBettelPhase();
             ConfigureMeldingPhase();
             ConfigureTrickTakingPhase(properties);
+            ConfigureEndPhase(properties);
         }
 
         private void ConfigureDealingPhase(SingleGameProperties properties)
@@ -136,7 +137,7 @@ namespace BinokelDeluxe.GameLogic
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingFirstBidPlayer)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForFirstBid)
-                .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerNumber = properties.NextPlayerNumber;
@@ -146,7 +147,7 @@ namespace BinokelDeluxe.GameLogic
                     // (this is extremely rare and not clearly defined in any rules)
                     if (properties.CurrentPlayerNumber == properties.DealerNumber)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
+                        _stateMachine.Fire(SingleGameTrigger.Internal);
                     }
                     else
                     {
@@ -172,7 +173,7 @@ namespace BinokelDeluxe.GameLogic
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerNumber = properties.NextPlayerNumber;
@@ -182,19 +183,19 @@ namespace BinokelDeluxe.GameLogic
                     // and whoever placed that bid passed.
                     if (properties.CurrentPlayerNumber == properties.DealerNumber)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
+                        _stateMachine.Fire(SingleGameTrigger.Internal);
                     }
                     else
                     {
                         // Let the UI know we are waiting for the current and next players to be shifted counterclockwise.
-                        FireEvent(SwitchingCurrentPlayerStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber, properties.NextPlayerNumber));
+                        FireEvent(SwitchingCurrentBidPlayerStarted, new PlayerPairEventArgs(properties.CurrentPlayerNumber, properties.NextPlayerNumber));
                     }
                 });
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingNextPlayer)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Internal_SwitchToDabbExchange, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.NextPlayerNumber = (properties.NextPlayerNumber + 1) % properties.NumberOfPlayers;
@@ -203,12 +204,12 @@ namespace BinokelDeluxe.GameLogic
                     // since every player after them (and before them) passed.
                     if (properties.NextPlayerNumber == (properties.DealerNumber + 1) % properties.NumberOfPlayers)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal_SwitchToDabbExchange);
+                        _stateMachine.Fire(SingleGameTrigger.Internal);
                     }
                     else
                     {
                         // Let the UI know we are waiting for the next player to be switched.
-                        FireEvent(SwitchingNextPlayerStarted, new PlayerNumberEventArgs(properties.NextPlayerNumber));
+                        FireEvent(SwitchingCounterBidPlayerStarted, new PlayerNumberEventArgs(properties.NextPlayerNumber));
                     }
                 });
         }
@@ -258,6 +259,80 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.CardPlaced, SingleGameState.TrickTaking_ValidatingCard)
                 // Let the UI know we are waiting for the current player to place a card.
                 .OnEntry(() => FireEvent(WaitingForCardStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
+
+            _stateMachine.Configure(SingleGameState.TrickTaking_ValidatingCard)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.WinningCardPlaced, SingleGameState.TrickTaking_RememberingWinningPlayer)
+                .Permit(SingleGameTrigger.LosingCardPlaced, SingleGameState.TrickTaking_SwitchingToNextPlayer)
+                .Permit(SingleGameTrigger.InvalidCardPlaced, SingleGameState.TrickTaking_RevertingInvalidMove)
+                // Let the UI know we are waiting for the card to be validated.
+                .OnEntry(() => FireEvent(ValidatingCardStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
+
+            _stateMachine.Configure(SingleGameState.TrickTaking_RememberingWinningPlayer)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.TrickTaking_SwitchingToNextPlayer)
+                .OnEntry(() =>
+                {
+                    properties.TrickWinnerNumber = properties.CurrentPlayerNumber;
+                    // Automatically switch to the next state.
+                    _stateMachine.Fire(SingleGameTrigger.Internal);
+                });
+
+            _stateMachine.Configure(SingleGameState.TrickTaking_SwitchingToNextPlayer)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.TrickTaking_StartingNewRound)
+                .OnEntry(() =>
+                {
+                    properties.CurrentPlayerNumber = (properties.CurrentPlayerNumber + 1) % properties.NumberOfPlayers;
+                    properties.RemainingCards--;
+
+                    // If all players placed a card, start a new round
+                    if (properties.RemainingCards % properties.NumberOfPlayers == 0)
+                    {
+                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                    }
+                    else
+                    {
+                        // Let the UI know we are waiting for the player who is allowed to place a card to be switched.
+                        FireEvent(SwitchingCurrentTrickPlayerStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber));
+                    }
+                });
+
+            _stateMachine.Configure(SingleGameState.TrickTaking_RevertingInvalidMove)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.RevertingFinished, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                // Let the UI know we are waiting for an invalid move to be reverted.
+                .OnEntry(() => FireEvent(RevertingInvalidMoveStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
+
+            _stateMachine.Configure(SingleGameState.TrickTaking_StartingNewRound)
+                .SubstateOf(SingleGameState.TrickTaking)
+                .Permit(SingleGameTrigger.NewRoundStarted, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(SingleGameTrigger.Internal, SingleGameState.CountingGameScore)
+                .OnEntry(() =>
+                {
+                    // Whoever won the trick is now allowed to place the first card in the next roud.
+                    properties.CurrentPlayerNumber = properties.TrickWinnerNumber;
+
+                    // If there are no more cards left, end the game.
+                    if (properties.RemainingCards < 0)
+                    {
+                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                    }
+                    else
+                    {
+                        // Let the UI know we are waiting for a new round to be started
+                        FireEvent(StartingNewRoundStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber));
+                    }
+                });
+        }
+
+        private void ConfigureEndPhase(SingleGameProperties properties)
+        {
+            _stateMachine.Configure(SingleGameState.CountingGameScore)
+                .Permit(SingleGameTrigger.ScoreCalculationFinished, SingleGameState.End)
+                // Let the UI know we are waiting for the final score to be calcualted.
+                .OnEntry(() => FireEvent(CalculatingGoingOutScoreStarted, new PlayerNumberEventArgs(properties.CurrentPlayerNumber)));
         }
     }
 }
