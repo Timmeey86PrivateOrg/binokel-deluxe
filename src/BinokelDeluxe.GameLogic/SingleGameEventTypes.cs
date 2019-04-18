@@ -7,7 +7,7 @@ namespace BinokelDeluxe.GameLogic
 {
     /// <summary>
     /// Defines triggers the state machine will react to.
-    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a used triggers and related transitions.
+    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
     /// Check the comment of each event to know which trigger to fire.
     /// </summary>
     public enum SingleGameTrigger
@@ -34,14 +34,26 @@ namespace BinokelDeluxe.GameLogic
     }
 
     /// <summary>
+    /// This interface can be used to send triggers to the internal state machine.
+    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+    /// </summary>
+    public interface ISingleGameTriggerSink
+    {
+        void SendTrigger(SingleGameTrigger trigger);
+    }
+
+    /// <summary>
     /// Thrown when there is no listener connected to an event.
     /// Since the state machine will not switch states without anyone sending a trigger, the application would be stuck in that case.
     /// </summary>
     [System.Serializable]
     public class UnconnectedEventException : Exception
     {
-        public UnconnectedEventException()
-            : base("An event is not handled and would cause the application to be stuck. Connect something to this event and fire the right trigger at the end of it.")
+        public UnconnectedEventException(string eventName)
+            : base(String.Format(
+                "Nothing is connected to the {0} event. This would cause the application to be stuck. Connect something to this event and fire the right trigger at the end of it.",
+                eventName
+                ))
         {
         }
 

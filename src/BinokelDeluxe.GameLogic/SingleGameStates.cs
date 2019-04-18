@@ -1,14 +1,9 @@
-﻿using Stateless;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BinokelDeluxe.GameLogic
+﻿namespace BinokelDeluxe.GameLogic
 {
     /// <summary>
     /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a graphical representation of the states.
     /// </summary>
-    public enum SingleGameState
+    enum SingleGameState
     {
         Initial,
         Dealing,

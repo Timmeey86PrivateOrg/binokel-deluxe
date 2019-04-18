@@ -18,6 +18,7 @@ namespace BinokelDeluxe.Core
 
             xmlSerializer.Serialize(writer, ruleSettings);
 #endif
+
         }
     }
 }

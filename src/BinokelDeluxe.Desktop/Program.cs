@@ -13,15 +13,6 @@ namespace BinokelDeluxe.Desktop
         [STAThread]
         static void Main()
         {
-            // TEMP TEST CODE
-
-            Core.Test.TestMethod();
-
-            // /TEMP TEST CODE
-
-
-
-
             using (var game = new DesktopGame())
             {
                 game.Run();
