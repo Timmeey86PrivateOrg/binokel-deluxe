@@ -31,7 +31,6 @@
         <COMPID name="Translator" mc="Standard.Actor" uid="3fc476b0-d067-4900-af98-757285077847"/>
         <COMPID name="Software Architecture Enthusiast" mc="Standard.Actor" uid="cc48dec7-a339-405f-87c1-e9333effc67b"/>
         <COMPID name="Components" mc="Standard.Package" uid="991fa102-2df5-431a-a591-fc568d9f4280"/>
-        <COMPID name="Shared" mc="Standard.Component" uid="003ef4f4-53e5-4e4f-b8c3-5ff1136e0fd0"/>
         <COMPID name="Signals" mc="Standard.Package" uid="54f21889-4e01-4cc9-8405-87f1272841c3"/>
       </COMP>
       <COMP relation="Product">

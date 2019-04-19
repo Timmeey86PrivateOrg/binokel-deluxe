@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+// DOCUMENTED
+
 namespace BinokelDeluxe.GameLogic
 {
     public enum GameType

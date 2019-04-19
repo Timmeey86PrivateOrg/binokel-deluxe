@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 namespace BinokelDeluxe.GameLogic.Test
 {
+    /// <summary>
+    /// Defines tests for the SingleGameStateBridge for four players.
+    /// See https://github.com/Timmeey86/binokel-deluxe/wiki/Glossary for the difference between player positions and numbers
+    /// </summary>
     public class FourPlayerStateTest
     {
         private SingleGameStateBridge _sut; // System under test
         private GameLogic.RuleSettings _ruleSettings;
 
-        private int _currentPlayerNumber;
-        private int _nextPlayerNumber;
+        private int _currentPlayerPosition;
+        private int _nextPlayerPosition;
 
         [SetUp]
         public void Setup()
@@ -33,30 +37,30 @@ namespace BinokelDeluxe.GameLogic.Test
         [Test]
         public void SingleGameStateBridge_StartingGame_SendsDealingStartedEvent()
         {
-            _sut.PrepareNewGame(_ruleSettings, dealerNumber: 0);
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition: 0);
 
             var eventWasCalled = false;
-            _sut.GetEventSender().DealingStarted += (o, e) => eventWasCalled = true;
+            _sut.GetEventSource().DealingStarted += (o, e) => eventWasCalled = true;
 
             StartGame();
             Assert.That(eventWasCalled);
         }
 
         [Test]
-        public void SingleGameStateBridge_AllPlayersPassing_DealerWins([Range(0,3)]int dealerNumber)
+        public void SingleGameStateBridge_AllPlayersPassing_LetsDealerWinBiddingPhase([Range(0, 3)]int dealerPosition)
         {
-            _sut.PrepareNewGame(_ruleSettings, dealerNumber);
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
 
             SkipDealingPhase();
             SkipPlayerSwitchingPhases();
-            LetPlayersPassFirstBid(new List<int>{ 1, 2, 3}, dealerNumber);
+            MakePlayersPassFirstBidUntilPlayerNumber(0, dealerPosition);
 
             var eventWasCalled = false;
             var dealerWon = false;
-            _sut.GetEventSender().ExchangingCardsWithDabbStarted += (o, e) =>
+            _sut.GetEventSource().ExchangingCardsWithDabbStarted += (o, e) =>
             {
                 eventWasCalled = true;
-                if (e.PlayerNumber == dealerNumber)
+                if (e.PlayerPosition == dealerPosition)
                 {
                     dealerWon = true;
                 }
@@ -65,7 +69,32 @@ namespace BinokelDeluxe.GameLogic.Test
             StartGame();
 
             Assert.That(eventWasCalled, "The state machine did not reach the Dabb phase.");
-            Assert.That(dealerWon, "The dealer did not win.");
+            Assert.That(dealerWon, "The dealer did not win the bidding phase.");
+        }
+
+        [Test]
+        public void SingleGameStateBridge_FirstPlayerBiddingAndRestPassing_LetsFirstPlayerWinBiddingPhase([Range(0, 3)]int dealerPosition)
+        {
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipPlayerSwitchingPhases();
+            MakePlayersPassFirstBidUntilPlayerNumber(1, dealerPosition);
+            MakePlayersPassCounterBid();
+
+            var eventWasCalled = false;
+            var firstPlayerWon = false;
+            _sut.GetEventSource().ExchangingCardsWithDabbStarted += (o, e) =>
+            {
+                eventWasCalled = true;
+                if (e.PlayerPosition == GetPlayerPosition(1, dealerPosition))
+                {
+                    firstPlayerWon = true;
+                }
+            };
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Dabb phase.");
+            Assert.That(firstPlayerWon, "The first player did not win the bidding phase.");
         }
 
 
@@ -76,62 +105,71 @@ namespace BinokelDeluxe.GameLogic.Test
             _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.GameStarted);
         }
 
-        private int GetPlayerNumber(int playerPosition, int dealerNumber)
+        /// <summary>
+        /// Retrieves the position on the table of the player with the given number, where the dealerPosition represents number zero.
+        /// </summary>
+        /// <param name="playerNumber">The number of the player, where 0 = dealer, 1 = right-hand player of dealer, etc.</param>
+        /// <param name="dealerPosition">The position on the table where 0 = human player (single game) or host (multiplayer).</param>
+        /// <returns>The position for the given number in the current game.</returns>
+        private int GetPlayerPosition(int playerNumber, int dealerPosition)
         {
-            return (dealerNumber + playerPosition) % 4;
+            return (dealerPosition + playerNumber) % 4;
         }
 
         private void SkipDealingPhase()
         {
-            _sut.GetEventSender().DealingStarted += (o, e) =>
+            _sut.GetEventSource().DealingStarted += (o, e) =>
             {
-                _currentPlayerNumber = e.CurrentPlayerNumber;
-                _nextPlayerNumber = e.NextPlayerNumber;
+                _currentPlayerPosition = e.CurrentPlayerPosition;
+                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.DealingFinished);
             };
         }
-        private void LetPlayersPassFirstBid(IList<int> playerPositions, int dealerNumber)
+        private void MakePlayersPassFirstBidUntilPlayerNumber(int playerNumber, int dealerPosition)
         {
-            var playerNumbers = new List<int>();
-            foreach (var playerPosition in playerPositions)
-            {
-                playerNumbers.Add(GetPlayerNumber(playerPosition, dealerNumber));
-            }
+            var playerPosition = GetPlayerPosition(playerNumber, dealerPosition);
 
-            _sut.GetEventSender().WaitingForFirstBidStarted += (o, e) =>
+            _sut.GetEventSource().WaitingForFirstBidStarted += (o, e) =>
             {
-                if(playerNumbers.Contains(_currentPlayerNumber))
-                {
-                    _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.Passed);
-                }
-                else
+                if (_currentPlayerPosition == playerPosition)
                 {
                     _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.BidPlaced);
                 }
+                else
+                {
+                    _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.Passed);
+                }
+            };
+        }
+        private void MakePlayersPassCounterBid()
+        {
+            _sut.GetEventSource().WaitingForCounterOrPassStarted += (o, e) =>
+            {
+                _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.Passed);
             };
         }
         private void SkipPlayerSwitchingPhases()
         {
-            _sut.GetEventSender().SwitchingPlayerBeforeFirstBidStarted += (o, e) =>
+            _sut.GetEventSource().SwitchingPlayerBeforeFirstBidStarted += (o, e) =>
             {
-                _currentPlayerNumber = e.CurrentPlayerNumber;
-                _nextPlayerNumber = e.NextPlayerNumber;
+                _currentPlayerPosition = e.CurrentPlayerPosition;
+                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
-            _sut.GetEventSender().SwitchingCounterBidPlayerStarted += (o, e) =>
+            _sut.GetEventSource().SwitchingCounterBidPlayerStarted += (o, e) =>
             {
-                _nextPlayerNumber = e.PlayerNumber;
+                _nextPlayerPosition = e.PlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
-            _sut.GetEventSender().SwitchingCurrentBidPlayerStarted += (o, e) =>
+            _sut.GetEventSource().SwitchingCurrentBidPlayerStarted += (o, e) =>
             {
-                _currentPlayerNumber = e.CurrentPlayerNumber;
-                _nextPlayerNumber = e.NextPlayerNumber;
+                _currentPlayerPosition = e.CurrentPlayerPosition;
+                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
-            _sut.GetEventSender().SwitchingCurrentTrickPlayerStarted += (o, e) =>
+            _sut.GetEventSource().SwitchingCurrentTrickPlayerStarted += (o, e) =>
             {
-                _currentPlayerNumber = e.PlayerNumber;
+                _currentPlayerPosition = e.PlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
         }

@@ -1,4 +1,7 @@
-﻿namespace BinokelDeluxe.GameLogic
+﻿
+// DOCUMENTED
+
+namespace BinokelDeluxe.GameLogic
 {
     /// <summary>
     /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a graphical representation of the states.

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="CalculatingGoingOutScoreStarted" version="4">
+  <OBJECT>
+    <ID name="CalculatingGoingOutScoreStarted" mc="Standard.Signal" uid="aed12f4b-9240-4d6c-aa93-eb2fcdad8a22"/>
+    <PID name="ISingleGameEventSender" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+    <ATTRIBUTES>
+      <ATT name="IsEvent">false</ATT>
+      <ATT name="IsException">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[CalculatingGoingOutScoreStarted]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

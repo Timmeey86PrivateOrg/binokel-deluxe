@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="SwitchingCounterBidPlayerStarted" version="4">
+  <OBJECT>
+    <ID name="SwitchingCounterBidPlayerStarted" mc="Standard.Signal" uid="284742d8-c97a-4ae5-b306-4a5630da393c"/>
+    <PID name="ISingleGameEventSender" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+    <ATTRIBUTES>
+      <ATT name="IsEvent">false</ATT>
+      <ATT name="IsException">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[SwitchingCounterBidPlayerStarted]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

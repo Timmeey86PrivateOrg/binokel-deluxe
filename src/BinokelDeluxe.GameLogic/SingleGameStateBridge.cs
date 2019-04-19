@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+// DOCUMENTED
+
 namespace BinokelDeluxe.GameLogic
 {
     /// <summary>
@@ -13,20 +15,20 @@ namespace BinokelDeluxe.GameLogic
         private readonly SingleGameStateMachine _stateMachine = new SingleGameStateMachine();
 
         /// <summary>
-        /// Prepares a new game using the given settings. This will create a new event sender and a new trigger sink.
+        /// Prepares a new game using the given settings. This will create a new event source and a new trigger sink.
         /// </summary>
         /// <param name="ruleSettings">The rule settings to be used.</param>
-        /// <param name="dealerNumber">The number of the dealer player, starting from 0.</param>
-        public void PrepareNewGame(RuleSettings ruleSettings, int dealerNumber)
+        /// <param name="dealerPosition">The position of the dealer on the table, where 0 is the human player (single player) or the host (multiplayer).</param>
+        public void PrepareNewGame(RuleSettings ruleSettings, int dealerPosition)
         {
-            _stateMachine.RefreshStateMachine(ruleSettings, dealerNumber);
+            _stateMachine.RefreshStateMachine(ruleSettings, dealerPosition);
         }
 
         /// <summary>
-        /// Retrieves an object which will send events as described in the ISingleGameEventSender interface.
+        /// Retrieves an object which will send events as described in the ISingleGameEventSource interface.
         /// </summary>
-        /// <returns>The event sender.</returns>
-        public ISingleGameEventSender GetEventSender() { return _stateMachine; }
+        /// <returns>The event source.</returns>
+        public ISingleGameEventSource GetEventSource() { return _stateMachine; }
 
         /// <summary>
         /// Retrieves an object which will process triggers as described in the ISingleGameTriggerSink interface.
