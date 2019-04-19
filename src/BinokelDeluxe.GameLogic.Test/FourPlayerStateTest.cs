@@ -93,8 +93,64 @@ namespace BinokelDeluxe.GameLogic.Test
                 }
             };
 
+            StartGame();
+
             Assert.That(eventWasCalled, "The state machine did not reach the Dabb phase.");
             Assert.That(firstPlayerWon, "The first player did not win the bidding phase.");
+        }
+
+        [Test]
+        public void SingleGameStateBridge_EachPlayerBiddingOnceThenPassing_LetsDealerWinBiddingPhase([Range(0, 3)]int dealerPosition)
+        {
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipPlayerSwitchingPhases();
+            MakePlayersPassFirstBidUntilPlayerNumber(0, dealerPosition);
+            MakePlayersCounterButPassWhenCountered();
+
+            var eventWasCalled = false;
+            var dealerWon = false;
+            _sut.GetEventSource().ExchangingCardsWithDabbStarted += (o, e) =>
+            {
+                eventWasCalled = true;
+                if (e.PlayerPosition == GetPlayerPosition(0, dealerPosition))
+                {
+                    dealerWon = true;
+                }
+            };
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Dabb phase.");
+            Assert.That(dealerWon, "The dealer did not win the bidding phase.");
+        }
+
+        [Test]
+        public void SingleGameStateBridge_GoingOutInDabbPhase_TriggersScoreCalculation()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(dealerPosition);
+            LetPlayerGoOut();
+
+            var eventWasCalled = false;
+            var dealerWentOut = false;
+            _sut.GetEventSource().CalculatingGoingOutScoreStarted += (o, e) =>
+            {
+                eventWasCalled = true;
+                if (e.PlayerPosition == dealerPosition)
+                {
+                    dealerWentOut = true;
+                }
+            };
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Going-Out Score Calculation phase.");
+            Assert.That(dealerWentOut, "The dealer was expected to go out, but another player did so.");
         }
 
 
@@ -125,6 +181,11 @@ namespace BinokelDeluxe.GameLogic.Test
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.DealingFinished);
             };
         }
+        private void SkipBiddingPhase(int dealerPosition)
+        {
+            MakePlayersPassFirstBidUntilPlayerNumber(0, dealerPosition);
+            SkipPlayerSwitchingPhases();
+        }
         private void MakePlayersPassFirstBidUntilPlayerNumber(int playerNumber, int dealerPosition)
         {
             var playerPosition = GetPlayerPosition(playerNumber, dealerPosition);
@@ -146,6 +207,17 @@ namespace BinokelDeluxe.GameLogic.Test
             _sut.GetEventSource().WaitingForCounterOrPassStarted += (o, e) =>
             {
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.Passed);
+            };
+        }
+        private void MakePlayersCounterButPassWhenCountered()
+        {
+            _sut.GetEventSource().WaitingForBidOrPassStarted += (o, e) =>
+            {
+                _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.Passed);
+            };
+            _sut.GetEventSource().WaitingForCounterOrPassStarted += (o, e) =>
+            {
+                _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.BidCountered);
             };
         }
         private void SkipPlayerSwitchingPhases()
@@ -171,6 +243,14 @@ namespace BinokelDeluxe.GameLogic.Test
             {
                 _currentPlayerPosition = e.PlayerPosition;
                 _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.PlayerSwitched);
+            };
+        }
+        private void LetPlayerGoOut()
+        {
+            _sut.GetEventSource().ExchangingCardsWithDabbStarted += (o, e) =>
+            {
+                _currentPlayerPosition = e.PlayerPosition;
+                _sut.GetTriggerSink().SendTrigger(SingleGameTrigger.GoingOut);
             };
         }
     }
