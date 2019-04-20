@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="GameLogic" version="4">
+  <OBJECT>
+    <ID name="GameLogic" mc="Standard.Package" uid="6c4ead2d-a367-4dcd-9558-c76d39fc0d1a"/>
+    <PID name="BinokelDeluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[GameLogic]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <OBJECT>
+          <ID name="SingleGameTrigger" mc="Standard.Enumeration" uid="09bf2550-045e-454f-9c58-c109478083b7"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[SingleGameTrigger]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="ISingleGameTriggerSink" mc="Standard.Interface" uid="c1222b9d-2407-4454-9600-c9a91795fe2f"/>
+        <COMPID name="PlayerPairEventArgs" mc="Standard.Class" uid="5849d4e6-05cd-4c60-a4f8-cf22f81ec059"/>
+        <COMPID name="PlayerPositionEventArgs" mc="Standard.Class" uid="51b1e757-83db-42b8-8418-161764aa21c0"/>
+        <COMPID name="ISingleGameEventSender" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+        <COMPID name="SingleGameStateMachine" mc="Standard.Class" uid="e3af1285-51e4-45fc-bf22-66255f72a76c"/>
+        <COMPID name="RuleSettings" mc="Standard.Class" uid="c938b947-b9d9-4312-a7f7-7537a2dcecd2"/>
+        <OBJECT>
+          <ID name="GameType" mc="Standard.Enumeration" uid="8f4dee3b-ba0c-47f6-982e-c8643fb89c4a"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[GameType]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="ThreePlayerGame" mc="Standard.EnumerationLiteral" uid="f318732c-b872-447f-aa70-d2db31f4cdd0"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[ThreePlayerGame]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="FourPlayerCrossBinokelGame" mc="Standard.EnumerationLiteral" uid="d3ba1456-9596-41ad-9c67-05bab79c5f8b"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[FourPlayerCrossBinokelGame]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="CountingType" mc="Standard.Enumeration" uid="7907a083-359c-40da-87d1-e4ad76d9ba14"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[CountingType]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="TenPointsForAceToKing" mc="Standard.EnumerationLiteral" uid="4a0e3220-74cc-43af-ac7a-20694404bab8"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[TenPointsForAceToKing]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="DecreasingPointsForAceToUnter" mc="Standard.EnumerationLiteral" uid="eb256615-bf68-477c-a682-1724502e1dc6"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[DecreasingPointsForAceToUnter]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="SingleGameState" mc="Standard.Enumeration" uid="f2597613-cf7e-42da-8303-c5a72091a670"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[SingleGameState]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="SingleGameStateBridge" mc="Standard.Class" uid="63ec4431-a4de-4473-a819-3257665bb2af"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Dummy" mc="Standard.ClassDiagram" uid="5e21a4d2-1635-4d7c-acb0-03d6a5f5df0f"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

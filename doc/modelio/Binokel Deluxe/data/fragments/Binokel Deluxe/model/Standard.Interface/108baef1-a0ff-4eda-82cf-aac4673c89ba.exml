@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="ISingleGameEventSource" version="4">
+  <OBJECT>
+    <ID name="ISingleGameEventSource" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+    <PID name="GameLogic" mc="Standard.Package" uid="6c4ead2d-a367-4dcd-9558-c76d39fc0d1a"/>
+    <ATTRIBUTES>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">true</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[ISingleGameEventSource]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="DealingStarted" mc="Standard.Signal" uid="d6f70c74-5dda-411f-aa9f-12ee2e8f557a"/>
+        <COMPID name="WaitingForFirstBidStarted" mc="Standard.Signal" uid="17bf4da7-b593-4e37-bfa1-d5e331a65e51"/>
+        <COMPID name="SwitchingPlayerBeforeFirstBidStarted" mc="Standard.Signal" uid="04c3f7aa-f29d-4dc8-924f-520088bfe02b"/>
+        <COMPID name="WaitingForBidOrPassStarted" mc="Standard.Signal" uid="136b7107-c7e6-4119-a033-bd66d5f0964c"/>
+        <COMPID name="WaitingForCounterOrPassStarted" mc="Standard.Signal" uid="200962a2-2e42-466d-9d75-9668f0a965d1"/>
+        <COMPID name="SwitchingCurrentBidPlayerStarted" mc="Standard.Signal" uid="1d96ba70-a755-4d69-8737-0622ce9cfc09"/>
+        <COMPID name="SwitchingCounterBidPlayerStarted" mc="Standard.Signal" uid="284742d8-c97a-4ae5-b306-4a5630da393c"/>
+        <COMPID name="ExchangingCardsWithDabbStarted" mc="Standard.Signal" uid="c6b1e327-f55c-4932-8d97-1d6169d383d6"/>
+        <COMPID name="CalculatingGoingOutScoreStarted" mc="Standard.Signal" uid="aed12f4b-9240-4d6c-aa93-eb2fcdad8a22"/>
+        <COMPID name="MeldingStarted" mc="Standard.Signal" uid="11ece9e0-6020-49d5-80e9-4299480914cc"/>
+        <COMPID name="WaitingForCardStarted" mc="Standard.Signal" uid="8d6f9a64-b342-473f-9ec6-753105a4d032"/>
+        <COMPID name="ValidatingCardStarted" mc="Standard.Signal" uid="c16db5d2-3e73-4cf6-af09-5482ba9bd744"/>
+        <COMPID name="RevertingInvalidMoveStarted" mc="Standard.Signal" uid="3ffb240e-0d15-4f7f-a79e-81b26e2c4a69"/>
+        <COMPID name="SwitchingCurrentTrickPlayerStarted" mc="Standard.Signal" uid="135915bd-706a-4d0f-aced-a7cc4b9de200"/>
+        <COMPID name="StartingNewRoundStarted" mc="Standard.Signal" uid="620facc9-122b-40e1-9ebe-d676ffee80d4"/>
+        <COMPID name="CountingPlayerOrTeamScoresStarted" mc="Standard.Signal" uid="f52cf3af-a8d2-429e-82a2-711799ac7352"/>
+      </COMP>
+      <COMP relation="Descriptor">
+        <OBJECT>
+          <ID name="Note" mc="Infrastructure.Note" uid="1d36a9a7-f7a2-44cd-a549-cf894f977bb1"/>
+          <ATTRIBUTES>
+            <ATT name="Content"><![CDATA[Sends events whenever the state machine is waiting for one of one or more possible triggers]]></ATT>
+            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+            <ATT name="Name"><![CDATA[Note]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

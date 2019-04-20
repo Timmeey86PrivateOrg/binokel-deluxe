@@ -1,7 +1,6 @@
 # Trigger the Azure DevOps build upon changes in the master or setup branches
 trigger:
 - master
-- setup
 
 # Build on MacOS 
 pool:

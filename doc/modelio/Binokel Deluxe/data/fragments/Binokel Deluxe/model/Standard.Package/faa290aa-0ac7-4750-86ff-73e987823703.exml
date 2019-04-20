@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Stateless" version="4">
+  <OBJECT>
+    <ID name="Stateless" mc="Standard.Package" uid="faa290aa-0ac7-4750-86ff-73e987823703"/>
+    <PID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Stateless]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="StateMachine" mc="Standard.Class" uid="54cfdda6-1177-4b72-badd-aa243614c2d0"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

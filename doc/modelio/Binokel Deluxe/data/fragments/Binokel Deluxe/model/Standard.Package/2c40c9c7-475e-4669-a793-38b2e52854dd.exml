@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="binokel deluxe" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="BinokelDeluxe" version="4">
   <OBJECT>
-    <ID name="binokel deluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+    <ID name="BinokelDeluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
     <PID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
     <ATTRIBUTES>
       <ATT name="IsInstantiable">false</ATT>
@@ -9,9 +9,14 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[binokel deluxe]]></ATT>
+      <ATT name="Name"><![CDATA[BinokelDeluxe]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
-    <DEPENDENCIES></DEPENDENCIES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="GameLogic" mc="Standard.Package" uid="6c4ead2d-a367-4dcd-9558-c76d39fc0d1a"/>
+        <COMPID name="Common" mc="Standard.Package" uid="c9515b97-384f-43b6-b209-ec4f84af1c0f"/>
+      </COMP>
+    </DEPENDENCIES>
   </OBJECT>
 </EXT>

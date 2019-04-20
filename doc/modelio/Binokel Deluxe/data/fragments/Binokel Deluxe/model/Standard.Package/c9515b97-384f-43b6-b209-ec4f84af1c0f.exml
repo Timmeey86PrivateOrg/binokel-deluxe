@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Common" version="4">
+  <OBJECT>
+    <ID name="Common" mc="Standard.Package" uid="c9515b97-384f-43b6-b209-ec4f84af1c0f"/>
+    <PID name="BinokelDeluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Common]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="IConfigurable" mc="Standard.Interface" uid="45fccbd7-81bf-431d-b0f7-f4551d2cb55f"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

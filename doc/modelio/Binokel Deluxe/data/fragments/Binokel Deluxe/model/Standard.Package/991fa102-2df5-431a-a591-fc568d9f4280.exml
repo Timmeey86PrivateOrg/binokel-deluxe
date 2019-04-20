@@ -15,7 +15,6 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="UI" mc="Standard.Component" uid="477cbf6f-0a5b-4bbf-befc-3ec1a9e7ffd3"/>
-        <COMPID name="GameLogic" mc="Standard.Component" uid="dbc9c108-fa5a-4821-afb3-fb938b17d37c"/>
         <COMPID name="Validation" mc="Standard.Component" uid="d4c354cb-600e-4800-878d-7ef0d4cf846e"/>
         <COMPID name="Learning" mc="Standard.Component" uid="35074b96-7c27-457b-827d-cb78e5e48fe6"/>
         <COMPID name="PlatformSpecificUI" mc="Standard.Component" uid="8bb2b55c-1b8f-487f-8c07-1d56a775a7a9"/>
