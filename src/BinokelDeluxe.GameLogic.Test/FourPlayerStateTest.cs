@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace BinokelDeluxe.GameLogic.Test
 {
@@ -10,9 +11,6 @@ namespace BinokelDeluxe.GameLogic.Test
     {
         private SingleGameStateBridge _sut; // System under test
         private GameLogic.RuleSettings _ruleSettings;
-
-        private int _currentPlayerPosition;
-        private int _nextPlayerPosition;
 
         [SetUp]
         public void Setup()
@@ -201,32 +199,152 @@ namespace BinokelDeluxe.GameLogic.Test
             SkipMeldingPhase();
 
             var eventWasCalled = false;
+            var dealerPlacedFirstCard = false;
             _sut.EventSource.WaitingForCardStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
+                dealerPlacedFirstCard = (e.PlayerPosition == dealerPosition);
                 eventWasCalled = true;
             };
 
             StartGame();
 
             Assert.That(eventWasCalled, "The state machine did not reach the Trick Taking phase.");
-            Assert.That(_currentPlayerPosition == dealerPosition, "The bid phase winner is not the first player to place a card.");
+            Assert.That(dealerPlacedFirstCard, "The bid phase winner is not the first player to place a card.");
         }
 
         [Test, MaxTime(2000)]
         public void PlacingCard_StartsCardValidation()
         {
             var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
 
             SkipDealingPhase();
             SkipBiddingPhase(playerNumber: 0, dealerPosition: dealerPosition);
             SkipDabbPhase();
             SkipMeldingPhase();
-            SkipCardPlacingPhase();
+            SkipCardPlacingState();
 
             bool eventWasCalled = false;
             _sut.EventSource.ValidatingCardStarted += (o, e) => eventWasCalled = true;
 
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Card Validation phase.");
+        }
+
+        [Test, MaxTime(2000)]
+        public void InvalidCard_StartsReverting()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(playerNumber: 0, dealerPosition: dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingState();
+            SimulateInvalidCard();
+
+            bool eventWasCalled = false;
+            _sut.EventSource.RevertingInvalidMoveStarted += (o, e) => eventWasCalled = true;
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not start reverting an invalid move.");
+        }
+
+        [Test, MaxTime(2000)]
+        public void RevertingInvalidMove_GoesBackToPlacingCard()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(playerNumber: 0, dealerPosition: dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingStateOnce();
+            SimulateInvalidCard();
+            SkipRevertingState();
+
+            int numberOfTimesCardPlacingStateWasEntered = 0;
+            _sut.EventSource.WaitingForCardStarted += (o, e) => numberOfTimesCardPlacingStateWasEntered++;
+
+            StartGame();
+
+            Assert.AreEqual(2, numberOfTimesCardPlacingStateWasEntered);
+        }
+
+        [Test, MaxTime(2000)]
+        public void PlacingLosingCard_LetsNextPlayerPlaceCard()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            var firstPlayerNumber = 0;
+            var secondPlayerNumber = 1;
+            var firstPlayerPosition = GetPlayerPosition(firstPlayerNumber, dealerPosition);
+            var secondPlayerPosition = GetPlayerPosition(secondPlayerNumber, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(firstPlayerNumber, dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingStateOnce();
+            SimulateLosingCard();
+
+            int numberOfTimesFirstPlayerWasAllowedToPlaceCards = 0;
+            int numberOfTimesSecondPlayerWasAllowedToPlaceCards = 0;
+
+            _sut.EventSource.WaitingForCardStarted += (o, e) =>
+            {
+                if (e.PlayerPosition == firstPlayerPosition)
+                {
+                    numberOfTimesFirstPlayerWasAllowedToPlaceCards++;
+                }
+                else if (e.PlayerPosition == secondPlayerPosition)
+                {
+                    numberOfTimesSecondPlayerWasAllowedToPlaceCards++;
+                }
+                else
+                {
+                    Assert.That(false, String.Format(
+                        "A player at position {0} was allowed to place cards but only positions {1} and {2} were expected",
+                        e.PlayerPosition,
+                        firstPlayerPosition,
+                        secondPlayerPosition
+                        ));
+                }
+            };
+
+            StartGame();
+
+            Assert.AreEqual(1, numberOfTimesFirstPlayerWasAllowedToPlaceCards);
+            Assert.AreEqual(1, numberOfTimesSecondPlayerWasAllowedToPlaceCards);
+        }
+
+        [Test, MaxTime(2000)]
+        public void PlacingFourCards_StartsNewRound()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(0, dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingState();
+            SimulateWinningCard();
+
+            bool eventWasCalled = false;
+            _sut.EventSource.StartingNewRoundStarted += (o, e) =>
+            {
+                eventWasCalled = true;
+            };
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Starting New Round (Trick Taking) phase.");
         }
 
 
@@ -252,8 +370,6 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.DealingStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.CurrentPlayerPosition;
-                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.DealingFinished);
             };
         }
@@ -292,7 +408,7 @@ namespace BinokelDeluxe.GameLogic.Test
 
             _sut.EventSource.WaitingForFirstBidStarted += (o, e) =>
             {
-                if (_currentPlayerPosition == playerPosition)
+                if (e.PlayerPosition == playerPosition)
                 {
                     _sut.TriggerSink.SendTrigger(SingleGameTrigger.BidPlaced);
                 }
@@ -324,24 +440,18 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.SwitchingPlayerBeforeFirstBidStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.CurrentPlayerPosition;
-                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCounterBidPlayerStarted += (o, e) =>
             {
-                _nextPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCurrentBidPlayerStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.CurrentPlayerPosition;
-                _nextPlayerPosition = e.NextPlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCurrentTrickPlayerStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
             };
         }
@@ -349,7 +459,6 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.ExchangingCardsWithDabbStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.GoingOut);
             };
         }
@@ -357,12 +466,10 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.CalculatingGoingOutScoreStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.ScoreCalculationFinished);
             };
             _sut.EventSource.CountingPlayerOrTeamScoresStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.ScoreCalculationFinished);
             };
         }
@@ -370,7 +477,6 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.ExchangingCardsWithDabbStarted += (o, e) =>
             {
-                _currentPlayerPosition = e.PlayerPosition;
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.TrumpSelected);
             };
         }
@@ -385,11 +491,49 @@ namespace BinokelDeluxe.GameLogic.Test
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.MeldsSeenByAllPlayers);
             };
         }
-        private void SkipCardPlacingPhase()
+        private void SkipCardPlacingState()
         {
             _sut.EventSource.WaitingForCardStarted += (o, e) =>
             {
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.CardPlaced);
+            };
+        }
+        private void SkipCardPlacingStateOnce()
+        {
+            EventHandler<PlayerPositionEventArgs> handler = null;
+            handler = (o, e) =>
+            {
+                _sut.EventSource.WaitingForCardStarted -= handler;
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.CardPlaced);
+            };
+            _sut.EventSource.WaitingForCardStarted += handler;
+        }
+        private void SimulateInvalidCard()
+        {
+            _sut.EventSource.ValidatingCardStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.InvalidCardPlaced);
+            };
+        }
+        private void SimulateLosingCard()
+        {
+            _sut.EventSource.ValidatingCardStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.LosingCardPlaced);
+            };
+        }
+        private void SimulateWinningCard()
+        {
+            _sut.EventSource.ValidatingCardStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.WinningCardPlaced);
+            };
+        }
+        private void SkipRevertingState()
+        {
+            _sut.EventSource.RevertingInvalidMoveStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.RevertingFinished);
             };
         }
     }
