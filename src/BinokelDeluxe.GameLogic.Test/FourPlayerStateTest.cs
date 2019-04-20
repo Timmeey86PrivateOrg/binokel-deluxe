@@ -347,6 +347,57 @@ namespace BinokelDeluxe.GameLogic.Test
             Assert.That(eventWasCalled, "The state machine did not reach the Starting New Round (Trick Taking) phase.");
         }
 
+        [Test, MaxTime(2000)]
+        public void PlacingCardsUntilNoneAreLeft_TriggersScoreCalculation()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(0, dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingState();
+            SimulateWinningCard();
+            SkipStartingNewRoundState();
+
+            bool eventWasCalled = false;
+            _sut.EventSource.CountingPlayerOrTeamScoresStarted += (o, e) =>
+            {
+                eventWasCalled = true;
+            };
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the Starting New Round (Trick Taking) phase.");
+        }
+
+        [Test, MaxTime(2000)]
+        public void FinishingScoreCalculation_EndsGame()
+        {
+            var dealerPosition = 0;
+            _sut.PrepareNewGame(_ruleSettings, dealerPosition);
+
+            SkipDealingPhase();
+            SkipBiddingPhase(0, dealerPosition);
+            SkipDabbPhase();
+            SkipMeldingPhase();
+            SkipCardPlacingState();
+            SimulateWinningCard();
+            SkipStartingNewRoundState();
+            SkipScoreCalculationPhases();
+
+            bool eventWasCalled = false;
+            _sut.EventSource.GameFinished += (o, e) =>
+            {
+                eventWasCalled = true;
+            };
+
+            StartGame();
+
+            Assert.That(eventWasCalled, "The state machine did not reach the final state.");
+        }
+
 
 
 
@@ -534,6 +585,13 @@ namespace BinokelDeluxe.GameLogic.Test
             _sut.EventSource.RevertingInvalidMoveStarted += (o, e) =>
             {
                 _sut.TriggerSink.SendTrigger(SingleGameTrigger.RevertingFinished);
+            };
+        }
+        private void SkipStartingNewRoundState()
+        {
+            _sut.EventSource.StartingNewRoundStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(SingleGameTrigger.NewRoundStarted);
             };
         }
     }
