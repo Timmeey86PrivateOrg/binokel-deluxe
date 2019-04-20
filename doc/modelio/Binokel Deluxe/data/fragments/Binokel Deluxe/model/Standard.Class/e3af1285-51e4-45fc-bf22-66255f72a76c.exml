@@ -115,7 +115,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Implemented">
-              <ID name="ISingleGameEventSender" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+              <ID name="ISingleGameEventSource" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

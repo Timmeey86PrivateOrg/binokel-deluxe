@@ -13,21 +13,22 @@ namespace BinokelDeluxe.GameLogic
     {
         // Interface implementation. See ISingleGameEventSource for comments.
         public event EventHandler<PlayerPairEventArgs> DealingStarted;
-        public event EventHandler WaitingForFirstBidStarted;
+        public event EventHandler<PlayerPositionEventArgs> WaitingForFirstBidStarted;
         public event EventHandler<PlayerPairEventArgs> SwitchingPlayerBeforeFirstBidStarted;
-        public event EventHandler WaitingForBidOrPassStarted;
-        public event EventHandler WaitingForCounterOrPassStarted;
+        public event EventHandler<PlayerPositionEventArgs> WaitingForBidOrPassStarted;
+        public event EventHandler<PlayerPositionEventArgs> WaitingForCounterOrPassStarted;
         public event EventHandler<PlayerPairEventArgs> SwitchingCurrentBidPlayerStarted;
         public event EventHandler<PlayerPositionEventArgs> SwitchingCounterBidPlayerStarted;
         public event EventHandler<PlayerPositionEventArgs> ExchangingCardsWithDabbStarted;
         public event EventHandler<PlayerPositionEventArgs> CalculatingGoingOutScoreStarted;
-        public event EventHandler MeldingStarted;
+        public event EventHandler<PlayerPositionEventArgs> MeldingStarted;
         public event EventHandler<PlayerPositionEventArgs> WaitingForCardStarted;
         public event EventHandler<PlayerPositionEventArgs> ValidatingCardStarted;
         public event EventHandler<PlayerPositionEventArgs> RevertingInvalidMoveStarted;
         public event EventHandler<PlayerPositionEventArgs> SwitchingCurrentTrickPlayerStarted;
         public event EventHandler<PlayerPositionEventArgs> StartingNewRoundStarted;
         public event EventHandler<PlayerPositionEventArgs> CountingPlayerOrTeamScoresStarted;
+        public event EventHandler GameFinished;
 
         // Interface implementation. See ISingleGameTriggerSink for comments.
         public void SendTrigger(SingleGameTrigger trigger)
@@ -109,7 +110,7 @@ namespace BinokelDeluxe.GameLogic
             ConfigureDabbPhase(properties);
             ConfigureDurchPhase();
             ConfigureBettelPhase();
-            ConfigureMeldingPhase();
+            ConfigureMeldingPhase(properties);
             ConfigureTrickTakingPhase(properties);
             ConfigureEndPhase(properties);
         }
@@ -136,7 +137,7 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
                 .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingFirstBidPlayer)
                 // Let listeners know we are waiting for a player to either make the first bid or pass.
-                .OnEntry(() => FireEvent(WaitingForFirstBidStarted, "WaitingForFirstBidStarted"));
+                .OnEntry(() => FireEvent(WaitingForFirstBidStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "WaitingForFirstBidStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingFirstBidPlayer)
                 .SubstateOf(SingleGameState.Bidding)
@@ -165,14 +166,14 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.BidCountered, SingleGameState.Bidding_WaitingForCurrentPlayer)
                 .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingNextPlayer)
                 // Let the UI know we are waiting for the next player to either counter bid or pass.
-                .OnEntry(() => FireEvent(WaitingForCounterOrPassStarted, "WaitingForCounterOrPassStarted"));
+                .OnEntry(() => FireEvent(WaitingForCounterOrPassStarted, new PlayerPositionEventArgs(properties.NextPlayerPosition), "WaitingForCounterOrPassStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_WaitingForCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
                 .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
                 .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingCurrentPlayer)
                 // Let the UI know we are waiting for the current player to either increase their bid (i.e. counter the next player) or pass.
-                .OnEntry(() => FireEvent(WaitingForBidOrPassStarted, "WaitingForBidOrPassStarted"));
+                .OnEntry(() => FireEvent(WaitingForBidOrPassStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "WaitingForBidOrPassStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
@@ -247,13 +248,13 @@ namespace BinokelDeluxe.GameLogic
                 .OnEntry(() => throw new NotImplementedException());
         }
 
-        private void ConfigureMeldingPhase()
+        private void ConfigureMeldingPhase(SingleGameProperties properties)
         {
             _stateMachine.Configure(SingleGameState.Melding)
                 .Permit(SingleGameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
                 // (human) players that they have seen the melds.
-                .OnEntry(() => FireEvent(MeldingStarted, "MeldingStarted"));
+                .OnEntry(() => FireEvent(MeldingStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "MeldingStarted"));
         }
 
         private void ConfigureTrickTakingPhase(SingleGameProperties properties)
@@ -337,6 +338,9 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.ScoreCalculationFinished, SingleGameState.End)
                 // Let the UI know we are waiting for the final score to be calcualted.
                 .OnEntry(() => FireEvent(CountingPlayerOrTeamScoresStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "CountingPlayerOrTeamScoresStarted"));
+
+            _stateMachine.Configure(SingleGameState.End)
+                .OnEntry(() => FireEvent(GameFinished, "GameFinished"));
         }
     }
 }

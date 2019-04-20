@@ -102,7 +102,7 @@ namespace BinokelDeluxe.GameLogic
         /// Offer the player the choice between placing the initial bid or passing.
         /// Send a BidPlaced or Passed trigger when done.
         /// </summary>
-        event EventHandler WaitingForFirstBidStarted;
+        event EventHandler<PlayerPositionEventArgs> WaitingForFirstBidStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -117,7 +117,7 @@ namespace BinokelDeluxe.GameLogic
         /// Send a BidPlaced or Passed trigger when done.
         /// Make sure the player cannot accidentally send a trigger twice in this state.
         /// </summary>
-        event EventHandler WaitingForBidOrPassStarted;
+        event EventHandler<PlayerPositionEventArgs> WaitingForBidOrPassStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -125,7 +125,7 @@ namespace BinokelDeluxe.GameLogic
         /// Send a BidPlaced or Passed trigger when done.
         /// Make sure the player cannot accidentally send a trigger twice in this state.
         /// </summary>
-        event EventHandler WaitingForCounterOrPassStarted;
+        event EventHandler<PlayerPositionEventArgs> WaitingForCounterOrPassStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -171,7 +171,7 @@ namespace BinokelDeluxe.GameLogic
         /// Ask every player for confirmation that they saw the melds.
         /// Send a MeldsSeenByAllPlayers trigger when done.
         /// </summary>
-        event EventHandler MeldingStarted;
+        event EventHandler<PlayerPositionEventArgs> MeldingStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:
@@ -216,5 +216,11 @@ namespace BinokelDeluxe.GameLogic
         /// Send a ScoreCalculationFinished trigger when done.
         /// </summary>
         event EventHandler<PlayerPositionEventArgs> CountingPlayerOrTeamScoresStarted;
+
+        /// <summary>
+        /// Lets event listeners know that the game was finished and a new one can be started.
+        /// You need to prepare a new game for the next round.
+        /// </summary>
+        event EventHandler GameFinished;
     }
 }

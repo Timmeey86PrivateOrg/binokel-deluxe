@@ -28,13 +28,13 @@ namespace BinokelDeluxe.GameLogic
         /// Retrieves an object which will send events as described in the ISingleGameEventSource interface.
         /// </summary>
         /// <returns>The event source.</returns>
-        public ISingleGameEventSource GetEventSource() { return _stateMachine; }
+        public ISingleGameEventSource EventSource { get { return _stateMachine; } }
 
         /// <summary>
         /// Retrieves an object which will process triggers as described in the ISingleGameTriggerSink interface.
         /// Be sure to call PrepareNewGame before calling this.
         /// </summary>
         /// <returns>The trigger sink.</returns>
-        public ISingleGameTriggerSink GetTriggerSink() { return _stateMachine; }
+        public ISingleGameTriggerSink TriggerSink { get { return _stateMachine; } }
     }
 }
