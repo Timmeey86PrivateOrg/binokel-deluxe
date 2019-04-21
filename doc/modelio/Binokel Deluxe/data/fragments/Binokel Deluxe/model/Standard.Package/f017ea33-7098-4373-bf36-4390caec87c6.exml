@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Collections" version="4">
+  <OBJECT>
+    <ID name="Collections" mc="Standard.Package" uid="f017ea33-7098-4373-bf36-4390caec87c6"/>
+    <PID name="System" mc="Standard.Package" uid="42fee9c1-458a-4fe3-9ffd-46a1a77cef71"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Collections]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Generic" mc="Standard.Package" uid="a357f097-cd7b-41c2-ad37-39ac223918b1"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

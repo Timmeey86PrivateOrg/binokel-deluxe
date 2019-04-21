@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace BinokelDeluxe.Core
@@ -10,15 +8,34 @@ namespace BinokelDeluxe.Core
     {
         public static void TestMethod()
         {
-#if false
-            var ruleSettings = new GameLogic.RuleSettings();
+            Type type = null;
+            //var stateBridge = new GameLogic.SingleGameStateBridge();
 
-            var xmlSerializer = new XmlSerializer(typeof(GameLogic.RuleSettings));
-            var writer = new StreamWriter("C:\\Temp\\test.xml");
+            //var ruleSettings = new GameLogic.RuleSettings();
 
-            xmlSerializer.Serialize(writer, ruleSettings);
-#endif
+            //var gameStateStack = new GameStateStack()
+            //{
+            //    RuleSettings = ruleSettings.Clone()
+            //};
 
+
+            ////var xmlSerializer = new XmlSerializer(typeof(GameStateStack));
+            ////var reader = new StreamReader("C:\\Temp\\test.xml");
+
+            ////var gameStateStack = (GameStateStack)xmlSerializer.Deserialize(reader);
+            //stateBridge.PrepareNewGame(ruleSettings, dealerPosition: 0);
+
+            //var gameStateEntry = new GameStateEntry()
+            //{
+            //    SingleGameStateInfo = stateBridge.CurrentState.Clone()
+            //};
+
+            //gameStateStack.push(gameStateEntry);
+
+            //var xmlSerializer = new XmlSerializer(typeof(GameStateStack));
+            //var writer = new StreamWriter("C:\\Temp\\test.xml");
+
+            //xmlSerializer.Serialize(writer, gameStateStack);
         }
     }
 }

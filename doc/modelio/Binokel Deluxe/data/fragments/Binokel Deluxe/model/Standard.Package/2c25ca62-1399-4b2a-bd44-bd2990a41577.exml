@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Core" version="4">
+  <OBJECT>
+    <ID name="Core" mc="Standard.Package" uid="2c25ca62-1399-4b2a-bd44-bd2990a41577"/>
+    <PID name="BinokelDeluxe" mc="Standard.Package" uid="2c40c9c7-475e-4669-a793-38b2e52854dd"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Core]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="GameCreationInfo" mc="Standard.Class" uid="99f3ded3-0744-46fd-a4c0-73407bd38850"/>
+        <COMPID name="GameStateChangeInfo" mc="Standard.Class" uid="f2f56f2d-cd13-40a7-85de-3a495a83d1c6"/>
+        <COMPID name="GameStateStack" mc="Standard.Class" uid="925c3ce3-f480-4d45-9312-b31dc7bd7527"/>
+        <COMPID name="NonCode" mc="Standard.Package" uid="faaf0f23-7cbc-4ce6-9e47-1ad441d6e18c"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Classes related to Game State" mc="Standard.ClassDiagram" uid="886fe5f0-046d-47d6-a7a7-bdacae77cc69"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
