@@ -14,6 +14,7 @@ namespace BinokelDeluxe.GameLogic
     /// </summary>
     public enum SingleGameTrigger
     {
+        None,
         GameStarted,
         DealingFinished,
         BidPlaced,

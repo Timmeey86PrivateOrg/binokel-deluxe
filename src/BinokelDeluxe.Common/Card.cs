@@ -1,5 +1,7 @@
 ﻿// DOCUMENTED
 
+using System;
+
 namespace BinokelDeluxe.Common
 {
     /// <summary>
@@ -27,11 +29,39 @@ namespace BinokelDeluxe.Common
     }
 
     /// <summary>
-    /// Represents a card in the game. There are two instances of each card in each game.
+    /// Represents a unique card in the game.
     /// </summary>
-    public class Card
+    public sealed class Card : IEquatable<Card>
     {
         public CardSuit Suit { get; set; }
         public CardType Type { get; set; }
+        public short DeckNumber { get; set; }
+
+        public bool Equals(Card other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Enum.Equals(Suit, other.Suit) && Enum.Equals(Type, other.Type) && DeckNumber == other.DeckNumber;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Card);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                hash = hash * 29 + Suit.GetHashCode();
+                hash = hash * 29 + Type.GetHashCode();
+                hash = hash * 29 + DeckNumber.GetHashCode();
+                return hash;
+            }
+        }
     }
 }

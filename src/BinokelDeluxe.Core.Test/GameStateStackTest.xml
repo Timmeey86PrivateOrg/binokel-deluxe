@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameStateStack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DeltaChanges>
+    <GameStateChangeInfo>
+      <HumanTrigger>BidPlaced</HumanTrigger>
+    </GameStateChangeInfo>
+    <GameStateChangeInfo>
+      <HumanTrigger>None</HumanTrigger>
+      <CardPlayedByHuman>
+        <Suit>Acorns</Suit>
+        <Type>King</Type>
+        <DeckNumber>0</DeckNumber>
+      </CardPlayedByHuman>
+    </GameStateChangeInfo>
+  </DeltaChanges>
+  <CreationInfo>
+    <Version>
+      <Major>1</Major>
+      <Minor>0</Minor>
+    </Version>
+    <RandomSeed>82745392</RandomSeed>
+    <AIStrategyTypes>
+      <string>BinokelDeluxe.AI.TempAI1</string>
+      <string>BinokelDeluxe.AI.TempAI2</string>
+      <string>BinokelDeluxe.AI.TempAI3</string>
+    </AIStrategyTypes>
+    <RuleSettings>
+      <GameType>ThreePlayerGame</GameType>
+      <SevensAreIncluded>true</SevensAreIncluded>
+      <CountingType>DecreasingPointsForAceToUnter</CountingType>
+      <ScoresWillBeRounded>true</ScoresWillBeRounded>
+      <ExtraPointsForOthersWhenGoingOut>true</ExtraPointsForOthersWhenGoingOut>
+      <ExtraPointsForSevenOfTrumps>true</ExtraPointsForSevenOfTrumps>
+      <ExtraPointsForLastTrickInsteadOfFirst>true</ExtraPointsForLastTrickInsteadOfFirst>
+      <SevenOfTrumpsCanBeMeldedAndDiscarded>true</SevenOfTrumpsCanBeMeldedAndDiscarded>
+      <BettelsAreAllowed>false</BettelsAreAllowed>
+      <SecondTrumpMustAlsoWin>true</SecondTrumpMustAlsoWin>
+    </RuleSettings>
+  </CreationInfo>
+</GameStateStack>
