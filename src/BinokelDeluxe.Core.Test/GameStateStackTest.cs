@@ -52,5 +52,110 @@ namespace BinokelDeluxe.Core.Test
 
             Assert.That(expectedGameStateStack.Equals(actualStack));
         }
+
+        [Test]
+        public void Card_ComparingToNull_IsNotEqual()
+        {
+            var card = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Acorns,
+                Type = Common.CardType.Ace
+            };
+
+            Assert.That(!card.Equals(null));
+            Assert.AreNotEqual(
+                Common.ValueComparer<Common.Card>.GetHashCode(card),
+                Common.ValueComparer<Common.Card>.GetHashCode(null)
+                );
+        }
+
+        [Test]
+        public void Card_ComparingToSame_IsEqual()
+        {
+            var card1 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Bells,
+                Type = Common.CardType.Unter
+            };
+
+            var card2 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Bells,
+                Type = Common.CardType.Unter
+            };
+
+            Assert.That(card1.Equals(card2));
+            Assert.That(card2.Equals(card1));
+            Assert.AreEqual(card1.GetHashCode(), card2.GetHashCode());
+        }
+
+        [Test]
+        public void Card_ComparingToDifferentDeckNumber_IsNotEqual()
+        {
+            var card1 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Hearts,
+                Type = Common.CardType.Ober
+            };
+
+            var card2 = new Common.Card()
+            {
+                DeckNumber = 1,
+                Suit = Common.CardSuit.Hearts,
+                Type = Common.CardType.Ober
+            };
+
+            Assert.That(!card1.Equals(card2));
+            Assert.That(!card2.Equals(card1));
+            Assert.AreNotEqual(card1.GetHashCode(), card2.GetHashCode());
+        }
+
+        [Test]
+        public void Card_ComparingToDifferentSuit_IsNotEqual()
+        {
+            var card1 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Hearts,
+                Type = Common.CardType.Ober
+            };
+
+            var card2 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Leaves,
+                Type = Common.CardType.Ober
+            };
+
+            Assert.That(!card1.Equals(card2));
+            Assert.That(!card2.Equals(card1));
+            Assert.AreNotEqual(card1.GetHashCode(), card2.GetHashCode());
+        }
+
+        [Test]
+        public void Card_ComparingToDifferentType_IsNotEqual()
+        {
+            var card1 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Hearts,
+                Type = Common.CardType.Ober
+            };
+
+            var card2 = new Common.Card()
+            {
+                DeckNumber = 0,
+                Suit = Common.CardSuit.Hearts,
+                Type = Common.CardType.Unter
+            };
+
+            Assert.That(!card1.Equals(card2));
+            Assert.That(!card2.Equals(card1));
+            Assert.AreNotEqual(card1.GetHashCode(), card2.GetHashCode());
+        }
     }
 }
