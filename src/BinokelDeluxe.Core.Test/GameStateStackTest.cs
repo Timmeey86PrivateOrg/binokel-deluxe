@@ -30,7 +30,7 @@ namespace BinokelDeluxe.Core.Test
                 {
                     new GameStateChangeInfo()
                     {
-                        HumanTrigger = GameLogic.SingleGameTrigger.BidPlaced
+                        HumanTrigger = Common.GameTrigger.BidPlaced
                     },
                     new GameStateChangeInfo()
                     {

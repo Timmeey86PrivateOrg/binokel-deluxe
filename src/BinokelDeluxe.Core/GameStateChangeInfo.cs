@@ -12,7 +12,7 @@ namespace BinokelDeluxe.Core
         /// <summary>
         /// The trigger which was used by the human player to initiate the state change (optional).
         /// </summary>
-        public GameLogic.SingleGameTrigger HumanTrigger { get; set; } = GameLogic.SingleGameTrigger.None;
+        public Common.GameTrigger HumanTrigger { get; set; } = Common.GameTrigger.None;
         /// <summary>
         /// The card which was played by the human to trigger the state change (optional).
         /// </summary>
