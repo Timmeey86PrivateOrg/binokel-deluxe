@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Common", "Bin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.GameLogic.Test", "BinokelDeluxe.GameLogic.Test\BinokelDeluxe.GameLogic.Test.csproj", "{E0B53269-5ADE-4679-A3E6-A784C0DAA2A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.Core.Test", "BinokelDeluxe.Core.Test\BinokelDeluxe.Core.Test.csproj", "{59A799F0-E2A5-4C8F-99C1-1AA3A5B6A76E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.Core.Test", "BinokelDeluxe.Core.Test\BinokelDeluxe.Core.Test.csproj", "{59A799F0-E2A5-4C8F-99C1-1AA3A5B6A76E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.AI", "BinokelDeluxe.AI\BinokelDeluxe.AI.csproj", "{85244586-F1B4-4988-B1BE-7EECBFDA565E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.AI", "BinokelDeluxe.AI\BinokelDeluxe.AI.csproj", "{85244586-F1B4-4988-B1BE-7EECBFDA565E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
