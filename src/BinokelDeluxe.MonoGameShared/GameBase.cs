@@ -1,10 +1,14 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace BinokelDeluxe.Shared
 {
+    public struct ScaleFactor
+    {
+        public float XScale;
+        public float YScale;
+    }
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -12,10 +16,13 @@ namespace BinokelDeluxe.Shared
     {
         protected GraphicsDeviceManager Graphics { private set; get; }
         protected SpriteBatch SpriteBatch { private set; get; }
-        
+        protected HungarianCardSprite CardSprite { private set; get; }
+
         protected GameBase()
         {
             Graphics = new GraphicsDeviceManager(this);
+            Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+            Graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -40,8 +47,8 @@ namespace BinokelDeluxe.Shared
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //TODO: Use Content to load your game content here 
+            CardSprite = new HungarianCardSprite(SpriteBatch, Content);
+            CardSprite.Load();
         }
 
         /// <summary>
@@ -77,6 +84,15 @@ namespace BinokelDeluxe.Shared
         protected abstract bool ExitButtonsArePressed();
 
         /// <summary>
+        /// Retrieves the scale factors for X and Y scaling.
+        /// </summary>
+        /// <returns>The factor to be used.</returns>
+        protected virtual ScaleFactor GetDisplayScaleFactor()
+        {
+            return new ScaleFactor { XScale = 1.0f, YScale = 1.0f };
+        }
+
+        /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -84,7 +100,24 @@ namespace BinokelDeluxe.Shared
         {
             Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //TODO: Add your drawing code here
+            SpriteBatch.Begin();
+
+            var scaleFactor = GetDisplayScaleFactor();
+
+            var yOffset = 5 * scaleFactor.XScale;
+            foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
+            {
+                var xOffset = 5 * scaleFactor.YScale;
+                foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
+                {
+                    CardSprite.Draw(
+                        new Common.Card() { Suit = suit, Type = type },
+                        new Rectangle((int)xOffset, (int)yOffset, (int)( 65 * scaleFactor.XScale ), (int)( 100 * scaleFactor.YScale )));
+                    xOffset += 70 * scaleFactor.XScale;
+                }
+                yOffset += 105 * scaleFactor.YScale;
+            }
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
-	<RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
@@ -114,6 +114,10 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.Common\BinokelDeluxe.Common.csproj">
+      <Project>{c1f3589d-431d-4ed9-becb-3a786424672f}</Project>
+      <Name>BinokelDeluxe.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BinokelDeluxe.Core\BinokelDeluxe.Core.csproj">
       <Project>{b202b28e-7c24-486b-adef-5e2de28ec8ed}</Project>
       <Name>BinokelDeluxe.Core</Name>

@@ -98,6 +98,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.Common\BinokelDeluxe.Common.csproj">
+      <Project>{c1f3589d-431d-4ed9-becb-3a786424672f}</Project>
+      <Name>BinokelDeluxe.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BinokelDeluxe.Core\BinokelDeluxe.Core.csproj">
       <Project>{b202b28e-7c24-486b-adef-5e2de28ec8ed}</Project>
       <Name>BinokelDeluxe.Core</Name>
