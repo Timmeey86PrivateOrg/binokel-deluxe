@@ -199,17 +199,17 @@ namespace BinokelDeluxe.GameLogic.Test
             SkipMeldingPhase();
 
             var eventWasCalled = false;
-            var dealerPlacedFirstCard = false;
+            var righthandPlayerOfDealerPlacesFirstCard = false;
             _sut.EventSource.WaitingForCardStarted += (o, e) =>
             {
-                dealerPlacedFirstCard = (e.PlayerPosition == dealerPosition);
+                righthandPlayerOfDealerPlacesFirstCard = (e.PlayerPosition == GetPlayerPosition(1, dealerPosition));
                 eventWasCalled = true;
             };
 
             StartGame();
 
             Assert.That(eventWasCalled, "The state machine did not reach the Trick Taking phase.");
-            Assert.That(dealerPlacedFirstCard, "The bid phase winner is not the first player to place a card.");
+            Assert.That(righthandPlayerOfDealerPlacesFirstCard, "The right-hand player of the dealer is not the first to place a card");
         }
 
         [Test, MaxTime(2000)]
@@ -281,8 +281,8 @@ namespace BinokelDeluxe.GameLogic.Test
             var dealerPosition = 0;
             _sut.PrepareNewGame(_ruleSettings, dealerPosition);
 
-            var firstPlayerNumber = 0;
-            var secondPlayerNumber = 1;
+            var firstPlayerNumber = 1;
+            var secondPlayerNumber = 2;
             var firstPlayerPosition = GetPlayerPosition(firstPlayerNumber, dealerPosition);
             var secondPlayerPosition = GetPlayerPosition(secondPlayerNumber, dealerPosition);
 
