@@ -92,7 +92,7 @@ namespace BinokelDeluxe.Shared
         {
             if (ExitButtonsArePressed())
             {
-                Exit();
+                QuitGame();
             }
 
             // TODO: Wrap this in some class, maybe use mouse info only in desktop project
@@ -127,6 +127,14 @@ namespace BinokelDeluxe.Shared
         /// </summary>
         /// <returns></returns>
         protected abstract bool ExitButtonsArePressed();
+
+        /// <summary>
+        /// Quits the game. This is a separate method since Exit() is not supported on all platforms.
+        /// </summary>
+        protected virtual void QuitGame()
+        {
+            Exit();
+        }
 
         /// <summary>
         /// Retrieves the scale factors for X and Y scaling.
