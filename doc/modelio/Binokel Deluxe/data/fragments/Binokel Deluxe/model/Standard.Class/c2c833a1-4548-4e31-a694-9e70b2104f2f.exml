@@ -33,7 +33,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Actual">
-                    <ID name="Type" mc="Standard.Class" uid="4d2247d1-992b-4356-8d29-abdcfd16a38c"/>
+                    <FOREIGNID name="string" mc="Standard.DataType" uid="00000004-0000-000d-0000-000000000000"/>
                   </LINK>
                   <LINK relation="FormalParameter">
                     <REFOBJ>
