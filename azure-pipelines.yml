@@ -78,7 +78,7 @@ steps:
 # Sign the app using the decrypted keystore and the passwords stored in the Azure Pipeline
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.apk'
+    apkFiles: '$(outputDirectory)/*.apk'
     apksign: true
     apksignerKeystoreFile: 'BinokelDeluxe.keystore'
     apksignerKeystorePassword: '$(keystore.pass)'
