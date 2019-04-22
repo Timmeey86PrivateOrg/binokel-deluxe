@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
+using System.Collections.Generic;
 
 namespace BinokelDeluxe.Shared
 {
@@ -17,6 +20,7 @@ namespace BinokelDeluxe.Shared
         protected GraphicsDeviceManager Graphics { private set; get; }
         protected SpriteBatch SpriteBatch { private set; get; }
         protected HungarianCardSprite CardSprite { private set; get; }
+        protected List<TogglableCard> Cards = new List<TogglableCard>();
 
         protected GameBase()
         {
@@ -34,8 +38,26 @@ namespace BinokelDeluxe.Shared
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
+
+            TouchPanel.EnabledGestures = GestureType.Tap;
+
+            var scaleFactor = GetDisplayScaleFactor();
+
+            var yOffset = 5 * scaleFactor.XScale;
+            foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
+            {
+                var xOffset = 5 * scaleFactor.YScale;
+                foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
+                {
+                    Cards.Add(new TogglableCard(
+                        new Common.Card() { Suit = suit, Type = type },
+                        new Rectangle((int)xOffset, (int)yOffset, (int)(65 * scaleFactor.XScale), (int)(100 * scaleFactor.YScale))
+                        ));
+                    xOffset += 70 * scaleFactor.XScale;
+                }
+                yOffset += 105 * scaleFactor.YScale;
+            }
 
         }
 
@@ -60,6 +82,7 @@ namespace BinokelDeluxe.Shared
             // TODO: Unload any non ContentManager content here
         }
 
+        bool _leftButtonWasPressed = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -72,6 +95,28 @@ namespace BinokelDeluxe.Shared
                 Exit();
             }
 
+            // TODO: Wrap this in some class, maybe use mouse info only in desktop project
+            Point? triggeredPos = null;
+            foreach( var touchinfo in TouchPanel.GetState())
+            {
+                if(touchinfo.State == TouchLocationState.Released)
+                {
+                    triggeredPos = touchinfo.Position.ToPoint();
+                }
+            }
+            if( _leftButtonWasPressed && Mouse.GetState().LeftButton == ButtonState.Released )
+            {
+                triggeredPos = Mouse.GetState().Position;
+            }
+            _leftButtonWasPressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
+
+            if (triggeredPos.HasValue)
+            {
+                foreach (var card in Cards)
+                {
+                    card.Update(triggeredPos.Value);
+                }
+            }
             // TODO: Add your update logic here            
 
             base.Update(gameTime);
@@ -102,20 +147,9 @@ namespace BinokelDeluxe.Shared
 
             SpriteBatch.Begin();
 
-            var scaleFactor = GetDisplayScaleFactor();
-
-            var yOffset = 5 * scaleFactor.XScale;
-            foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
+            foreach( var card in Cards)
             {
-                var xOffset = 5 * scaleFactor.YScale;
-                foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
-                {
-                    CardSprite.Draw(
-                        new Common.Card() { Suit = suit, Type = type },
-                        new Rectangle((int)xOffset, (int)yOffset, (int)( 65 * scaleFactor.XScale ), (int)( 100 * scaleFactor.YScale )));
-                    xOffset += 70 * scaleFactor.XScale;
-                }
-                yOffset += 105 * scaleFactor.YScale;
+                card.Draw(CardSprite);
             }
             SpriteBatch.End();
 

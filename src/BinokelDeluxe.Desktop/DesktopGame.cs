@@ -17,5 +17,15 @@ namespace BinokelDeluxe.Desktop
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape);
         }
+
+        /// <summary>
+        /// Sets the mouse visible on desktop environments only.
+        /// </summary>
+        protected override void Initialize()
+        {
+            base.Initialize();
+
+            this.IsMouseVisible = true;
+        }
     }
 }
