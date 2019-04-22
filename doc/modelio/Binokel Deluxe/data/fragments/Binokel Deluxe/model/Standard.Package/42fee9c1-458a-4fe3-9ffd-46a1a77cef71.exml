@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="System" version="4">
+  <OBJECT>
+    <ID name="System" mc="Standard.Package" uid="42fee9c1-458a-4fe3-9ffd-46a1a77cef71"/>
+    <PID name="Binokel Deluxe" mc="Standard.Project" uid="b11c7050-699a-4012-ab87-f90329534bec"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[System]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Collections" mc="Standard.Package" uid="f017ea33-7098-4373-bf36-4390caec87c6"/>
+        <COMPID name="Type" mc="Standard.Class" uid="4d2247d1-992b-4356-8d29-abdcfd16a38c"/>
+        <COMPID name="EventArgs" mc="Standard.Class" uid="781d3111-39cd-474d-a0c7-54201f703327"/>
+        <COMPID name="Version" mc="Standard.Class" uid="94a9a71c-9a0e-41c0-84bc-0032818b769e"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

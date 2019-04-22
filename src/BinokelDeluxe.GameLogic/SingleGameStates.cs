@@ -1,5 +1,4 @@
-﻿
-// DOCUMENTED
+﻿// DOCUMENTED
 
 namespace BinokelDeluxe.GameLogic
 {
@@ -32,4 +31,4 @@ namespace BinokelDeluxe.GameLogic
         CountingGameScore,
         End
     }
-}
+        }

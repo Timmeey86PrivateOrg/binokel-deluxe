@@ -25,7 +25,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="SuperType">
-              <FOREIGNID name="EventArgs" mc="Standard.Class" uid="26640028-0000-5098-0000-000000000000"/>
+              <ID name="EventArgs" mc="Standard.Class" uid="781d3111-39cd-474d-a0c7-54201f703327"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

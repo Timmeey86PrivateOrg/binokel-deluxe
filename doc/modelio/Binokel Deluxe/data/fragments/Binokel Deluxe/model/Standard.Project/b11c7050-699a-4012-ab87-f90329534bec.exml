@@ -14,6 +14,7 @@
         <COMPID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
         <COMPID name="Concepts" mc="Standard.Package" uid="13b3494e-861f-4292-a6e0-eb9f9f5616d0"/>
         <COMPID name="Stateless" mc="Standard.Package" uid="faa290aa-0ac7-4750-86ff-73e987823703"/>
+        <COMPID name="System" mc="Standard.Package" uid="42fee9c1-458a-4fe3-9ffd-46a1a77cef71"/>
       </COMP>
       <COMP relation="DiagramRoot">
         <COMPID name="Binokel Deluxe" mc="Infrastructure.DiagramSet" uid="23e21567-fea1-44a1-888e-b11df068d8f9"/>

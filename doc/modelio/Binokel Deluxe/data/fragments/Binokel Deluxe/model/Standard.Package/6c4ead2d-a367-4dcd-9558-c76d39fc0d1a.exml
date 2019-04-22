@@ -30,9 +30,8 @@
         <COMPID name="ISingleGameTriggerSink" mc="Standard.Interface" uid="c1222b9d-2407-4454-9600-c9a91795fe2f"/>
         <COMPID name="PlayerPairEventArgs" mc="Standard.Class" uid="5849d4e6-05cd-4c60-a4f8-cf22f81ec059"/>
         <COMPID name="PlayerPositionEventArgs" mc="Standard.Class" uid="51b1e757-83db-42b8-8418-161764aa21c0"/>
-        <COMPID name="ISingleGameEventSender" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
+        <COMPID name="ISingleGameEventSource" mc="Standard.Interface" uid="108baef1-a0ff-4eda-82cf-aac4673c89ba"/>
         <COMPID name="SingleGameStateMachine" mc="Standard.Class" uid="e3af1285-51e4-45fc-bf22-66255f72a76c"/>
-        <COMPID name="RuleSettings" mc="Standard.Class" uid="c938b947-b9d9-4312-a7f7-7537a2dcecd2"/>
         <OBJECT>
           <ID name="GameType" mc="Standard.Enumeration" uid="8f4dee3b-ba0c-47f6-982e-c8643fb89c4a"/>
           <ATTRIBUTES>
@@ -111,9 +110,10 @@
           <DEPENDENCIES></DEPENDENCIES>
         </OBJECT>
         <COMPID name="SingleGameStateBridge" mc="Standard.Class" uid="63ec4431-a4de-4473-a819-3257665bb2af"/>
+        <COMPID name="RuleSettings" mc="Standard.Class" uid="c938b947-b9d9-4312-a7f7-7537a2dcecd2"/>
       </COMP>
       <COMP relation="Product">
-        <COMPID name="Dummy" mc="Standard.ClassDiagram" uid="5e21a4d2-1635-4d7c-acb0-03d6a5f5df0f"/>
+        <COMPID name="GameLogic Module" mc="Standard.ClassDiagram" uid="5e21a4d2-1635-4d7c-acb0-03d6a5f5df0f"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

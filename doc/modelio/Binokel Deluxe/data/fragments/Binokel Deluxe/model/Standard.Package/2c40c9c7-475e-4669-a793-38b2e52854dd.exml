@@ -16,6 +16,8 @@
       <COMP relation="OwnedElement">
         <COMPID name="GameLogic" mc="Standard.Package" uid="6c4ead2d-a367-4dcd-9558-c76d39fc0d1a"/>
         <COMPID name="Common" mc="Standard.Package" uid="c9515b97-384f-43b6-b209-ec4f84af1c0f"/>
+        <COMPID name="Core" mc="Standard.Package" uid="2c25ca62-1399-4b2a-bd44-bd2990a41577"/>
+        <COMPID name="AI" mc="Standard.Package" uid="efeced7b-edce-4fb4-973d-e856ba5c1ddc"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

@@ -13,6 +13,7 @@ namespace BinokelDeluxe.Desktop
         [STAThread]
         static void Main()
         {
+            Core.Test.TestMethod();
             using (var game = new DesktopGame())
             {
                 game.Run();

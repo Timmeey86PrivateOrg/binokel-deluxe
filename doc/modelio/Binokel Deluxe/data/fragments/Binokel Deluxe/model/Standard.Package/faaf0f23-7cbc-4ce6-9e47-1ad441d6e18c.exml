@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="NonCode" version="4">
+  <OBJECT>
+    <ID name="NonCode" mc="Standard.Package" uid="faaf0f23-7cbc-4ce6-9e47-1ad441d6e18c"/>
+    <PID name="Core" mc="Standard.Package" uid="2c25ca62-1399-4b2a-bd44-bd2990a41577"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[NonCode]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="List_AIType" mc="Standard.Class" uid="c2c833a1-4548-4e31-a694-9e70b2104f2f"/>
+        <COMPID name="List_GameStateChangeInfo" mc="Standard.Class" uid="68b6e317-424a-4541-9403-1780b0504a01"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 // DOCUMENTED
 
@@ -33,7 +31,7 @@ namespace BinokelDeluxe.GameLogic
     /// <summary>
     /// This class contains any setting which affects the game logic.
     /// </summary>
-    public class RuleSettings : Common.IConfigurable
+    public class RuleSettings : Common.IConfigurable, IEquatable<RuleSettings>
     {
         /// <summary>
         /// Defines whether three or four player binokel is being played.
@@ -85,5 +83,54 @@ namespace BinokelDeluxe.GameLogic
         /// If false, player C still needs to play a trump but may play a lower trump than player B.
         /// </summary>
         public bool SecondTrumpMustAlsoWin { set; get; } = true;
+
+        /// <summary>
+        /// Checks whether this and other are equal.
+        /// Two rule settings objects are equal if all their properties are equal.
+        /// </summary>
+        /// <param name="other">The other object.</param>
+        /// <returns>True if this and other are equal.</returns>
+        public bool Equals(RuleSettings other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return
+                Enum.Equals(GameType, other.GameType) &&
+                SevensAreIncluded == other.SevensAreIncluded &&
+                Enum.Equals(CountingType, other.CountingType) &&
+                ScoresWillBeRounded == other.ScoresWillBeRounded &&
+                ExtraPointsForLastTrickInsteadOfFirst == other.ExtraPointsForLastTrickInsteadOfFirst &&
+                ExtraPointsForOthersWhenGoingOut == other.ExtraPointsForOthersWhenGoingOut &&
+                ExtraPointsForSevenOfTrumps == other.ExtraPointsForSevenOfTrumps &&
+                SevenOfTrumpsCanBeMeldedAndDiscarded == other.SevenOfTrumpsCanBeMeldedAndDiscarded &&
+                BettelsAreAllowed == other.BettelsAreAllowed &&
+                SecondTrumpMustAlsoWin == other.SecondTrumpMustAlsoWin;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as RuleSettings);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked // overflow is fine, just wrap
+            {
+                var hash = 17;
+                hash = hash * 29 + GameType.GetHashCode();
+                hash = hash * 29 + SevensAreIncluded.GetHashCode();
+                hash = hash * 29 + CountingType.GetHashCode();
+                hash = hash * 29 + ScoresWillBeRounded.GetHashCode();
+                hash = hash * 29 + ExtraPointsForLastTrickInsteadOfFirst.GetHashCode();
+                hash = hash * 29 + ExtraPointsForOthersWhenGoingOut.GetHashCode();
+                hash = hash * 29 + ExtraPointsForSevenOfTrumps.GetHashCode();
+                hash = hash * 29 + SevenOfTrumpsCanBeMeldedAndDiscarded.GetHashCode();
+                hash = hash * 29 + BettelsAreAllowed.GetHashCode();
+                hash = hash * 29 + SecondTrumpMustAlsoWin.GetHashCode();
+                return hash;
+            }
+        }
     }
 }

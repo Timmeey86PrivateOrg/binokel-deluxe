@@ -45,7 +45,7 @@ namespace BinokelDeluxe.GameLogic
         /// </summary>
         private class SingleGameProperties
         {
-            public int PositionOfPlayers { get; set; }
+            public int NumberOfPlayers { get; set; }
             public int DealerPosition { get; set; }
             public int RemainingCards { get; set; }
             public int CurrentPlayerPosition { get; set; }
@@ -90,7 +90,7 @@ namespace BinokelDeluxe.GameLogic
             // Configure initial attributes
             var properties = new SingleGameProperties
             {
-                PositionOfPlayers = ruleSettings.GameType == GameType.ThreePlayerGame ? 3 : 4,
+                NumberOfPlayers = ruleSettings.GameType == GameType.ThreePlayerGame ? 3 : 4,
                 DealerPosition = dealerPosition,
                 RemainingCards = ruleSettings.SevensAreIncluded ? 48 : 40,
                 CurrentPlayerPosition = -1,
@@ -122,8 +122,8 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.DealingFinished, SingleGameState.Bidding_WaitingForFirstBid)
                 .OnEntry(() =>
                 {
-                    properties.CurrentPlayerPosition = (properties.DealerPosition + 1) % properties.PositionOfPlayers;
-                    properties.NextPlayerPosition = (properties.DealerPosition + 2) % properties.PositionOfPlayers;
+                    properties.CurrentPlayerPosition = (properties.DealerPosition + 1) % properties.NumberOfPlayers;
+                    properties.NextPlayerPosition = (properties.DealerPosition + 2) % properties.NumberOfPlayers;
 
                     FireEvent(DealingStarted, new PlayerPairEventArgs(properties.CurrentPlayerPosition, properties.NextPlayerPosition), "DealingStarted");
                 });
@@ -146,7 +146,7 @@ namespace BinokelDeluxe.GameLogic
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = properties.NextPlayerPosition;
-                    properties.NextPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.PositionOfPlayers;
+                    properties.NextPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.NumberOfPlayers;
 
                     // If the dealer is the current player and there still is no bid, the dealer automatically wins the round for 0 points 
                     // (this is extremely rare and not clearly defined in any rules)
@@ -182,7 +182,7 @@ namespace BinokelDeluxe.GameLogic
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = properties.NextPlayerPosition;
-                    properties.NextPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.PositionOfPlayers;
+                    properties.NextPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.NumberOfPlayers;
 
                     // if the new current player is the dealer, this means the dealer won the bidding round since the dealer countered the previous bid
                     // and whoever placed that bid passed.
@@ -203,11 +203,11 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
-                    properties.NextPlayerPosition = (properties.NextPlayerPosition + 1) % properties.PositionOfPlayers;
+                    properties.NextPlayerPosition = (properties.NextPlayerPosition + 1) % properties.NumberOfPlayers;
 
                     // if the new next player would be the player right of the dealer, this means the current player won the bidding roudn
                     // since every player after them (and before them) passed.
-                    if (properties.NextPlayerPosition == (properties.DealerPosition + 1) % properties.PositionOfPlayers)
+                    if (properties.NextPlayerPosition == (properties.DealerPosition + 1) % properties.NumberOfPlayers)
                     {
                         _stateMachine.Fire(SingleGameTrigger.Internal);
                     }
@@ -289,11 +289,11 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(SingleGameTrigger.Internal, SingleGameState.TrickTaking_StartingNewRound)
                 .OnEntry(() =>
                 {
-                    properties.CurrentPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.PositionOfPlayers;
+                    properties.CurrentPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.NumberOfPlayers;
                     properties.RemainingCards--;
 
                     // If all players placed a card, start a new round
-                    if (properties.RemainingCards % properties.PositionOfPlayers == 0)
+                    if (properties.RemainingCards % properties.NumberOfPlayers == 0)
                     {
                         _stateMachine.Fire(SingleGameTrigger.Internal);
                     }

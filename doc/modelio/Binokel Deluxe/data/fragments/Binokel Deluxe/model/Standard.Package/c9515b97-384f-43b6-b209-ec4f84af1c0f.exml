@@ -15,6 +15,151 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="IConfigurable" mc="Standard.Interface" uid="45fccbd7-81bf-431d-b0f7-f4551d2cb55f"/>
+        <OBJECT>
+          <ID name="CardSuit" mc="Standard.Enumeration" uid="e99769fa-b340-4b0c-bdd0-1f4d06b787d2"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[CardSuit]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="Acorns" mc="Standard.EnumerationLiteral" uid="91753421-e927-453f-9f74-1c323f543bbe"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Acorns]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Leaves" mc="Standard.EnumerationLiteral" uid="2b59468a-7dbf-4ae4-8f63-b12eb350230a"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Leaves]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Hearts" mc="Standard.EnumerationLiteral" uid="6c4b0096-7e2a-4ece-93f0-dd242a464fe7"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Hearts]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Bells" mc="Standard.EnumerationLiteral" uid="5c7f7514-cccd-4aa6-ac8a-958362dede6c"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Bells]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Note" uid="8d9616ae-cc13-4a97-a4ec-4d9ba764068b"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[The suit of a card.]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="CardType" mc="Standard.Enumeration" uid="ca9d8690-0d25-4a5e-b556-6aa33c8da718"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[CardType]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="Seven" mc="Standard.EnumerationLiteral" uid="ddb365b9-89da-4bf5-ac5b-a7d515a5a6ae"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Seven]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Unter" mc="Standard.EnumerationLiteral" uid="df00fc41-067b-408c-9c38-b4ac3c32a8a7"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Unter]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Ober" mc="Standard.EnumerationLiteral" uid="53443242-b356-421c-bacd-dc7aaa8f922e"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Ober]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="King" mc="Standard.EnumerationLiteral" uid="4abd1db6-48eb-4c61-98d8-2a655e30545a"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[King]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Ten" mc="Standard.EnumerationLiteral" uid="176f4642-51d0-4156-ad1f-382105473529"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Ten]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Ace" mc="Standard.EnumerationLiteral" uid="12fa28a0-b633-44fb-aeae-d9d98b20dcd6"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Ace]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Note" uid="4b13d926-f206-4274-aab7-d4d8c5d8272e"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[The type of a card.]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="Card" mc="Standard.Class" uid="bdeae7c2-056a-4d48-bb92-eaccbf96f971"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>
