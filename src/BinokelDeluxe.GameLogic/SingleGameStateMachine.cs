@@ -254,7 +254,13 @@ namespace BinokelDeluxe.GameLogic
                 .Permit(Common.GameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
                 // (human) players that they have seen the melds.
-                .OnEntry(() => FireEvent(MeldingStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "MeldingStarted"));
+                .OnEntry(() =>
+                {
+                    FireEvent(MeldingStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "MeldingStarted");
+                    // Change the current player to the right-hand player of the dealer since this player is always the first to place a card
+                    // (except for maybe Bettel and Durch, which is not implemented yet).
+                    properties.CurrentPlayerPosition = (properties.DealerPosition + 1) % properties.NumberOfPlayers;
+                });
         }
 
         private void ConfigureTrickTakingPhase(SingleGameProperties properties)
