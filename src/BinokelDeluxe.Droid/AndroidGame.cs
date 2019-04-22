@@ -1,3 +1,4 @@
+using BinokelDeluxe.Shared;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,6 +25,11 @@ namespace BinokelDeluxe.Droid
         protected override bool ExitButtonsArePressed()
         {
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed;
+        }
+
+        protected override ScaleFactor GetDisplayScaleFactor()
+        {
+            return new ScaleFactor() { XScale = 2.0f, YScale = 2.0f };
         }
     }
 }
