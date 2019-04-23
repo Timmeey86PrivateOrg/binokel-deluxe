@@ -107,24 +107,26 @@ namespace BinokelDeluxe.Core
             Common.GameTrigger.Passed
         };
 
+        private List<Common.Card> _playerCards = new List<Common.Card>()
+        {
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ace },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ten },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.King },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ober },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Unter },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ace },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ten },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.King },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ober },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Unter }
+        };
+
         private void EventSource_DealingStarted(object sender, GameLogic.PlayerPairEventArgs e)
         {
             var numberOfCardsPerPlayer = _currentStateStack.CreationInfo.RuleSettings.SevensAreIncluded ? 12 : 10;
             _userInterface.PlayDealingAnimation(_currentDealer, numberOfCardsPerPlayer, numberOfCardsInDabb: 4);
             // TODO: generate and remember user cards
-            _userInterface.UncoverCardsForUser(new List<Common.Card>()
-            {
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ace },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ten },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.King },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ober },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Unter },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ace },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ten },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.King },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ober },
-                new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Unter }
-            });
+            _userInterface.UncoverCardsForUser(_playerCards);
             _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.DealingFinished);
         }
         private void EventSource_WaitingForFirstBidStarted(object sender, GameLogic.PlayerPositionEventArgs e)
@@ -133,7 +135,7 @@ namespace BinokelDeluxe.Core
             if (IsUser(e.PlayerPosition))
             {
                 trigger = _userInterface.LetUserPlaceFirstBidOrPass(InitialBidAmount);
-                ValidateTrigger(trigger, BidOrPassTriggers, "initial bid phase");
+                ValidateTrigger(trigger, BidOrPassTriggers, "initial bid");
                 _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
             }
             else
@@ -164,7 +166,7 @@ namespace BinokelDeluxe.Core
             if(IsUser(e.PlayerPosition))
             {
                 trigger = _userInterface.LetUserDoCounterBidOrPass(potentialBid);
-                ValidateTrigger(trigger, BidOrPassTriggers, "bidding phase");
+                ValidateTrigger(trigger, BidOrPassTriggers, "bidding");
                 _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
             }
             else
@@ -191,133 +193,157 @@ namespace BinokelDeluxe.Core
 
         private void EventSource_SwitchingCurrentBidPlayerStarted(object sender, GameLogic.PlayerPairEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Switch the current (and the next) player for bidding (but do not offer them options yet).
-            /// Send a PlayerSwitched trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // Nothing to do here at the moment
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
         }
 
         private void EventSource_SwitchingCounterBidPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Switch the next player for counter-bidding (but do not offer them options yet).
-            /// Send a PlayerSwitched trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // Nothing to do here at the moment
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
         }
 
+        Common.CardSuit? _trumpSuit = null;
+        IEnumerable<Common.Card> _discardedCards = null;
+        private List<Common.Card> _dabbCards = new List<Common.Card>()
+        {
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ace },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ten },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.King },
+            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ober },
+        };
+
+        private bool _playerWentOut = false;
         private void EventSource_ExchangingCardsWithDabbStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Uncover the dabb and wait for confirmation of all players that they have seen it.
-            /// Then, offer the player who won the bid the option to exchange cards with the dabb and give them the following choices:
-            /// - Selecting a trump and playing normally
-            /// - Selecting a trump and going out
-            /// - Announcing a Durch
-            /// - Announcing a Bettel
-            /// Dependent on their choice, send one of the following triggers when done:
-            /// - TrumpSelected
-            /// - GoingOut
-            /// - DurchAnnounced
-            /// - BettelAnnouced
-            /// </summary>
-            throw new NotImplementedException();
+            // TODO: generate and remember dabb cards
+            _userInterface.UncoverDabb(_dabbCards);
+
+            Common.GameTrigger trigger;
+            if (IsUser(e.PlayerPosition))
+            {
+                trigger = _userInterface.LetUserExchangeCardsWithDabb(out _discardedCards, out _trumpSuit);
+            }
+            else
+            {
+                // TODO: Implement AI
+                trigger = Common.GameTrigger.TrumpSelected;
+                _trumpSuit = Common.CardSuit.Hearts;
+                _discardedCards = new List<Common.Card>(_dabbCards);
+            }
+
+            // TODO: Validate and process discarded cards and selected trump suit
+            // TODO: Actually rearrange cards
+            _userInterface.RearrangeCardsForUser(_playerCards);
+
+            ValidateTrigger(
+                trigger,
+                new HashSet<Common.GameTrigger>()
+                {
+                    Common.GameTrigger.TrumpSelected,
+                    Common.GameTrigger.GoingOut,
+                    Common.GameTrigger.BettelAnnounced,
+                    Common.GameTrigger.DurchAnnounced
+                },
+                "dabb exchange"
+                );
+            _playerWentOut = trigger == Common.GameTrigger.GoingOut;
+
+            _stateBridge.TriggerSink.SendTrigger(trigger);
         }
 
         private void EventSource_CalculatingGoingOutScoreStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Calculate the score for each player after the player who won the bid goes out.
-            /// Send a ScoreCalculationFinished trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // TODO: Calculate actual score
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
         }
 
         private void EventSource_MeldingStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Display the cards which can be melded by each player and display the total meld score for each player.
-            /// Ask every player for confirmation that they saw the melds.
-            /// Send a MeldsSeenByAllPlayers trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // TODO: Display actual melds
+            _userInterface.DisplayMelds(new List<Common.MeldData>());
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
         }
 
+        private Common.Card _mostRecentCard = null;
         private void EventSource_WaitingForCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Offer the player the chance to play a card of their choice (including invalid cards).
-            /// Send a CardPlaced trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            _userInterface.ActivatePlayer(e.PlayerPosition);
+            if(IsUser(e.PlayerPosition))
+            {
+                _mostRecentCard = _userInterface.LetUserSelectCard();
+            }
+            else
+            {
+                // TODO: Implement AI
+                _mostRecentCard = null;
+            }
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
         }
 
         private void EventSource_ValidatingCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Remove any potential highlighting, then validate the card which was placed by the player.
-            /// In case of a valid card, find out if the card beats the current winning card.
-            /// Send either an InvalidCardPlaced, a WinningCardPlaced or a LosingCardPlaced event when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // TODO: Actually validate card
+            bool cardIsValid = true;
+            // Assumption: AI always provides valid cards.
+            if (IsUser(e.PlayerPosition) && !cardIsValid)
+            {
+                _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.InvalidCardPlaced);
+            }
+            else
+            {
+                // TODO: Check if the card is currently leading
+                bool cardIsWinning = true;
+                if (cardIsWinning)
+                {
+                    _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.WinningCardPlaced);
+                }
+                else
+                {
+                    _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.LosingCardPlaced);
+                }
+                _userInterface.PlaceCardInMiddle(e.PlayerPosition, _mostRecentCard);
+            }
         }
 
         private void EventSource_RevertingInvalidMoveStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Revert the last move and highlight the cards which are valid.
-            /// Send a RevertingFinished trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            _userInterface.HandleInvalidMove(new List<Common.Card>());
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.RevertingFinished);
         }
 
         private void EventSource_SwitchingCurrentTrickPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Switch to the player which is identified by the player Position in the event arguments (but do not offer them choices yet).
-            /// Send a PlayerSwitched trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // Nothing to do here
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
         }
 
         private void EventSource_StartingNewRoundStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Switch to the trick-winning player which is identified by the player Position in the event arguments and remember the cards won by this player.
-            /// Send a NewRoundStarted trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.NewRoundStarted);
         }
 
         private void EventSource_CountingPlayerOrTeamScoresStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            /// <summary>
-            /// Event listeners should be implemented as follows:
-            /// Calculate the scores for each player or team.
-            /// The player argument identifies the player who won the last trick.
-            /// Send a ScoreCalculationFinished trigger when done.
-            /// </summary>
-            throw new NotImplementedException();
+            // TODO: Actually calculate score
+            _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
         }
 
         private void EventSource_GameFinished(object sender, EventArgs e)
         {
-            /// <summary>
-            /// Lets event listeners know that the game was finished and a new one can be started.
-            /// You need to prepare a new game for the next round.
-            /// </summary>
-            throw new NotImplementedException();
+            if(_playerWentOut)
+            {
+                // TODO: Actually provide scores
+                _userInterface.DisplayGoingOutScore(new List<Common.ScoreData>());
+            }
+            else
+            {
+                // TODO: Actually provide scores
+                _userInterface.DisplayGameScore(new List<Common.ScoreData>());
+            }
+            
         }
     }
 }

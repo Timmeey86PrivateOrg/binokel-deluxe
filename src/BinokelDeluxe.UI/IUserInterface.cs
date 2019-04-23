@@ -51,6 +51,7 @@ namespace BinokelDeluxe.UI
         void DisplayAIBid(int playerPosition, int bidAmount);
         /// <summary>
         /// Implementers should ask the user to either counter the current bid or pass.
+        /// The options should be removed immediately after selecting one.
         /// </summary>
         /// <param name="nextBidAmount">The new amount which can be placed by the player. This is usually a fixed amount of points above the current bid.</param>
         /// <returns>BidPlaced or Passed.</returns>
@@ -62,7 +63,7 @@ namespace BinokelDeluxe.UI
         /// <param name="playerPosition">The player who passed.</param>
         void DisplayPlayerAsPassed(int playerPosition);
         /// <summary>
-        /// Implementers should uncover the dabb for all players.
+        /// Implementers should uncover the dabb for all players and wait for confirmation of the user that the dabb was seen.
         /// </summary>
         /// <param name="cardsInDabb">The cards which are in the dabb.</param>
         void UncoverDabb(IEnumerable<Common.Card> cardsInDabb);
@@ -94,6 +95,11 @@ namespace BinokelDeluxe.UI
         /// <param name="playerOrTeamScores">The scores of the players or teams, where the first player (or team) is the user.</param>
         void DisplayGoingOutScore(IEnumerable<Common.ScoreData> playerOrTeamScores);
         /// <summary>
+        /// Implementers should let the user know that the player at the given position will perform the next move.
+        /// </summary>
+        /// <param name="playerPosition">The position of the player on the table where 0 is the user.</param>
+        void ActivatePlayer(int playerPosition);
+        /// <summary>
         /// Implementers should let the user select a card to be played. The card should not be removed from the player's hand yet.
         /// </summary>
         /// <returns>The card which was selected by the user.</returns>
@@ -111,13 +117,18 @@ namespace BinokelDeluxe.UI
         /// Implementers should show an animation that moves the given card from the given player to the middle, while uncovering it for all players.
         /// This is also sent for human players.
         /// </summary>
-        /// <param name="playerPosition">The position of of the player on the table where 0 is the user.</param>
+        /// <param name="playerPosition">The position of the player on the table where 0 is the user.</param>
         /// <param name="card">The card which shall be placed.</param>
         void PlaceCardInMiddle(int playerPosition, Common.Card card);
         /// <summary>
-        /// Implementers should display a scoreboard for the current round as a result of all cards being placed.
+        /// Implementers should move the cards from the middle to the trick winner.
+        /// </summary>
+        /// <param name="playerPosition">The position of the player on the table where 0 is the user.</param>
+        void MoveCardsToTrickWinner(int playerPosition);
+        /// <summary>
+        /// Implementers should display a scoreboard for the current game as a result of all cards being placed.
         /// </summary>
         /// <param name="playerOrTeamScores">The scores of the players or teams, where the first player (or team) is the user.</param>
-        void DisplayRoundScore(IEnumerable<Common.ScoreData> playerOrTeamScores);
+        void DisplayGameScore(IEnumerable<Common.ScoreData> playerOrTeamScores);
     }
 }
