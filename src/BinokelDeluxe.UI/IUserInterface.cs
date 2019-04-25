@@ -5,6 +5,15 @@ using System.Text;
 namespace BinokelDeluxe.UI
 { 
     /// <summary>
+    /// The actions which are possible in the main menu.
+    /// </summary>
+    public enum MainMenuActions
+    {
+        StartGame,
+        DisplayScoreboard,
+        Quit
+    }
+    /// <summary>
     /// Defines the interface for accessig the User Interface.
     /// Note: If UI updates are performed in a different thread (recommended), interface implementations should block the calling thread until the UI finished its work.
     /// This is vital since code in the calling thread will assume the UI is idle whenever a method returns.
@@ -12,6 +21,11 @@ namespace BinokelDeluxe.UI
     /// </summary>
     public interface IUserInterface
     {
+        /// <summary>
+        /// Implementers should display a main menu and return the selected action.
+        /// </summary>
+        /// <returns>The main menu.</returns>
+        MainMenuActions DisplayMainMenu();
         /// <summary>
         /// Implementers should create or update the table to reflect the new dealer position.
         /// Additionally, all players need to be displayed in a state where they did not bid yet.

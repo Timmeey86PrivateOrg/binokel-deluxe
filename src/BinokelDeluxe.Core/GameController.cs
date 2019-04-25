@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BinokelDeluxe.Core
 {
@@ -15,6 +17,10 @@ namespace BinokelDeluxe.Core
         private const int InitialBidAmount = 150; // this seems to be fixed in all variants of rules out there.
 
         private readonly UI.IUserInterface _userInterface;
+        private SynchronizationContext _uiContext;
+        private bool _stopRequested;
+
+
         private GameLogic.SingleGameStateBridge _stateBridge = null;
         private Random _currentRNG = null;
         private GameStateStack _currentStateStack = null;
@@ -29,6 +35,8 @@ namespace BinokelDeluxe.Core
         {
             _userInterface = userInterface;
             _stateBridge = new GameLogic.SingleGameStateBridge();
+            // Capture the context of the UI thread (= main thread = thread which created this object).
+            _uiContext = SynchronizationContext.Current;
         }
 
         /// <summary>
@@ -57,11 +65,24 @@ namespace BinokelDeluxe.Core
             _currentBidAmount = 0;
             _stateBridge.PrepareNewGame(ruleSettings, _currentDealer);
 
-            // Set up the basic UI
-            _userInterface.PrepareTable(_currentDealer);
-
             // Connect events
             ConnectEvents(_stateBridge.EventSource);
+
+            // Start displaying the main menu in a new thread
+            var thread = new Thread(() =>
+            {
+                while( !_stopRequested )
+                {
+                    var userAction = _userInterface.DisplayMainMenu();
+                    if(userAction == UI.MainMenuActions.StartGame)
+                    {
+                        // Set up the basic UI
+                        _userInterface.PrepareTable(_currentDealer);
+                        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.GameStarted);
+                    }
+                }
+            });
+            thread.Start();
         }
 
         private void ConnectEvents(GameLogic.ISingleGameEventSource sender)

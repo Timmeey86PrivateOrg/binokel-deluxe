@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Interface" version="4">
+  <OBJECT>
+    <ID name="Interface" mc="Standard.Package" uid="e90f875b-10ab-486a-8015-1e41db7079b6"/>
+    <PID name="Forums" mc="Standard.Package" uid="70eab41d-c738-4dd6-a680-d310333996da"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Interface]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Interface" mc="Standard.Interface" uid="195c6f0b-fa5d-48be-bf16-55752ad52399"/>
+        <COMPID name="Class" mc="Standard.Class" uid="e09887c8-9145-46b6-9512-8063d300fcc3"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Diagram" mc="Standard.ClassDiagram" uid="71f61e8e-788d-4f98-a4d8-bfee396891e9"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

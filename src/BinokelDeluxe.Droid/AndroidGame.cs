@@ -39,7 +39,11 @@ namespace BinokelDeluxe.Droid
 
         protected override ScaleFactor GetDisplayScaleFactor()
         {
-            return new ScaleFactor() { XScale = 2.0f, YScale = 2.0f };
+            return new ScaleFactor()
+            {
+                XScale = (float)GraphicsDevice.Viewport.Width / 800f,
+                YScale = (float)GraphicsDevice.Viewport.Height / 480f
+            };
         }
     }
 }

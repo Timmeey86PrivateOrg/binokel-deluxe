@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BinokelDeluxe.Shared
 {
@@ -22,12 +23,16 @@ namespace BinokelDeluxe.Shared
         protected HungarianCardSprite CardSprite { private set; get; }
         protected List<TogglableCard> Cards = new List<TogglableCard>();
 
+        protected Core.GameController GameController { private set; get; }
+        private DevUI DevUI { set; get; }
+        
         protected GameBase()
         {
             Graphics = new GraphicsDeviceManager(this);
             Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
             Graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+            DevUI = new DevUI();
         }
 
         /// <summary>
@@ -59,6 +64,17 @@ namespace BinokelDeluxe.Shared
                 yOffset += 105 * scaleFactor.YScale;
             }
 
+
+            // TODO: Add user interface
+            GameController = new Core.GameController(DevUI);
+            GameController.StartNewGame(
+                new GameLogic.RuleSettings()
+                {
+                    GameType = GameLogic.GameType.FourPlayerCrossBinokelGame,
+                    SevensAreIncluded = false
+                },
+                new List<string>() { null, "TEMPAI", "TEMPAI", "TEMPAI" }
+                );            
         }
 
         /// <summary>
@@ -71,6 +87,7 @@ namespace BinokelDeluxe.Shared
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             CardSprite = new HungarianCardSprite(SpriteBatch, Content);
             CardSprite.Load();
+            DevUI.LoadContent(Content);
         }
 
         /// <summary>
@@ -83,6 +100,7 @@ namespace BinokelDeluxe.Shared
         }
 
         bool _leftButtonWasPressed = false;
+        bool _gameIsRunning = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -94,32 +112,36 @@ namespace BinokelDeluxe.Shared
             {
                 QuitGame();
             }
+            if (!_gameIsRunning)
+            {
+                _gameIsRunning = true;
+
+            }
 
             // TODO: Wrap this in some class, maybe use mouse info only in desktop project
-            Point? triggeredPos = null;
-            foreach( var touchinfo in TouchPanel.GetState())
-            {
-                if(touchinfo.State == TouchLocationState.Released)
-                {
-                    triggeredPos = touchinfo.Position.ToPoint();
-                }
-            }
-            if( _leftButtonWasPressed && Mouse.GetState().LeftButton == ButtonState.Released )
-            {
-                triggeredPos = Mouse.GetState().Position;
-            }
-            _leftButtonWasPressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
+            Point? triggeredPos = GetTriggeredPos();
 
-            if (triggeredPos.HasValue)
-            {
-                foreach (var card in Cards)
-                {
-                    card.Update(triggeredPos.Value);
-                }
-            }
-            // TODO: Add your update logic here            
+            DevUI.Update();
 
             base.Update(gameTime);
+        }
+
+        private Point? GetTriggeredPos()
+        {
+            Point? pos = null;
+            foreach (var touchinfo in TouchPanel.GetState())
+            {
+                if (touchinfo.State == TouchLocationState.Released)
+                {
+                    pos = touchinfo.Position.ToPoint();
+                }
+            }
+            if (_leftButtonWasPressed && Mouse.GetState().LeftButton == ButtonState.Released)
+            {
+                pos = Mouse.GetState().Position;
+            }
+            _leftButtonWasPressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
+            return pos;
         }
 
         /// <summary>
@@ -155,10 +177,8 @@ namespace BinokelDeluxe.Shared
 
             SpriteBatch.Begin();
 
-            foreach( var card in Cards)
-            {
-                card.Draw(CardSprite);
-            }
+            DevUI.Draw(SpriteBatch);
+
             SpriteBatch.End();
 
             base.Draw(gameTime);

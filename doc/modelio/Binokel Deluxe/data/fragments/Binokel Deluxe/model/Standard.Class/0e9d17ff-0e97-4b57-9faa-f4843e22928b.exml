@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Program" version="4">
+  <OBJECT>
+    <ID name="Program" mc="Standard.Class" uid="0e9d17ff-0e97-4b57-9faa-f4843e22928b"/>
+    <PID name="Threading" mc="Standard.Package" uid="bf0a1392-935b-4fb4-9c65-26b559457b9e"/>
+    <ATTRIBUTES>
+      <ATT name="IsActive">false</ATT>
+      <ATT name="IsMain">false</ATT>
+      <ATT name="IsElementary">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Program]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedOperation">
+        <OBJECT>
+          <ID name="Main" mc="Standard.Operation" uid="1b7a3f2b-655b-4c65-82f3-0c1859cf4a4f"/>
+          <ATTRIBUTES>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[Main]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="DependsOnDependency">
+        <OBJECT>
+          <ID name="&lt;&lt;creates&gt;&gt;" mc="Infrastructure.Dependency" uid="c74eb2d9-dfc7-4881-9c32-55559cc1e6fc"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[<<creates>>]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="Controller" mc="Standard.Class" uid="3dbc787b-7d2e-4caa-85df-1b584a946f75"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="&lt;&lt;creates&gt;&gt;" mc="Infrastructure.Dependency" uid="2e8a6c25-6196-4ee3-8ef5-928d7e462629"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[<<creates>>]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="DependsOn">
+              <ID name="SampleUI" mc="Standard.Class" uid="a6f5b8dd-3cc1-415f-9038-7b6eae3148c6"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
