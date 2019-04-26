@@ -51,6 +51,17 @@ namespace BinokelDeluxe.DevUI
             }
         }
 
+        /// <summary>
+        /// Resets the handler so a release event is not processed twice.
+        /// </summary>
+        public void Reset()
+        {
+            PressedPoint = null;
+            ReleasedPoint = null;
+            CurrentPoint = null;
+            IsDragging = false;
+        }
+
         private void UpdateFromMouse()
         {
             var mouseState = Mouse.GetState();

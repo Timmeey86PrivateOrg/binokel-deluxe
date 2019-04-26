@@ -12,6 +12,11 @@ namespace BinokelDeluxe.DevUI
     /// </summary>
     internal class DevButton
     {
+        /// <summary>
+        /// This event will be fired whenever the button gets activated by either clicking it or releasing the finger on it.
+        /// </summary>
+        public event EventHandler Activated;
+
         private static Vector2 Origin = new Vector2(.0f, .0f);
 
         public bool Enabled { get; set; } = true;
@@ -90,6 +95,15 @@ namespace BinokelDeluxe.DevUI
 
         public void Update(InputHandler inputHandler)
         {
+            if(inputHandler.ReleasedPoint != null)
+            {
+                if(Rectangle.Contains(inputHandler.ReleasedPoint.Value))
+                {
+                    Activated?.Invoke(this, EventArgs.Empty);
+                }
+                // Make sure we don't process the event twice.
+                inputHandler.Reset();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
