@@ -18,7 +18,36 @@ namespace BinokelDeluxe.DevUI
         public Vector2 Position { get; set; } = new Vector2(.0f, .0f);
         public float Width { get; set; } = 80;
         public float Height { get; set; } = 48;
-        public string Text { get; set; } = "BUTTON";
+        private string _text = "BUTTON";
+
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                if( _font == null )
+                {
+                    return;
+                }
+
+                // Fit the text into 90% of the button's area.
+                // Calculation taken from http://bluelinegamestudios.com/posts/drawstring-to-fit-text-to-a-rectangle-in-xna/
+                var textMeasure = _font.MeasureString(value);
+
+                // Taking the smaller scaling value will result in the text always fitting in the boundaires.
+                _textScale = Math.Min((Width * 0.9f / textMeasure.X), (Height * 0.9f / textMeasure.Y));
+
+                // Figure out the location to absolutely-center it in the boundaries rectangle.
+                var scaledTextWidth = (float)Math.Round(textMeasure.X * _textScale);
+                var scaledTextHeight = (float)Math.Round(textMeasure.Y * _textScale);
+
+                _textPosition = new Vector2(
+                    Position.X + (Width * 0.9f - scaledTextWidth) / 2 + Width * 0.05f,
+                    Position.Y + (Height * 0.9f - scaledTextHeight) / 2 + Height * 0.05f
+                    );
+            }
+        }
 
         public Rectangle Rectangle
         {
@@ -55,27 +84,12 @@ namespace BinokelDeluxe.DevUI
         {
             _texture = texture;
             _font = font;
+            // Force an initial text recalculation
+            Text = _text;
         }
 
-        public void Update(string text)
+        public void Update(InputHandler inputHandler)
         {
-            Text = text;
-            var textMeasure = _font.MeasureString(text);
-
-            // Fit the text into 90% of the button's area.
-            // Calculation taken from http://bluelinegamestudios.com/posts/drawstring-to-fit-text-to-a-rectangle-in-xna/
-
-            // Taking the smaller scaling value will result in the text always fitting in the boundaires.
-            _textScale = Math.Min((Width * 0.9f / textMeasure.X), (Height * 0.9f / textMeasure.Y));
-
-            // Figure out the location to absolutely-center it in the boundaries rectangle.
-            var scaledTextWidth = (float)Math.Round(textMeasure.X * _textScale);
-            var scaledTextHeight = (float)Math.Round(textMeasure.Y * _textScale);
-
-            _textPosition = new Vector2(
-                Position.X + (Width * 0.9f - scaledTextWidth) / 2 + Width * 0.05f,
-                Position.Y + (Height * 0.9f - scaledTextHeight) / 2 + Height * 0.05f
-                );
         }
 
         public void Draw(SpriteBatch spriteBatch)

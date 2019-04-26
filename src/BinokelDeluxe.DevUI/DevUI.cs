@@ -16,7 +16,6 @@ namespace BinokelDeluxe.DevUI
     /// </summary>
     public class DevUI : UI.IUserInterface
     {
-
         private readonly SynchronizationContext _uiContext;
         private readonly GraphicsDeviceManager _deviceManager;
         private Texture2D _devButtonTexture;
@@ -24,7 +23,11 @@ namespace BinokelDeluxe.DevUI
         private InputHandler _inputHandler = new InputHandler();
         private bool _exited = false;
 
-        private DevButton _tmpButton;
+        // Fragments
+        private readonly Fragments.MainMenu _mainMenu;
+
+        private static IUIFragment _nullFragment = new Fragments.NullFragment();
+        private IUIFragment _currentFragment = _nullFragment;
 
         public DevUI(GraphicsDeviceManager deviceManager)
         {
@@ -32,6 +35,9 @@ namespace BinokelDeluxe.DevUI
             _uiContext = SynchronizationContext.Current;
             _deviceManager = deviceManager;
             Resolution.Init(ref deviceManager);
+
+            // Fragment initialization
+            _mainMenu = new Fragments.MainMenu(() => { return _devButtonTexture; }, () => { return _font; });
         }
         
         public void Exit()
@@ -47,27 +53,15 @@ namespace BinokelDeluxe.DevUI
 
             _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
             _font = contentManager.Load<SpriteFont>("dev/devfont");
-            _tmpButton = new DevButton()
-            {
-                Position = new Vector2(50, 50),
-                Width = 160,
-                Height = 96
-            };
-            _tmpButton.Load(_devButtonTexture, _font);
-            
+
+            _mainMenu.Load(contentManager);
         }
 
         public void Update()
         {
             _inputHandler.Update();
 
-            _tmpButton.Update(String.Format(
-                "PressedPoint: {0}\r\nCurrentPoint: {1}\r\nReleasedPoint: {2}\r\nIsDragging: {3}",
-                _inputHandler.PressedPoint.HasValue ? _inputHandler.PressedPoint.ToString() : "null",
-                _inputHandler.CurrentPoint.HasValue ? _inputHandler.CurrentPoint.ToString() : "null",
-                _inputHandler.ReleasedPoint.HasValue ? _inputHandler.ReleasedPoint.ToString() : "null",
-                _inputHandler.IsDragging.ToString()
-                ));
+            _currentFragment.Update(_inputHandler);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -76,7 +70,7 @@ namespace BinokelDeluxe.DevUI
 
             spriteBatch.Begin(transformMatrix: Resolution.getTransformationMatrix());
 
-            _tmpButton.Draw(spriteBatch);
+            _currentFragment.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -85,6 +79,7 @@ namespace BinokelDeluxe.DevUI
         {
             while( !_exited )
             {
+                _currentFragment = _mainMenu;
                 Thread.Sleep(50);
             }
             return MainMenuActions.StartGame;

@@ -95,8 +95,7 @@ namespace BinokelDeluxe.Shared
         {
             // TODO: Unload any non ContentManager content here
         }
-
-        bool _leftButtonWasPressed = false;
+        
         bool _gameIsRunning = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
