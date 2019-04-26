@@ -4,66 +4,86 @@ using System.Text;
 using System.Threading;
 using BinokelDeluxe.Common;
 using BinokelDeluxe.UI;
+using IndependentResolutionRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BinokelDeluxe.Shared
+namespace BinokelDeluxe.DevUI
 {
-    internal struct TextureData
-    {
-        public Rectangle Rectangle;
-        public Texture2D Texture;
-    }
     /// <summary>
     /// This is a development user interface for Binokel Deluxe. Do not use it as an example of how to design or implement a proper UI
     /// </summary>
-    internal class DevUI : UI.IUserInterface
+    public class DevUI : UI.IUserInterface
     {
+
         private readonly SynchronizationContext _uiContext;
-        private Texture2D _devButton;
+        private readonly GraphicsDeviceManager _deviceManager;
+        private Texture2D _devButtonTexture;
+        private SpriteFont _font;
+        private InputHandler _inputHandler = new InputHandler();
+        private bool _exited = false;
 
-        private readonly List<TextureData> _drawables = new List<TextureData>();
+        private DevButton _tmpButton;
 
-        private bool _buttonPressed = false;
-        private bool _mainMenuActive = false;
-
-        public DevUI()
+        public DevUI(GraphicsDeviceManager deviceManager)
         {
             // Remember the UI context used for rendering the UI
             _uiContext = SynchronizationContext.Current;
+            _deviceManager = deviceManager;
+            Resolution.Init(ref deviceManager);
+        }
+        
+        public void Exit()
+        {
+            _exited = true;
         }
 
         public void LoadContent(ContentManager contentManager)
         {
-            _devButton = contentManager.Load<Texture2D>("devbutton");
+            // Allow drawing on a virtual 800x480 screen (default resolution of many android devices) and stretch that to the actual device size.
+            Resolution.SetVirtualResolution(800, 480);
+            Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
+
+            _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
+            _font = contentManager.Load<SpriteFont>("dev/devfont");
+            _tmpButton = new DevButton()
+            {
+                Position = new Vector2(50, 50),
+                Width = 160,
+                Height = 96
+            };
+            _tmpButton.Load(_devButtonTexture, _font);
+            
         }
 
         public void Update()
         {
-            _drawables.Clear();
-            if(_mainMenuActive)
-            {
-                _drawables.Add(new TextureData
-                {
-                    Rectangle = new Rectangle(200, 100, 80, 48),
-                    Texture = _devButton
-                });
-            }
+            _inputHandler.Update();
+
+            _tmpButton.Update(String.Format(
+                "PressedPoint: {0}\r\nCurrentPoint: {1}\r\nReleasedPoint: {2}\r\nIsDragging: {3}",
+                _inputHandler.PressedPoint.HasValue ? _inputHandler.PressedPoint.ToString() : "null",
+                _inputHandler.CurrentPoint.HasValue ? _inputHandler.CurrentPoint.ToString() : "null",
+                _inputHandler.ReleasedPoint.HasValue ? _inputHandler.ReleasedPoint.ToString() : "null",
+                _inputHandler.IsDragging.ToString()
+                ));
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach(var drawable in _drawables)
-            {
-                spriteBatch.Draw(drawable.Texture, drawable.Rectangle, Color.White);
-            }
+            Resolution.BeginDraw();
+
+            spriteBatch.Begin(transformMatrix: Resolution.getTransformationMatrix());
+
+            _tmpButton.Draw(spriteBatch);
+
+            spriteBatch.End();
         }
 
         public MainMenuActions DisplayMainMenu()
         {
-            _mainMenuActive = true;
-            while( !_buttonPressed )
+            while( !_exited )
             {
                 Thread.Sleep(50);
             }

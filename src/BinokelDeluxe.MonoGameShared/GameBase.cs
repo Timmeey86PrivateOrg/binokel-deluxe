@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 
 namespace BinokelDeluxe.Shared
 {
-    public struct ScaleFactor
-    {
-        public float XScale;
-        public float YScale;
-    }
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -24,15 +19,16 @@ namespace BinokelDeluxe.Shared
         protected List<TogglableCard> Cards = new List<TogglableCard>();
 
         protected Core.GameController GameController { private set; get; }
-        private DevUI DevUI { set; get; }
+        private DevUI.DevUI DevUI { set; get; }
         
         protected GameBase()
         {
             Graphics = new GraphicsDeviceManager(this);
             Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
             Graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
-            DevUI = new DevUI();
+            DevUI = new DevUI.DevUI(Graphics);
         }
 
         /// <summary>
@@ -45,23 +41,24 @@ namespace BinokelDeluxe.Shared
         {
             base.Initialize();
 
+
             TouchPanel.EnabledGestures = GestureType.Tap;
 
-            var scaleFactor = GetDisplayScaleFactor();
+            var scaleFactor = 1.0f;
 
-            var yOffset = 5 * scaleFactor.XScale;
+            var yOffset = 5 * scaleFactor;
             foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
             {
-                var xOffset = 5 * scaleFactor.YScale;
+                var xOffset = 5 * scaleFactor;
                 foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
                 {
                     Cards.Add(new TogglableCard(
                         new Common.Card() { Suit = suit, Type = type },
-                        new Rectangle((int)xOffset, (int)yOffset, (int)(65 * scaleFactor.XScale), (int)(100 * scaleFactor.YScale))
+                        new Rectangle((int)xOffset, (int)yOffset, (int)(65 * scaleFactor), (int)(100 * scaleFactor))
                         ));
-                    xOffset += 70 * scaleFactor.XScale;
+                    xOffset += 70 * scaleFactor;
                 }
-                yOffset += 105 * scaleFactor.YScale;
+                yOffset += 105 * scaleFactor;
             }
 
 
@@ -110,38 +107,19 @@ namespace BinokelDeluxe.Shared
         {
             if (ExitButtonsArePressed())
             {
+                DevUI.Exit();
                 QuitGame();
+                return;
             }
             if (!_gameIsRunning)
             {
                 _gameIsRunning = true;
 
             }
-
-            // TODO: Wrap this in some class, maybe use mouse info only in desktop project
-            Point? triggeredPos = GetTriggeredPos();
-
+            
             DevUI.Update();
 
             base.Update(gameTime);
-        }
-
-        private Point? GetTriggeredPos()
-        {
-            Point? pos = null;
-            foreach (var touchinfo in TouchPanel.GetState())
-            {
-                if (touchinfo.State == TouchLocationState.Released)
-                {
-                    pos = touchinfo.Position.ToPoint();
-                }
-            }
-            if (_leftButtonWasPressed && Mouse.GetState().LeftButton == ButtonState.Released)
-            {
-                pos = Mouse.GetState().Position;
-            }
-            _leftButtonWasPressed = Mouse.GetState().LeftButton == ButtonState.Pressed;
-            return pos;
         }
 
         /// <summary>
@@ -159,15 +137,6 @@ namespace BinokelDeluxe.Shared
         }
 
         /// <summary>
-        /// Retrieves the scale factors for X and Y scaling.
-        /// </summary>
-        /// <returns>The factor to be used.</returns>
-        protected virtual ScaleFactor GetDisplayScaleFactor()
-        {
-            return new ScaleFactor { XScale = 1.0f, YScale = 1.0f };
-        }
-
-        /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -175,11 +144,7 @@ namespace BinokelDeluxe.Shared
         {
             Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            SpriteBatch.Begin();
-
             DevUI.Draw(SpriteBatch);
-
-            SpriteBatch.End();
 
             base.Draw(gameTime);
         }
