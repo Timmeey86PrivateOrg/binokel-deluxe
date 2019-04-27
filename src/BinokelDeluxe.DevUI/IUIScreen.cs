@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,13 @@ using System.Threading.Tasks;
 namespace BinokelDeluxe.DevUI
 {
     /// <summary>
-    /// This is the central interface for any UI fragment.
+    /// This is the central interface for any UI Screen.
     /// </summary>
-    internal interface IUIFragment
+    internal interface IUIScreen
     {
         void Load(ContentManager content);
-        void Update(InputHandler inputHandler);
+        void Unload();
+        void Update(GameTime gameTime, InputHandler inputHandler);
         void Draw(SpriteBatch spriteBatch);
     }
 }

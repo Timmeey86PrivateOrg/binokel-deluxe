@@ -116,7 +116,7 @@ namespace BinokelDeluxe.Shared
 
             }
             
-            DevUI.Update();
+            DevUI.Update(gameTime);
 
             base.Update(gameTime);
         }

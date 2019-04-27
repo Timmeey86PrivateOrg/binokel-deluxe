@@ -36,12 +36,12 @@ namespace BinokelDeluxe.UI
         /// Implementers should play a dealing animation, with all cards covered.
         /// </summary>
         /// <param name="dealerPosition">The position of the dealer, where 0 is the position of the device user.</param>
-        /// <param name="numberOfCardsPerPlayer">The amount of cards for each player.</param>
-        /// <param name="numberOfCardsInDabb">The amount of cards which shall be displayed in the dabb.</param>
+        /// <param name="playerCards">The cards for each player position, where the first outer entry contains the cards for the user.</param>
+        /// <param name="dabbCards">The cards in the dabb.</param>
         void PlayDealingAnimation(
             int dealerPosition,
-            int numberOfCardsPerPlayer,
-            int numberOfCardsInDabb
+            IEnumerable<IEnumerable<Common.Card>> playerCards,
+            IEnumerable<Common.Card> dabbCards
             );
         /// <summary>
         /// Implementers should uncover the cards of the user for himself.

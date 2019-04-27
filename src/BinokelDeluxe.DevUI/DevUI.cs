@@ -18,16 +18,21 @@ namespace BinokelDeluxe.DevUI
     {
         private readonly SynchronizationContext _uiContext;
         private readonly GraphicsDeviceManager _deviceManager;
+        private ContentManager _contentManager = null;
         private Texture2D _devButtonTexture;
+        private Texture2D _devButtonPressedTexture;
         private SpriteFont _font;
+        private Texture2D _cardFrontTexture;
+        private Texture2D _cardBackTexture;
         private InputHandler _inputHandler = new InputHandler();
         private bool _exited = false;
 
-        // Fragments
-        private readonly Fragments.MainMenu _mainMenu;
+        // Screens
+        private readonly Screens.MainMenu _mainMenu;
+        private readonly Screens.BiddingScreen _biddingScreen;
 
-        private static IUIFragment _nullFragment = new Fragments.NullFragment();
-        private IUIFragment _currentFragment = _nullFragment;
+        private static IUIScreen _nullScreen = new Screens.NullScreen();
+        private IUIScreen _currentScreen = _nullScreen;
 
         public DevUI(GraphicsDeviceManager deviceManager)
         {
@@ -36,8 +41,16 @@ namespace BinokelDeluxe.DevUI
             _deviceManager = deviceManager;
             Resolution.Init(ref deviceManager);
 
-            // Fragment initialization
-            _mainMenu = new Fragments.MainMenu(() => { return _devButtonTexture; }, () => { return _font; });
+            // Screen initialization
+            _mainMenu = new Screens.MainMenu(
+                () => { return _devButtonTexture; },
+                () => { return _devButtonPressedTexture; },
+                () => { return _font; }
+                );
+            _biddingScreen = new Screens.BiddingScreen(
+                () => { return _cardBackTexture; },
+                () => { return _cardFrontTexture; }
+                );
         }
         
         public void Exit()
@@ -52,16 +65,19 @@ namespace BinokelDeluxe.DevUI
             Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
 
             _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
+            _devButtonPressedTexture = contentManager.Load<Texture2D>("dev/devbutton_pressed");
             _font = contentManager.Load<SpriteFont>("dev/devfont");
+            _cardFrontTexture = contentManager.Load<Texture2D>("dev/frame");
+            _cardBackTexture = contentManager.Load<Texture2D>("dev/back");
 
-            _mainMenu.Load(contentManager);
+            _contentManager = contentManager;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             _inputHandler.Update();
 
-            _currentFragment.Update(_inputHandler);
+            _currentScreen.Update(gameTime, _inputHandler);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -70,19 +86,20 @@ namespace BinokelDeluxe.DevUI
 
             spriteBatch.Begin(transformMatrix: Resolution.getTransformationMatrix());
 
-            _currentFragment.Draw(spriteBatch);
+            _currentScreen.Draw(spriteBatch);
 
             spriteBatch.End();
         }
 
         public MainMenuActions DisplayMainMenu()
         {
-            while( !_exited )
+            _mainMenu.Load(_contentManager);
+            _currentScreen = _mainMenu;
+            while ( !_mainMenu.CurrentState.HasValue )
             {
-                _currentFragment = _mainMenu;
                 Thread.Sleep(50);
             }
-            return MainMenuActions.StartGame;
+            return _mainMenu.CurrentState.Value;
         }
 
         public void ActivatePlayer(int playerPosition)
@@ -150,14 +167,24 @@ namespace BinokelDeluxe.DevUI
             throw new NotImplementedException();
         }
 
-        public void PlayDealingAnimation(int dealerPosition, int numberOfCardsPerPlayer, int numberOfCardsInDabb)
+        public void PlayDealingAnimation(
+            int dealerPosition,
+            IEnumerable<IEnumerable<Common.Card>> playerCards,
+            IEnumerable<Common.Card> dabbCards
+            )
         {
-            throw new NotImplementedException();
+            _biddingScreen.Load(_contentManager);
+            _biddingScreen.SetCards(playerCards);
+
+            while (true)
+            {
+                Thread.Sleep(50);
+            }
         }
 
         public void PrepareTable(int dealerPosition)
         {
-            throw new NotImplementedException();
+            _currentScreen = _biddingScreen;
         }
 
         public void RearrangeCardsForUser(IEnumerable<Card> rearrangedCards)

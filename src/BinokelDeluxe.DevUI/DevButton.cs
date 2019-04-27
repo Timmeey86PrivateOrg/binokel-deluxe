@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using System;
-using System.Linq;
 
 namespace BinokelDeluxe.DevUI
 {
     /// <summary>
     /// This class is responsible for drawing an interactable button for development purposes.
+    /// The button can only be pressed once until it is explicitly reset. This prevents timing issues where two triggers are fired before the first one is processed.
     /// </summary>
     internal class DevButton
     {
@@ -25,45 +23,22 @@ namespace BinokelDeluxe.DevUI
         public float Height { get; set; } = 48;
         private string _text = "BUTTON";
 
+        public bool WasPressed { get; set; } = false;
+
         public string Text
         {
             get { return _text; }
             set
             {
                 _text = value;
-                if( _font == null )
-                {
-                    return;
-                }
-
-                // Fit the text into 90% of the button's area.
-                // Calculation taken from http://bluelinegamestudios.com/posts/drawstring-to-fit-text-to-a-rectangle-in-xna/
-                var textMeasure = _font.MeasureString(value);
-
-                // Taking the smaller scaling value will result in the text always fitting in the boundaires.
-                _textScale = Math.Min((Width * 0.9f / textMeasure.X), (Height * 0.9f / textMeasure.Y));
-
-                // Figure out the location to absolutely-center it in the boundaries rectangle.
-                var scaledTextWidth = (float)Math.Round(textMeasure.X * _textScale);
-                var scaledTextHeight = (float)Math.Round(textMeasure.Y * _textScale);
-
-                _textPosition = new Vector2(
-                    Position.X + (Width * 0.9f - scaledTextWidth) / 2 + Width * 0.05f,
-                    Position.Y + (Height * 0.9f - scaledTextHeight) / 2 + Height * 0.05f
-                    );
+                UpdateTextPosition();
             }
         }
-
         public Rectangle Rectangle
         {
             get
             {
-                return new Rectangle(
-                    ToInt(Position.X),
-                    ToInt(Position.Y),
-                    ToInt(Width),
-                    ToInt(Height)
-                    );
+                return new Rectangle(ToInt(Position.X), ToInt(Position.Y), ToInt(Width), ToInt(Height));
             }
             set
             {
@@ -74,9 +49,11 @@ namespace BinokelDeluxe.DevUI
         }
 
         private Texture2D _texture = null;
+        private Texture2D _pressedTexture = null;
         private SpriteFont _font = null;
         private float _textScale = 1.0f;
         private Vector2 _textPosition = new Vector2(.0f, .0f);
+        private GameTime _pressedTime = null;
 
         /// <summary>
         /// Creates a new development button.
@@ -85,41 +62,82 @@ namespace BinokelDeluxe.DevUI
         {
         }
 
-        public void Load(Texture2D texture, SpriteFont font)
+        public void Load(Texture2D texture, Texture2D pressedTexture, SpriteFont font)
         {
             _texture = texture;
+            _pressedTexture = pressedTexture;
             _font = font;
             // Force an initial text recalculation
-            Text = _text;
+            UpdateTextPosition();
         }
 
-        public void Update(InputHandler inputHandler)
+        public void Unload()
         {
-            if(inputHandler.ReleasedPoint != null)
+            _texture = null;
+            _pressedTexture = null;
+            _font = null;
+        }
+
+        public void Update(GameTime gameTime, InputHandler inputHandler)
+        {
+            // Handle mouse releases on buttons, but skip them if the pressed animation is still being played.
+            if (inputHandler.ReleasedPoint != null)
             {
-                if(Rectangle.Contains(inputHandler.ReleasedPoint.Value))
+                if (Rectangle.Contains(inputHandler.ReleasedPoint.Value) && !WasPressed)
                 {
-                    Activated?.Invoke(this, EventArgs.Empty);
+                    // Display a different texture for the button for 100ms to make sure the user knows it's pressed.
+                    WasPressed = true;
+                    _pressedTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
                 }
-                // Make sure we don't process the event twice.
-                inputHandler.Reset();
+            }
+            else if (WasPressed && _pressedTime != null && gameTime.TotalGameTime.TotalMilliseconds - _pressedTime.TotalGameTime.TotalMilliseconds > 100)
+            {
+                // Stop displaying a different graphics. Since the button is a one-time button, WasPressed will not be reset here.
+                _pressedTime = null;
+                // Let listeners know the button was pressed.
+                Activated?.Invoke(this, EventArgs.Empty);
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (_texture == null || _font == null)
+            if (_texture == null)
             {
                 return;
             }
 
-            spriteBatch.Draw(_texture, Rectangle, Color.White);
+            var texture = _pressedTime != null ? _pressedTexture : _texture;
+            spriteBatch.Draw(texture, Rectangle, Color.White);
             spriteBatch.DrawString(_font, Text, _textPosition, Color.Black, .0f, Origin, _textScale, SpriteEffects.None, 1.0f);
         }
 
         private int ToInt(float f)
         {
             return (int)Math.Round(f);
+        }
+
+        private void UpdateTextPosition()
+        {
+            if (_font == null)
+            {
+                return;
+            }
+
+            // Fit the text into 90% of the button's area.
+            // Calculation taken from http://bluelinegamestudios.com/posts/drawstring-to-fit-text-to-a-rectangle-in-xna/
+            var textMeasure = _font.MeasureString(Text);
+
+            // Taking the smaller scaling value will result in the text always fitting in the boundaires.
+            _textScale = Math.Min((Width * 0.9f / textMeasure.X), (Height * 0.9f / textMeasure.Y));
+
+            // Figure out the location to absolutely-center it in the boundaries rectangle.
+            var scaledTextWidth = (float)Math.Round(textMeasure.X * _textScale);
+            var scaledTextHeight = (float)Math.Round(textMeasure.Y * _textScale);
+
+            _textPosition = new Vector2(
+                Position.X + (Width * 0.9f - scaledTextWidth) / 2 + Width * 0.05f,
+                Position.Y + (Height * 0.9f - scaledTextHeight) / 2 + Height * 0.05f
+                );
         }
     }
 }
