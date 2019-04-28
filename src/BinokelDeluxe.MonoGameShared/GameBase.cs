@@ -16,7 +16,6 @@ namespace BinokelDeluxe.Shared
         protected GraphicsDeviceManager Graphics { private set; get; }
         protected SpriteBatch SpriteBatch { private set; get; }
         protected HungarianCardSprite CardSprite { private set; get; }
-        protected List<TogglableCard> Cards = new List<TogglableCard>();
 
         protected Core.GameController GameController { private set; get; }
         private DevUI.DevUI DevUI { set; get; }
@@ -43,24 +42,6 @@ namespace BinokelDeluxe.Shared
 
 
             TouchPanel.EnabledGestures = GestureType.Tap;
-
-            var scaleFactor = 1.0f;
-
-            var yOffset = 5 * scaleFactor;
-            foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
-            {
-                var xOffset = 5 * scaleFactor;
-                foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
-                {
-                    Cards.Add(new TogglableCard(
-                        new Common.Card() { Suit = suit, Type = type },
-                        new Rectangle((int)xOffset, (int)yOffset, (int)(65 * scaleFactor), (int)(100 * scaleFactor))
-                        ));
-                    xOffset += 70 * scaleFactor;
-                }
-                yOffset += 105 * scaleFactor;
-            }
-
 
             // TODO: Add user interface
             GameController = new Core.GameController(DevUI);

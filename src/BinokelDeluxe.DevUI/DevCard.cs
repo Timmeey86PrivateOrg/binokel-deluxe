@@ -13,12 +13,14 @@ namespace BinokelDeluxe.DevUI
     /// </summary>
     public class DevCard
     {
-        private const float ScaleFactor = .04f;
+        private const float ScaleFactor = .06f;
         private readonly Vector2 _origin;
         private Rectangle _drawingArea;
         private readonly Texture2D _backTexture;
         private readonly Texture2D _frontTexture;
 
+        private Vector2? _rotatedPosition = null;
+        private Vector2? _translatedPosition = null;
         /// <summary>
         /// Gets or sets the position of the card.
         /// </summary>
@@ -67,6 +69,36 @@ namespace BinokelDeluxe.DevUI
         {
             var texture = IsCovered ? _backTexture : _frontTexture;
             spriteBatch.Draw(texture, _drawingArea, null, Color.White, Angle * MathHelper.Pi / 180f, _origin, SpriteEffects.None, 1.0f);
+        }
+
+        /// <summary>
+        /// Tests if the given position is in the drawing area of the card.
+        /// </summary>
+        /// <param name="position">The position vector.</param>
+        /// <returns>True if the position is within the drawing bounds.</returns>
+        public bool IsInDrawingArea(Vector2 position)
+        {
+            // TODO - PERFORMANCE - Precaculate matrix whenever angle, drawing area, origin or scale factor changes.
+
+            // In order to detect if a card was selected, we can use the Rectangle.Contains function. However, this will not work directly for rotated and translated card graphics.
+            // The most efficient way to do this is the following:
+            // We have to rotate the point along the same point as the card, but in the opposite direction.
+            // In order to do this, we first need to translate the rotation point to (0,0), then rotate the vector to the point and translate back to the rotation point
+
+            var rotationMatrix =
+                Matrix.CreateTranslation(-1f * _drawingArea.X, -1f * _drawingArea.Y, .0f) *
+                Matrix.CreateRotationZ(-1f * Angle * MathHelper.Pi / 180f) *
+                Matrix.CreateTranslation(_drawingArea.X, _drawingArea.Y, 0f);
+
+            _rotatedPosition = Vector2.Transform(position, rotationMatrix);
+
+            // Now translate the rotated position by the negative origin vector to get the vector in card coordinates.
+            _translatedPosition = Vector2.Transform(
+                _rotatedPosition.Value,
+                Matrix.CreateTranslation( _origin.X * ScaleFactor, _origin.Y * ScaleFactor, .0f)
+                );
+
+            return _drawingArea.Contains(_translatedPosition.Value);
         }
     }
 }

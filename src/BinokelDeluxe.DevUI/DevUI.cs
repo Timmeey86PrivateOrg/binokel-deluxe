@@ -62,7 +62,11 @@ namespace BinokelDeluxe.DevUI
         {
             // Allow drawing on a virtual 800x480 screen (default resolution of many android devices) and stretch that to the actual device size.
             Resolution.SetVirtualResolution(800, 480);
+#if DEBUG
+            Resolution.SetResolution(800, 480, false);
+#else
             Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
+#endif
 
             _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
             _devButtonPressedTexture = contentManager.Load<Texture2D>("dev/devbutton_pressed");
