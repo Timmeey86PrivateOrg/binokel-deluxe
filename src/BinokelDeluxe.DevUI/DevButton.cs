@@ -15,7 +15,7 @@ namespace BinokelDeluxe.DevUI
         /// </summary>
         public event EventHandler Activated;
 
-        private static Vector2 Origin = new Vector2(.0f, .0f);
+        private static Vector2 Origin = new Vector2(0f, 0f);
 
         public bool Enabled { get; set; } = true;
         public Vector2 Position { get; set; } = new Vector2(.0f, .0f);

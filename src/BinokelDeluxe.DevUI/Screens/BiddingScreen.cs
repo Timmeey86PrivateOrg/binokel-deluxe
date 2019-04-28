@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace BinokelDeluxe.DevUI.Screens
@@ -33,6 +34,7 @@ namespace BinokelDeluxe.DevUI.Screens
 
             var playerPosition = 0;
             var cardNumber = 0;
+            var amountOfCardsPerPlayer = cardsPerPlayer.First().Count();
             var playerXBases = new List<int>() { 400, 600, 400, 200 };
             var playerYBases = new List<int>() { 440, 280, 120, 280 };
 
@@ -46,8 +48,8 @@ namespace BinokelDeluxe.DevUI.Screens
                         new DevCard(backTexture, frontTexture)
                         {
                             Card = card,
-                            Position = new Vector2(playerXBases[playerPosition] + cardNumber * 20 - 100, playerYBases[playerPosition] - 50),
-                            Angle = cardNumber * (5.0f / 360.0f)
+                            Position = new Vector2(playerXBases[playerPosition], playerYBases[playerPosition]),
+                            Angle = (cardNumber - amountOfCardsPerPlayer / 2 - 1) * 10f
                         });
                     cardNumber++;
                 }
@@ -65,14 +67,12 @@ namespace BinokelDeluxe.DevUI.Screens
         }
         public void Update(GameTime gameTime, InputHandler inputHandler)
         {
+            _cards.Values.ToList().ForEach(card => card.Update(gameTime, inputHandler));
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach( var card in _cards.Values)
-            {
-                card.Draw(spriteBatch);
-            }
+            _cards.Values.ToList().ForEach(card => card.Draw(spriteBatch));
         }
     }
 }
