@@ -13,6 +13,12 @@ namespace BinokelDeluxe.DevUI
 {
     /// <summary>
     /// This is a development user interface for Binokel Deluxe. Do not use it as an example of how to design or implement a proper UI
+    /// Ideas for the actual UI:
+    /// - Buttons could be created by a button factory. The factory could then be supplied with textures and fonts, and the user of the button factory
+    ///   would not have to care about those properties any more.
+    /// - There should be something like button groups, where all buttons share the same font size (which is determined by the button with the most text).
+    /// - There should probably be several spritefonts for maximum readability.
+    /// - Actual UI should probably make use of layer depths
     /// </summary>
     public class DevUI : UI.IUserInterface
     {
@@ -64,16 +70,7 @@ namespace BinokelDeluxe.DevUI
         {
             // Allow drawing on a virtual 800x480 screen (default resolution of many android devices) and stretch that to the actual device size.
             Resolution.SetVirtualResolution(800, 480);
-#if DEBUG
-            Resolution.SetResolution(
-               // (int)Math.Round(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 0.7f),
-                //(int)Math.Round(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height * 0.7f),
-                1200,
-                480,
-                false);
-#else
             Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
-#endif
 
             _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
             _devButtonPressedTexture = contentManager.Load<Texture2D>("dev/devbutton_pressed");
@@ -119,7 +116,8 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayAIBid(int playerPosition, int bidAmount)
         {
-            throw new NotImplementedException();
+            _biddingScreen.SetPlayerBid(playerPosition, bidAmount);
+            Thread.Sleep(2000);
         }
 
         public void DisplayGameScore(IEnumerable<ScoreData> playerOrTeamScores)
@@ -139,7 +137,8 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayPlayerAsPassed(int playerPosition)
         {
-            throw new NotImplementedException();
+            _biddingScreen.SetPlayerPassed(playerPosition);
+            Thread.Sleep(2000);
         }
 
         public void HandleInvalidMove(IEnumerable<Card> validCards)
@@ -154,7 +153,11 @@ namespace BinokelDeluxe.DevUI
 
         public GameTrigger LetUserExchangeCardsWithDabb(out IEnumerable<Card> discardedCards, out CardSuit? trumpSuit)
         {
-            throw new NotImplementedException();
+            // TODO: Implement this
+            while(true)
+            {
+                Thread.Sleep(50);
+            }
         }
 
         public GameTrigger LetUserPlaceFirstBidOrPass(int initialBidAmount)
@@ -184,12 +187,11 @@ namespace BinokelDeluxe.DevUI
             )
         {
             _biddingScreen.Load(_contentManager);
-            _biddingScreen.SetCards(playerCards);
-
-            while (true)
-            {
-                Thread.Sleep(50);
-            }
+            _biddingScreen.SetCards(playerCards, dabbCards);
+            _biddingScreen.StartDealing(dealerPosition);
+            // No animation in Dev UI, switch to next action after two seconds
+            Thread.Sleep(2000);
+            _biddingScreen.FinishDealing();
         }
 
         public void PrepareTable(int dealerPosition)
@@ -209,12 +211,14 @@ namespace BinokelDeluxe.DevUI
 
         public void UncoverCardsForUser(IEnumerable<Card> userCards)
         {
-            throw new NotImplementedException();
+            _biddingScreen.UncoverCards(userCards);
+            Thread.Sleep(2000);
         }
 
         public void UncoverDabb(IEnumerable<Card> cardsInDabb)
         {
-            throw new NotImplementedException();
+            _biddingScreen.UncoverCards(cardsInDabb);
+            Thread.Sleep(2000);
         }
     }
 }

@@ -6,9 +6,6 @@ using System;
 namespace BinokelDeluxe.DevUI.Screens
 {
     /// <summary>
-    /// Ideas for the actual UI:
-    /// - Buttons could be created by a button factory. The factory could then be supllied with textures and fonts, and the user of the button factory
-    /// would not have to care about those properties any more.
     /// </summary>
     internal class MainMenu : IUIScreen
     {

@@ -61,7 +61,9 @@ namespace BinokelDeluxe.Core
             // Prepare a new game with a random player being the dealer
             _currentRNG = new Random(_currentStateStack.CreationInfo.RandomSeed);
             var playerCount = ruleSettings.GameType == GameLogic.GameType.ThreePlayerGame ? 3 : 4;
-            _currentDealer = _currentRNG.Next(playerCount);
+            // TODO: Randomize dealer
+            //_currentDealer = _currentRNG.Next(playerCount);
+            _currentDealer = 0;
             _currentBidAmount = 0;
             _stateBridge.PrepareNewGame(ruleSettings, _currentDealer);
 
@@ -128,25 +130,13 @@ namespace BinokelDeluxe.Core
             Common.GameTrigger.Passed
         };
 
-        private List<Common.Card> _playerCards = new List<Common.Card>()
-        {
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ace },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ten },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.King },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Ober },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Acorns, Type = Common.CardType.Unter },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ace },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ten },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.King },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Ober },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Bells, Type = Common.CardType.Unter }
-        };
-
+        private List<IEnumerable<Common.Card>> _cardsPerPlayer;
+        private List<Common.Card> _cardsInDabb = new List<Common.Card>();
         private void EventSource_DealingStarted(object sender, GameLogic.PlayerPairEventArgs e)
         {
             var ruleSettings = _currentStateStack.CreationInfo.RuleSettings;
 
-            var cardsPerPlayer = new List<IEnumerable<Common.Card>>();
+            _cardsPerPlayer = new List<IEnumerable<Common.Card>>();
 
             // four players, no sevens: 40 cards, 4 dabb, 9 per player
             // three players, no sevens: 40 cards, 4 dabb, 12 per player
@@ -171,16 +161,15 @@ namespace BinokelDeluxe.Core
 
                     counter++;
                 }
-                cardsPerPlayer.Add(playerCards);
+                _cardsPerPlayer.Add(playerCards);
             }
-            var cardsInDabb = new List<Common.Card>();
             for (; counter < amountOfCards; counter++)
             {
-                cardsInDabb.Add(GetCard(amountOfCards, numberOfCardsPerSuit, counter));
+                _cardsInDabb.Add(GetCard(amountOfCards, numberOfCardsPerSuit, counter));
             }
 
-            _userInterface.PlayDealingAnimation(_currentDealer, cardsPerPlayer, cardsInDabb);
-            _userInterface.UncoverCardsForUser(cardsPerPlayer.First());
+            _userInterface.PlayDealingAnimation(_currentDealer, _cardsPerPlayer, _cardsInDabb);
+            _userInterface.UncoverCardsForUser(_cardsPerPlayer.First());
             _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.DealingFinished);
         }
 
@@ -278,19 +267,11 @@ namespace BinokelDeluxe.Core
 
     private Common.CardSuit? _trumpSuit = null;
     private IEnumerable<Common.Card> _discardedCards = null;
-    private List<Common.Card> _dabbCards = new List<Common.Card>()
-        {
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ace },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ten },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.King },
-            new Common.Card() { DeckNumber = 0, Suit = Common.CardSuit.Hearts, Type = Common.CardType.Ober },
-        };
 
     private bool _playerWentOut = false;
     private void EventSource_ExchangingCardsWithDabbStarted(object sender, GameLogic.PlayerPositionEventArgs e)
     {
-        // TODO: generate and remember dabb cards
-        _userInterface.UncoverDabb(_dabbCards);
+        _userInterface.UncoverDabb(_cardsInDabb);
 
         Common.GameTrigger trigger;
         if (IsUser(e.PlayerPosition))
@@ -302,12 +283,12 @@ namespace BinokelDeluxe.Core
             // TODO: Implement AI
             trigger = Common.GameTrigger.TrumpSelected;
             _trumpSuit = Common.CardSuit.Hearts;
-            _discardedCards = new List<Common.Card>(_dabbCards);
+            _discardedCards = new List<Common.Card>(_cardsInDabb);
         }
 
         // TODO: Validate and process discarded cards and selected trump suit
         // TODO: Actually rearrange cards
-        _userInterface.RearrangeCardsForUser(_playerCards);
+        _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
 
         ValidateTrigger(
             trigger,

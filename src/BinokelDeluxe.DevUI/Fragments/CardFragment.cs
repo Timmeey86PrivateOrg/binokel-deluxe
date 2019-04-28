@@ -20,6 +20,7 @@ namespace BinokelDeluxe.DevUI.Fragments
 
         private int _dealerNumber = -1;
         private IEnumerable<IEnumerable<Common.Card>> _cardsPerPlayer;
+        private IEnumerable<Common.Card> _cardsInDabb;
 
         // For less calculation
         private IList<Vector2> _playerPositions = null;
@@ -37,14 +38,28 @@ namespace BinokelDeluxe.DevUI.Fragments
         /// Displays the given list of cards on the fragment.
         /// </summary>
         /// <param name="cardsPerPlayer">The cards for each player.</param>
-        public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer)
+        /// <param name="dabbCards">The cards in the dabb.</param>
+        public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
         {
             _amountOfPlayers = cardsPerPlayer.Count();
             _amountOfCardsPerPlayer = cardsPerPlayer.First().Count();
             _cardsPerPlayer = cardsPerPlayer;
+            _cardsInDabb = dabbCards;
 
             CalculatePlayerPositions();
-            CalculateCardGraphics(cardsPerPlayer);
+            CalculateCardGraphics(cardsPerPlayer, dabbCards);
+        }
+
+        /// <summary>
+        /// Uncovers the given list of cards.
+        /// </summary>
+        /// <param name="cards">The cards to be uncovered.</param>
+        public void UncoverCards(IEnumerable<Common.Card> cards)
+        {
+            foreach( var card in cards)
+            {
+                _cardGraphics[card].IsCovered = false;
+            }
         }
 
         /// <summary>
@@ -91,7 +106,7 @@ namespace BinokelDeluxe.DevUI.Fragments
             _cardGraphics.Values.ToList().ForEach(card => card.Draw(spriteBatch));
         }
 
-        private void CalculateCardGraphics(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer)
+        private void CalculateCardGraphics(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
         {
             var backTexture = _getBackTexture();
             var frontTexture = _getFrontTexture();
@@ -116,6 +131,28 @@ namespace BinokelDeluxe.DevUI.Fragments
                     cardNumber++;
                 }
                 playerPosition++;
+            }
+
+            cardNumber = 0;
+            var centerPosition = new Vector2(400, 240);
+            var numberOfCardsInDabb = dabbCards.Count();
+            var numberOfCardsPerRow = numberOfCardsInDabb / 2;
+            var rowWidth = numberOfCardsPerRow * 40 - 2; // e.g. 3 * 38 + 2 * 2 margin
+            var rowHeight = 2 * 60 + 2;
+
+            foreach ( var card in dabbCards)
+            {
+                _cardGraphics.Add(
+                    card,
+                    new DevCard(backTexture, frontTexture, font)
+                    {
+                        Card = card,
+                        Position = new Vector2(
+                            centerPosition.X - rowWidth / 2 + (cardNumber % numberOfCardsPerRow) * 40,
+                            centerPosition.Y - rowHeight / 2 + (cardNumber / numberOfCardsPerRow) * 62 + 150
+                            )
+                    });
+                cardNumber++;
             }
         }
 
