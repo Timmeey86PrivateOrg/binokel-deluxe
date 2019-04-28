@@ -122,8 +122,6 @@ namespace BinokelDeluxe.Shared
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             DevUI.Draw(SpriteBatch);
 
             base.Draw(gameTime);

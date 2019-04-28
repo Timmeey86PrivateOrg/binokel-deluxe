@@ -115,7 +115,9 @@ namespace IndependentResolutionRendering
         /// Sets the device to use the draw pump
         /// Sets correct aspect ratio
         /// </summary>
-        static public void BeginDraw()
+        /// <param name="spriteBatch">The sprite batch used to draw the background color.</param>
+        /// <param name="backgroundTexture">The background texture.</param>
+        static public void BeginDraw(SpriteBatch spriteBatch, Texture2D backgroundTexture)
         {
             // Start by reseting viewport to (0,0,1,1)
             FullViewport();
@@ -123,10 +125,12 @@ namespace IndependentResolutionRendering
             _Device.GraphicsDevice.Clear(Color.Black);
             // Calculate Proper Viewport according to Aspect Ratio
             ResetViewport();
-            // and clear that
+            // and draw a background texture only in the viewport
             // This way we are gonna have black bars if aspect ratio requires it and
             // the clear color on the rest
-            _Device.GraphicsDevice.Clear(Color.LightGoldenrodYellow);
+            spriteBatch.Begin(transformMatrix: Resolution.getTransformationMatrix());
+            var virtualRectangle = new Rectangle(0, 0, _VWidth, _VHeight);
+            spriteBatch.Draw(backgroundTexture, virtualRectangle, Color.White);
         }
 
         static private void RecreateScaleMatrix()
@@ -189,6 +193,15 @@ namespace IndependentResolutionRendering
             }
 
             _Device.GraphicsDevice.Viewport = viewport;
+        }
+
+        /// <summary>
+        /// Provides static access to the active viewport.
+        /// </summary>
+        /// <returns></returns>
+        static public Viewport GetViewport()
+        {
+            return _Device.GraphicsDevice.Viewport;
         }
 
     }

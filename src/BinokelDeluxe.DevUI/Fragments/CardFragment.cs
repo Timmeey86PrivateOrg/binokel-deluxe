@@ -16,6 +16,7 @@ namespace BinokelDeluxe.DevUI.Fragments
 
         private readonly Func<Texture2D> _getBackTexture;
         private readonly Func<Texture2D> _getFrontTexture;
+        private readonly Func<SpriteFont> _getFont;
 
         private int _dealerNumber = -1;
         private IEnumerable<IEnumerable<Common.Card>> _cardsPerPlayer;
@@ -25,10 +26,11 @@ namespace BinokelDeluxe.DevUI.Fragments
         private int _amountOfPlayers = 0;
         private int _amountOfCardsPerPlayer = 0;
 
-        public CardFragment(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture)
+        public CardFragment(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<SpriteFont> getFont)
         {
             _getBackTexture = getCardBackTexture;
             _getFrontTexture = getCardFrontTexture;
+            _getFont = getFont;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace BinokelDeluxe.DevUI.Fragments
             _dealerNumber = dealerNumber;
             // TODO: Add dealer button
         }
-
+        
         public void Update(GameTime gameTime, InputHandler inputHandler)
         {
             _cardGraphics.Values.ToList().ForEach(card => card.Update(gameTime, inputHandler));
@@ -69,6 +71,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                         var cardGraphics = _cardGraphics[card];
                         if (cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
                         {
+                            cardGraphics.IsCovered = !cardGraphics.IsCovered;
                             Console.WriteLine(String.Format(
                                 "Clicked {0} of {1} from deck {2}",
                                 card.Type.ToString(),
@@ -92,6 +95,7 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             var backTexture = _getBackTexture();
             var frontTexture = _getFrontTexture();
+            var font = _getFont();
             var playerPosition = 0;
             var cardNumber = 0;
             foreach (var playerCards in cardsPerPlayer)
@@ -101,7 +105,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                 {
                     _cardGraphics.Add(
                         card,
-                        new DevCard(backTexture, frontTexture)
+                        new DevCard(backTexture, frontTexture, font)
                         {
                             Card = card,
                             Position = _playerPositions[playerPosition],

@@ -18,9 +18,9 @@ namespace BinokelDeluxe.DevUI.Screens
 
         private readonly Fragments.CardFragment _cardFragment;
 
-        public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture)
+        public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<SpriteFont> getFont)
         {
-            _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture);
+            _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getFont);
         }
 
         public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer)

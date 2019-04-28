@@ -18,9 +18,8 @@ namespace BinokelDeluxe.DevUI
         private Rectangle _drawingArea;
         private readonly Texture2D _backTexture;
         private readonly Texture2D _frontTexture;
-
-        private Vector2? _rotatedPosition = null;
-        private Vector2? _translatedPosition = null;
+        private readonly SpriteFont _font;
+        
         /// <summary>
         /// Gets or sets the position of the card.
         /// </summary>
@@ -51,10 +50,11 @@ namespace BinokelDeluxe.DevUI
         /// </summary>
         public bool IsCovered { get; set; } = true;
 
-        public DevCard(Texture2D backTexture, Texture2D frontTexture)
+        public DevCard(Texture2D backTexture, Texture2D frontTexture, SpriteFont font)
         {
             _backTexture = backTexture;
             _frontTexture = frontTexture;
+            _font = font;
             // Make the card rotate around a point that is 1.5 times its height below it.
             _origin = new Vector2(.0f, backTexture.Height * 2.5f);
             // Make the card be drawn at a fracture of its texture size.
@@ -69,6 +69,12 @@ namespace BinokelDeluxe.DevUI
         {
             var texture = IsCovered ? _backTexture : _frontTexture;
             spriteBatch.Draw(texture, _drawingArea, null, Color.White, Angle * MathHelper.Pi / 180f, _origin, SpriteEffects.None, 1.0f);
+            if (!IsCovered)
+            {
+                var text = String.Format("{0}{1}", Card.Suit.ToString().Substring(0, 1), Card.Type.ToString().Substring(0, 1));
+                var textOrigin = _origin * ScaleFactor * 5f + new Vector2(-20f, -20f);
+                spriteBatch.DrawString(_font, text, _drawingArea.Location.ToVector2(), Color.MonoGameOrange, Angle * MathHelper.Pi / 180f, textOrigin, .2f, SpriteEffects.None, 1.0f);
+            }
         }
 
         /// <summary>
@@ -90,15 +96,15 @@ namespace BinokelDeluxe.DevUI
                 Matrix.CreateRotationZ(-1f * Angle * MathHelper.Pi / 180f) *
                 Matrix.CreateTranslation(_drawingArea.X, _drawingArea.Y, 0f);
 
-            _rotatedPosition = Vector2.Transform(position, rotationMatrix);
+            var rotatedPosition = Vector2.Transform(position, rotationMatrix);
 
             // Now translate the rotated position by the negative origin vector to get the vector in card coordinates.
-            _translatedPosition = Vector2.Transform(
-                _rotatedPosition.Value,
+            var translatedPosition = Vector2.Transform(
+                rotatedPosition,
                 Matrix.CreateTranslation( _origin.X * ScaleFactor, _origin.Y * ScaleFactor, .0f)
                 );
 
-            return _drawingArea.Contains(_translatedPosition.Value);
+            return _drawingArea.Contains(translatedPosition);
         }
     }
 }

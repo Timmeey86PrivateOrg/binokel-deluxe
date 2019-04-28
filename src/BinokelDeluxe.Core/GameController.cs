@@ -189,7 +189,8 @@ namespace BinokelDeluxe.Core
             // Take a new suit every numberOfCardsPerSuit cards.
             var cardSuit = (Common.CardSuit)((counter / numberOfCardsPerSuit) % Enum.GetValues(typeof(Common.CardSuit)).Length);
             // Take a new type every card, repeat from the beginning once numberOfCardsPerSuit have been taken.
-            var cardType = (Common.CardType)(counter % numberOfCardsPerSuit);
+            var cardTypeOffset = Enum.GetValues(typeof(Common.CardType)).Length - numberOfCardsPerSuit;
+            var cardType = (Common.CardType)(counter % numberOfCardsPerSuit) + cardTypeOffset; 
             // Increase the deck number after half of the cards.
             var deckNumber = (short)(counter / (amountOfCards / 2));
 

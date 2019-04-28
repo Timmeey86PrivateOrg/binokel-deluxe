@@ -24,6 +24,7 @@ namespace BinokelDeluxe.DevUI
         private SpriteFont _font;
         private Texture2D _cardFrontTexture;
         private Texture2D _cardBackTexture;
+        private Texture2D _backgroundTexture;
         private InputHandler _inputHandler = new InputHandler();
         private bool _exited = false;
 
@@ -49,7 +50,8 @@ namespace BinokelDeluxe.DevUI
                 );
             _biddingScreen = new Screens.BiddingScreen(
                 () => { return _cardBackTexture; },
-                () => { return _cardFrontTexture; }
+                () => { return _cardFrontTexture; },
+                () => { return _font; }
                 );
         }
         
@@ -63,7 +65,12 @@ namespace BinokelDeluxe.DevUI
             // Allow drawing on a virtual 800x480 screen (default resolution of many android devices) and stretch that to the actual device size.
             Resolution.SetVirtualResolution(800, 480);
 #if DEBUG
-            Resolution.SetResolution(800, 480, false);
+            Resolution.SetResolution(
+               // (int)Math.Round(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 0.7f),
+                //(int)Math.Round(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height * 0.7f),
+                1200,
+                480,
+                false);
 #else
             Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
 #endif
@@ -73,6 +80,7 @@ namespace BinokelDeluxe.DevUI
             _font = contentManager.Load<SpriteFont>("dev/devfont");
             _cardFrontTexture = contentManager.Load<Texture2D>("dev/frame");
             _cardBackTexture = contentManager.Load<Texture2D>("dev/back");
+            _backgroundTexture = contentManager.Load<Texture2D>("dev/background");
 
             _contentManager = contentManager;
         }
@@ -86,9 +94,7 @@ namespace BinokelDeluxe.DevUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Resolution.BeginDraw();
-
-            spriteBatch.Begin(transformMatrix: Resolution.getTransformationMatrix());
+            Resolution.BeginDraw(spriteBatch, _backgroundTexture);
 
             _currentScreen.Draw(spriteBatch);
 

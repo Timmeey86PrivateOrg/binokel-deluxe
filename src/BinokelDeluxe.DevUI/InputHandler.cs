@@ -138,7 +138,10 @@ namespace BinokelDeluxe.DevUI
         /// <returns>The screen position in virtual coordinates.</returns>
         private Vector2 FromScreen(Vector2 screenPos)
         {
-            return Vector2.Transform(screenPos, Matrix.Invert(Resolution.getTransformationMatrix()));
+            // Correct the screen position by any viewport differences
+            var correctedPos = new Vector2(screenPos.X - Resolution.GetViewport().X, screenPos.Y - Resolution.GetViewport().Y);
+            // Now transform that position by the inverted matrix which is used for scaling the display. This way, the position will be scaled to the virtual screen size.
+            return Vector2.Transform(correctedPos, Matrix.Invert(Resolution.getTransformationMatrix()));
         }
     }
 }
