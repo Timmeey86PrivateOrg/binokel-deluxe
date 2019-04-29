@@ -117,7 +117,7 @@ namespace BinokelDeluxe.DevUI
         public void DisplayAIBid(int playerPosition, int bidAmount)
         {
             _biddingScreen.SetPlayerBid(playerPosition, bidAmount);
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         public void DisplayGameScore(IEnumerable<ScoreData> playerOrTeamScores)
@@ -138,7 +138,7 @@ namespace BinokelDeluxe.DevUI
         public void DisplayPlayerAsPassed(int playerPosition)
         {
             _biddingScreen.SetPlayerPassed(playerPosition);
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         public void HandleInvalidMove(IEnumerable<Card> validCards)
@@ -148,16 +148,14 @@ namespace BinokelDeluxe.DevUI
 
         public GameTrigger LetUserDoCounterBidOrPass(int nextBidAmount)
         {
-            throw new NotImplementedException();
+            return _biddingScreen.WaitForBidOrPass(nextBidAmount);
         }
 
         public GameTrigger LetUserExchangeCardsWithDabb(out IEnumerable<Card> discardedCards, out CardSuit? trumpSuit)
         {
-            // TODO: Implement this
-            while(true)
-            {
-                Thread.Sleep(50);
-            }
+            discardedCards = null;
+            trumpSuit = null;
+            return _biddingScreen.LetUserExchangeCardsWithDabb();
         }
 
         public GameTrigger LetUserPlaceFirstBidOrPass(int initialBidAmount)
@@ -190,7 +188,7 @@ namespace BinokelDeluxe.DevUI
             _biddingScreen.SetCards(playerCards, dabbCards);
             _biddingScreen.StartDealing(dealerPosition);
             // No animation in Dev UI, switch to next action after two seconds
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
             _biddingScreen.FinishDealing();
         }
 
@@ -212,13 +210,13 @@ namespace BinokelDeluxe.DevUI
         public void UncoverCardsForUser(IEnumerable<Card> userCards)
         {
             _biddingScreen.UncoverCards(userCards);
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
 
         public void UncoverDabb(IEnumerable<Card> cardsInDabb)
         {
             _biddingScreen.UncoverCards(cardsInDabb);
-            Thread.Sleep(2000);
+            Thread.Sleep(500);
         }
     }
 }

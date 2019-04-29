@@ -179,7 +179,7 @@ namespace BinokelDeluxe.Core
             var cardSuit = (Common.CardSuit)((counter / numberOfCardsPerSuit) % Enum.GetValues(typeof(Common.CardSuit)).Length);
             // Take a new type every card, repeat from the beginning once numberOfCardsPerSuit have been taken.
             var cardTypeOffset = Enum.GetValues(typeof(Common.CardType)).Length - numberOfCardsPerSuit;
-            var cardType = (Common.CardType)(counter % numberOfCardsPerSuit) + cardTypeOffset; 
+            var cardType = (Common.CardType)(counter % numberOfCardsPerSuit) + cardTypeOffset;
             // Increase the deck number after half of the cards.
             var deckNumber = (short)(counter / (amountOfCards / 2));
 
@@ -191,213 +191,237 @@ namespace BinokelDeluxe.Core
             };
             return card;
         }
-    private void EventSource_WaitingForFirstBidStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        Common.GameTrigger trigger;
-        if (IsUser(e.PlayerPosition))
+        private void EventSource_WaitingForFirstBidStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            trigger = _userInterface.LetUserPlaceFirstBidOrPass(InitialBidAmount);
-            ValidateTrigger(trigger, BidOrPassTriggers, "initial bid");
-            _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
-        }
-        else
-        {
-            // TODO: Implement AI
-            trigger = Common.GameTrigger.Passed;
-        }
-
-        if (trigger == Common.GameTrigger.Passed)
-        {
-            _userInterface.DisplayPlayerAsPassed(e.PlayerPosition);
-        }
-        else
-        {
-            _currentBidAmount = InitialBidAmount;
-        }
-        _stateBridge.TriggerSink.SendTrigger(trigger);
-    }
-    private void EventSource_SwitchingPlayerBeforeFirstBidStarted(object sender, GameLogic.PlayerPairEventArgs e)
-    {
-        // Nothing to do here at the moment
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
-    }
-    private void EventSource_WaitingForBidOrPassStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        var potentialBid = _currentBidAmount + 10;
-        Common.GameTrigger trigger;
-        if (IsUser(e.PlayerPosition))
-        {
-            trigger = _userInterface.LetUserDoCounterBidOrPass(potentialBid);
-            ValidateTrigger(trigger, BidOrPassTriggers, "bidding");
-            _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
-        }
-        else
-        {
-            // TODO: Implement AI
-            trigger = Common.GameTrigger.Passed;
-        }
-
-        if (trigger == Common.GameTrigger.Passed)
-        {
-            _userInterface.DisplayPlayerAsPassed(e.PlayerPosition);
-        }
-        else
-        {
-            _currentBidAmount = potentialBid;
-        }
-        _stateBridge.TriggerSink.SendTrigger(trigger);
-    }
-    private void EventSource_WaitingForCounterOrPassStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // The UI does not care if a bid is a counter or a pass.
-        EventSource_WaitingForBidOrPassStarted(sender, e);
-    }
-
-    private void EventSource_SwitchingCurrentBidPlayerStarted(object sender, GameLogic.PlayerPairEventArgs e)
-    {
-        // Nothing to do here at the moment
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
-    }
-
-    private void EventSource_SwitchingCounterBidPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // Nothing to do here at the moment
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
-    }
-
-    private Common.CardSuit? _trumpSuit = null;
-    private IEnumerable<Common.Card> _discardedCards = null;
-
-    private bool _playerWentOut = false;
-    private void EventSource_ExchangingCardsWithDabbStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        _userInterface.UncoverDabb(_cardsInDabb);
-
-        Common.GameTrigger trigger;
-        if (IsUser(e.PlayerPosition))
-        {
-            trigger = _userInterface.LetUserExchangeCardsWithDabb(out _discardedCards, out _trumpSuit);
-        }
-        else
-        {
-            // TODO: Implement AI
-            trigger = Common.GameTrigger.TrumpSelected;
-            _trumpSuit = Common.CardSuit.Hearts;
-            _discardedCards = new List<Common.Card>(_cardsInDabb);
-        }
-
-        // TODO: Validate and process discarded cards and selected trump suit
-        // TODO: Actually rearrange cards
-        _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
-
-        ValidateTrigger(
-            trigger,
-            new HashSet<Common.GameTrigger>()
+            Common.GameTrigger trigger;
+            if (IsUser(e.PlayerPosition))
             {
+                trigger = _userInterface.LetUserPlaceFirstBidOrPass(InitialBidAmount);
+                ValidateTrigger(trigger, BidOrPassTriggers, "initial bid");
+                _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
+            }
+            else
+            {
+                // TODO: Implement AI
+                trigger = Common.GameTrigger.BidPlaced;
+            }
+
+            if (trigger == Common.GameTrigger.Passed)
+            {
+                _userInterface.DisplayPlayerAsPassed(e.PlayerPosition);
+            }
+            else
+            {
+                _currentBidAmount = InitialBidAmount;
+                if(!IsUser(e.PlayerPosition))
+                {
+                    _userInterface.DisplayAIBid(e.PlayerPosition, _currentBidAmount);
+                }
+            }
+            _stateBridge.TriggerSink.SendTrigger(trigger);
+        }
+        private void EventSource_SwitchingPlayerBeforeFirstBidStarted(object sender, GameLogic.PlayerPairEventArgs e)
+        {
+            // Nothing to do here at the moment
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
+        }
+        private void EventSource_WaitingForBidOrPassStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            HandleBidOrPass(Common.GameTrigger.BidPlaced, e);
+        }
+
+        private void HandleBidOrPass(Common.GameTrigger bidTriggerType, GameLogic.PlayerPositionEventArgs e)
+        {
+            var potentialBid = _currentBidAmount + 10;
+            Common.GameTrigger trigger;
+            if (IsUser(e.PlayerPosition))
+            {
+                trigger = _userInterface.LetUserDoCounterBidOrPass(potentialBid);
+                ValidateTrigger(trigger, BidOrPassTriggers, "bidding");
+                if( trigger == Common.GameTrigger.BidPlaced)
+                {
+                    trigger = bidTriggerType; // might be bid or counterbid
+                }
+                _currentStateStack.DeltaChanges.Add(new GameStateChangeInfo() { HumanTrigger = trigger });
+            }
+            else
+            {
+                // TODO: Implement AI
+                if (_currentBidAmount < (150 + 20 * e.PlayerPosition))
+                {
+                    trigger = bidTriggerType;
+                }
+                else
+                {
+                    trigger = Common.GameTrigger.Passed;
+                }
+            }
+
+            if (trigger == Common.GameTrigger.Passed)
+            {
+                _userInterface.DisplayPlayerAsPassed(e.PlayerPosition);
+            }
+            else
+            {
+                _currentBidAmount = potentialBid;
+                if (!IsUser(e.PlayerPosition))
+                {
+                    _userInterface.DisplayAIBid(e.PlayerPosition, _currentBidAmount);
+                }
+            }
+            _stateBridge.TriggerSink.SendTrigger(trigger);
+        }
+
+        private void EventSource_WaitingForCounterOrPassStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            HandleBidOrPass(Common.GameTrigger.BidCountered, e);
+        }
+
+        private void EventSource_SwitchingCurrentBidPlayerStarted(object sender, GameLogic.PlayerPairEventArgs e)
+        {
+            // Nothing to do here at the moment
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
+        }
+
+        private void EventSource_SwitchingCounterBidPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            // Nothing to do here at the moment
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
+        }
+
+        private Common.CardSuit? _trumpSuit = null;
+        private IEnumerable<Common.Card> _discardedCards = null;
+
+        private bool _playerWentOut = false;
+        private void EventSource_ExchangingCardsWithDabbStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            _userInterface.UncoverDabb(_cardsInDabb);
+
+            Common.GameTrigger trigger;
+            if (IsUser(e.PlayerPosition))
+            {
+                trigger = _userInterface.LetUserExchangeCardsWithDabb(out _discardedCards, out _trumpSuit);
+            }
+            else
+            {
+                // TODO: Implement AI
+                trigger = Common.GameTrigger.TrumpSelected;
+                _trumpSuit = Common.CardSuit.Hearts;
+                _discardedCards = new List<Common.Card>(_cardsInDabb);
+            }
+
+            // TODO: Validate and process discarded cards and selected trump suit
+            // TODO: Actually rearrange cards
+            _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
+
+            ValidateTrigger(
+                trigger,
+                new HashSet<Common.GameTrigger>()
+                {
                     Common.GameTrigger.TrumpSelected,
                     Common.GameTrigger.GoingOut,
                     Common.GameTrigger.BettelAnnounced,
                     Common.GameTrigger.DurchAnnounced
-            },
-            "dabb exchange"
-            );
-        _playerWentOut = trigger == Common.GameTrigger.GoingOut;
+                },
+                "dabb exchange"
+                );
+            _playerWentOut = trigger == Common.GameTrigger.GoingOut;
 
-        _stateBridge.TriggerSink.SendTrigger(trigger);
-    }
-
-    private void EventSource_CalculatingGoingOutScoreStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // TODO: Calculate actual score
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
-    }
-
-    private void EventSource_MeldingStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // TODO: Display actual melds
-        _userInterface.DisplayMelds(new List<Common.MeldData>());
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
-    }
-
-    private Common.Card _mostRecentCard = null;
-    private void EventSource_WaitingForCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        _userInterface.ActivatePlayer(e.PlayerPosition);
-        if (IsUser(e.PlayerPosition))
-        {
-            _mostRecentCard = _userInterface.LetUserSelectCard();
+            _stateBridge.TriggerSink.SendTrigger(trigger);
         }
-        else
-        {
-            // TODO: Implement AI
-            _mostRecentCard = null;
-        }
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
-    }
 
-    private void EventSource_ValidatingCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // TODO: Actually validate card
-        bool cardIsValid = true;
-        // Assumption: AI always provides valid cards.
-        if (IsUser(e.PlayerPosition) && !cardIsValid)
+        private void EventSource_CalculatingGoingOutScoreStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.InvalidCardPlaced);
+            // TODO: Calculate actual score
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
         }
-        else
+
+        private void EventSource_MeldingStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            // TODO: Check if the card is currently leading
-            bool cardIsWinning = true;
-            if (cardIsWinning)
+            // TODO: Display actual melds
+            _userInterface.DisplayMelds(new List<Common.MeldData>());
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
+        }
+
+        private Common.Card _mostRecentCard = null;
+        private void EventSource_WaitingForCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            _userInterface.ActivatePlayer(e.PlayerPosition);
+            if (IsUser(e.PlayerPosition))
             {
-                _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.WinningCardPlaced);
+                _mostRecentCard = _userInterface.LetUserSelectCard();
             }
             else
             {
-                _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.LosingCardPlaced);
+                // TODO: Implement AI
+                _mostRecentCard = null;
             }
-            _userInterface.PlaceCardInMiddle(e.PlayerPosition, _mostRecentCard);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
         }
-    }
 
-    private void EventSource_RevertingInvalidMoveStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        _userInterface.HandleInvalidMove(new List<Common.Card>());
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.RevertingFinished);
-    }
-
-    private void EventSource_SwitchingCurrentTrickPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // Nothing to do here
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
-    }
-
-    private void EventSource_StartingNewRoundStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.NewRoundStarted);
-    }
-
-    private void EventSource_CountingPlayerOrTeamScoresStarted(object sender, GameLogic.PlayerPositionEventArgs e)
-    {
-        // TODO: Actually calculate score
-        _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
-        _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
-    }
-
-    private void EventSource_GameFinished(object sender, EventArgs e)
-    {
-        if (_playerWentOut)
+        private void EventSource_ValidatingCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
-            // TODO: Actually provide scores
-            _userInterface.DisplayGoingOutScore(new List<Common.ScoreData>());
-        }
-        else
-        {
-            // TODO: Actually provide scores
-            _userInterface.DisplayGameScore(new List<Common.ScoreData>());
+            // TODO: Actually validate card
+            bool cardIsValid = true;
+            // Assumption: AI always provides valid cards.
+            if (IsUser(e.PlayerPosition) && !cardIsValid)
+            {
+                _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.InvalidCardPlaced);
+            }
+            else
+            {
+                // TODO: Check if the card is currently leading
+                bool cardIsWinning = true;
+                if (cardIsWinning)
+                {
+                    _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.WinningCardPlaced);
+                }
+                else
+                {
+                    _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.LosingCardPlaced);
+                }
+                _userInterface.PlaceCardInMiddle(e.PlayerPosition, _mostRecentCard);
+            }
         }
 
+        private void EventSource_RevertingInvalidMoveStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            _userInterface.HandleInvalidMove(new List<Common.Card>());
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.RevertingFinished);
+        }
+
+        private void EventSource_SwitchingCurrentTrickPlayerStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            // Nothing to do here
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
+        }
+
+        private void EventSource_StartingNewRoundStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.NewRoundStarted);
+        }
+
+        private void EventSource_CountingPlayerOrTeamScoresStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            // TODO: Actually calculate score
+            _userInterface.MoveCardsToTrickWinner(e.PlayerPosition);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
+        }
+
+        private void EventSource_GameFinished(object sender, EventArgs e)
+        {
+            if (_playerWentOut)
+            {
+                // TODO: Actually provide scores
+                _userInterface.DisplayGoingOutScore(new List<Common.ScoreData>());
+            }
+            else
+            {
+                // TODO: Actually provide scores
+                _userInterface.DisplayGameScore(new List<Common.ScoreData>());
+            }
+
+        }
     }
-}
 }

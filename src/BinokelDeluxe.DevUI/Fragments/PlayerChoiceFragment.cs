@@ -1,0 +1,60 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BinokelDeluxe.DevUI.Fragments
+{
+    /// <summary>
+    /// This fragment is responsible for asking for player choices.
+    /// </summary>
+    internal class PlayerChoiceFragment
+    {
+        public event EventHandler BidButtonClicked;
+        public event EventHandler PassButtonClicked;
+
+        public bool ButtonsShallBeShown { get; set; } = false;
+
+        private readonly DevButton _bidButton = new DevButton();
+        private readonly DevButton _passButton = new DevButton();
+
+        public PlayerChoiceFragment()
+        {
+            _bidButton.Position = new Vector2(480, 300);
+            _bidButton.Width = 40;
+            _bidButton.Height = 24;
+            _bidButton.Text = "Bid";
+            _passButton.Position = new Vector2(280, 300);
+            _passButton.Width = 40;
+            _passButton.Height = 24;
+            _passButton.Text = "Pass";
+        }
+
+        public void Load(Texture2D texture, Texture2D pressedTexture, SpriteFont font)
+        {
+            _bidButton.Load(texture, pressedTexture, font);
+            _passButton.Load(texture, pressedTexture, font);
+
+            _bidButton.Activated += (o, e) => BidButtonClicked?.Invoke(this, EventArgs.Empty);
+            _passButton.Activated += (o, e) => PassButtonClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Update(GameTime gameTime, InputHandler inputHandler)
+        {
+            if (!ButtonsShallBeShown) return;
+
+            _bidButton.Update(gameTime, inputHandler);
+            _passButton.Update(gameTime, inputHandler);
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (!ButtonsShallBeShown) return;
+
+            _bidButton.Draw(spriteBatch);
+            _passButton.Draw(spriteBatch);
+        }
+    }
+}

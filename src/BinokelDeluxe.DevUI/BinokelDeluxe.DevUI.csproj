@@ -49,6 +49,7 @@
     <Compile Include="DevCard.cs" />
     <Compile Include="DevUI.cs" />
     <Compile Include="Fragments\CardFragment.cs" />
+    <Compile Include="Fragments\PlayerChoiceFragment.cs" />
     <Compile Include="Fragments\StatusFragment.cs" />
     <Compile Include="Screens\BiddingScreen.cs" />
     <Compile Include="Screens\NullScreen.cs" />
