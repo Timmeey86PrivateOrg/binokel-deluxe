@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace BinokelDeluxe.DevUI.Screens
@@ -19,11 +19,29 @@ namespace BinokelDeluxe.DevUI.Screens
         private readonly Fragments.StatusFragment _statusFragment;
         private readonly Fragments.PlayerChoiceFragment _playerChoiceFragment;
 
+        private bool _bidPressed = false;
+        private bool _passPressed = false;
+
+        private bool BidPressed
+        {
+            set { lock (_mutex) { _bidPressed = value; } }
+            get { lock (_mutex) { return _bidPressed; } }
+        }
+
+        private bool PassPressed
+        {
+            set { lock (_mutex) { _passPressed = value; } }
+            get { lock (_mutex) { return _passPressed; } }
+        }
+
         public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<SpriteFont> getFont)
         {
             _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getFont);
             _statusFragment = new Fragments.StatusFragment();
             _playerChoiceFragment = new Fragments.PlayerChoiceFragment();
+
+            _playerChoiceFragment.BidButtonClicked += (o, e) => BidPressed = true;
+            _playerChoiceFragment.PassButtonClicked += (o, e) => PassPressed = true;
         }
 
         public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
@@ -86,17 +104,24 @@ namespace BinokelDeluxe.DevUI.Screens
         public Common.GameTrigger WaitForBidOrPass(int nextBidAmount)
         {
             // TODO: Display potential bid amount
-            lock(_mutex)
+            lock (_mutex)
             {
                 _playerChoiceFragment.ButtonsShallBeShown = true;
             }
 
             bool choiceWasMade = false;
-            while (!choiceWasMade)
+            while (!PassPressed && !BidPressed)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(50);
             }
-            return Common.GameTrigger.None;
+            if (BidPressed)
+            {
+                return Common.GameTrigger.BidPlaced;
+            }
+            else
+            {
+                return Common.GameTrigger.Passed;
+            }
         }
 
         public Common.GameTrigger LetUserExchangeCardsWithDabb()

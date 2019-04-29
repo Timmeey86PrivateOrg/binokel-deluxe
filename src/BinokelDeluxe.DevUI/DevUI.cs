@@ -132,7 +132,11 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayMelds(IEnumerable<MeldData> meldsByPlayers)
         {
-            throw new NotImplementedException();
+            // TODO: Implement this
+            while (true)
+            {
+                Thread.Sleep(50);
+            }
         }
 
         public void DisplayPlayerAsPassed(int playerPosition)
@@ -199,7 +203,11 @@ namespace BinokelDeluxe.DevUI
 
         public void RearrangeCardsForUser(IEnumerable<Card> rearrangedCards)
         {
-            throw new NotImplementedException();
+            // TODO: Implement this
+            while(true)
+            {
+                Thread.Sleep(50);
+            }
         }
 
         public void RemoveValidityState()

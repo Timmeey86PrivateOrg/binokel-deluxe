@@ -88,6 +88,8 @@ namespace BinokelDeluxe.DevUI
                     // Display a different texture for the button for 100ms to make sure the user knows it's pressed.
                     WasPressed = true;
                     _pressedTime = new GameTime(gameTime.TotalGameTime, gameTime.ElapsedGameTime);
+                    // Prevent the click from being processed any further
+                    inputHandler.Reset();
                 }
             }
             else if (WasPressed && _pressedTime != null && gameTime.TotalGameTime.TotalMilliseconds - _pressedTime.TotalGameTime.TotalMilliseconds > 100)

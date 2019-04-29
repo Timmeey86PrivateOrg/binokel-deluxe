@@ -93,11 +93,11 @@ namespace BinokelDeluxe.DevUI.Fragments
                                 card.Suit.ToString(),
                                 card.DeckNumber.ToString()
                                 ));
+                            inputHandler.Reset(); // Prevent the click from being processed any further
                             break; // Detecting one card is sufficient
                         }
                     }
                 }
-                inputHandler.Reset();
             }
         }
 

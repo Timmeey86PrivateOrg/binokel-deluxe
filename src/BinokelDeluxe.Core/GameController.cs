@@ -301,6 +301,9 @@ namespace BinokelDeluxe.Core
             if (IsUser(e.PlayerPosition))
             {
                 trigger = _userInterface.LetUserExchangeCardsWithDabb(out _discardedCards, out _trumpSuit);
+                // TODO: Validate and process discarded cards and selected trump suit
+                // TODO: Actually rearrange cards
+                _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
             }
             else
             {
@@ -309,11 +312,7 @@ namespace BinokelDeluxe.Core
                 _trumpSuit = Common.CardSuit.Hearts;
                 _discardedCards = new List<Common.Card>(_cardsInDabb);
             }
-
-            // TODO: Validate and process discarded cards and selected trump suit
-            // TODO: Actually rearrange cards
-            _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
-
+            
             ValidateTrigger(
                 trigger,
                 new HashSet<Common.GameTrigger>()
