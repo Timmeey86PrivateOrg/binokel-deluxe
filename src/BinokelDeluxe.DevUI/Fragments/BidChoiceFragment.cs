@@ -11,7 +11,7 @@ namespace BinokelDeluxe.DevUI.Fragments
     /// <summary>
     /// This fragment is responsible for asking for player choices.
     /// </summary>
-    internal class PlayerChoiceFragment
+    internal class BidChoiceFragment
     {
         public event EventHandler BidButtonClicked;
         public event EventHandler PassButtonClicked;
@@ -31,7 +31,7 @@ namespace BinokelDeluxe.DevUI.Fragments
         private readonly DevButton _bidButton = new DevButton();
         private readonly DevButton _passButton = new DevButton();
 
-        public PlayerChoiceFragment()
+        public BidChoiceFragment()
         {
             _bidButton.Position = new Vector2(480, 300);
             _bidButton.Width = 40;

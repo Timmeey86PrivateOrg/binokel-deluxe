@@ -18,10 +18,15 @@ namespace BinokelDeluxe.DevUI.Screens
 
         private readonly Fragments.CardFragment _cardFragment;
         private readonly Fragments.StatusFragment _statusFragment;
-        private readonly Fragments.PlayerChoiceFragment _playerChoiceFragment;
+        private readonly Fragments.BidChoiceFragment _bidChoiceFragment;
+        private readonly Fragments.DabbChoiceFragment _dabbChoiceFragment;
 
         private bool _bidPressed = false;
         private bool _passPressed = false;
+        private bool _goOutPressed = false;
+        private bool _finishPressed = false;
+        private bool _bettelPressed = false;
+        private bool _durchPressed = false;
 
         private IList<IList<Common.Card>> _cardsPerPlayer;
         private IList<Common.Card> _dabbCards;
@@ -38,14 +43,47 @@ namespace BinokelDeluxe.DevUI.Screens
             get { lock (_mutex) { return _passPressed; } }
         }
 
+        private bool FinishPressed
+        {
+            set { lock (_mutex) { _finishPressed = value; } }
+            get { lock (_mutex) { return _finishPressed; } }
+        }
+
+
+        private bool GoOutPressed
+        {
+            set { lock (_mutex) { _goOutPressed = value; } }
+            get { lock (_mutex) { return _goOutPressed; } }
+        }
+
+
+        private bool BettelPressed
+        {
+            set { lock (_mutex) { _bettelPressed = value; } }
+            get { lock (_mutex) { return _bettelPressed; } }
+        }
+
+
+        private bool DurchPressed
+        {
+            set { lock (_mutex) { _durchPressed = value; } }
+            get { lock (_mutex) { return _durchPressed; } }
+        }
+
+
         public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<Texture2D> getCardSelectedTexture, Func<SpriteFont> getFont)
         {
             _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont);
             _statusFragment = new Fragments.StatusFragment();
-            _playerChoiceFragment = new Fragments.PlayerChoiceFragment();
+            _bidChoiceFragment = new Fragments.BidChoiceFragment();
+            _dabbChoiceFragment = new Fragments.DabbChoiceFragment();
 
-            _playerChoiceFragment.BidButtonClicked += (o, e) => BidPressed = true;
-            _playerChoiceFragment.PassButtonClicked += (o, e) => PassPressed = true;
+            _bidChoiceFragment.BidButtonClicked += (o, e) => BidPressed = true;
+            _bidChoiceFragment.PassButtonClicked += (o, e) => PassPressed = true;
+            _dabbChoiceFragment.FinishedButtonClicked += (o, e) => FinishPressed = true;
+            _dabbChoiceFragment.GoOutButtonClicked += (o, e) => GoOutPressed = true;
+            _dabbChoiceFragment.DurchButtonClicked += (o, e) => DurchPressed = true;
+            _dabbChoiceFragment.BettelButtonClicked += (o, e) => BettelPressed = true;
         }
 
         public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
@@ -117,7 +155,7 @@ namespace BinokelDeluxe.DevUI.Screens
             lock (_mutex)
             {
                 // Reset button state
-                _playerChoiceFragment.ButtonsShallBeShown = true;
+                _bidChoiceFragment.ButtonsShallBeShown = true;
                 PassPressed = false;
                 BidPressed = false;
             }
@@ -136,7 +174,7 @@ namespace BinokelDeluxe.DevUI.Screens
                 trigger = Common.GameTrigger.Passed;
             }
 
-            _playerChoiceFragment.ButtonsShallBeShown = false;
+            _bidChoiceFragment.ButtonsShallBeShown = false;
             return trigger;
         }
 
@@ -150,26 +188,22 @@ namespace BinokelDeluxe.DevUI.Screens
         {
             get { lock (_mutex) { return _selectedDabbCard; } }
         }
-        private bool _exchangeFinished = false;
-        private bool ExchangeFinished
-        {
-            get { lock (_mutex) { return _exchangeFinished; } }
-        }
         public Common.GameTrigger LetUserExchangeCardsWithDabb(out IEnumerable<Common.Card> discardedCards, out Common.CardSuit? trumpSuit)
         {
             lock (_mutex)
             {
                 _cardFragment.CardClicked += OnPlayerCardSelected;
                 _cardFragment.CardClicked += OnDabbCardSelected;
+                _dabbChoiceFragment.ButtonsShallBeShown = true;
             }
             // TODO: Offer some kind of "finished" button.
-            while (!ExchangeFinished)
+            while (!FinishPressed)
             {
-                while ((SelectedPlayerCard == null || SelectedDabbCard == null ) && !ExchangeFinished)
+                while ((SelectedPlayerCard == null || SelectedDabbCard == null ) && !FinishPressed)
                 {
                     Thread.Sleep(50);
                 }
-                if (ExchangeFinished) { break; }
+                if (FinishPressed) { break; }
                 // Both a player and a dabb card have been selected, exchange them.
                 SwapCards();
                 Thread.Sleep(30);
@@ -179,10 +213,12 @@ namespace BinokelDeluxe.DevUI.Screens
             {
                 _cardFragment.CardClicked -= OnPlayerCardSelected;
                 _cardFragment.CardClicked -= OnDabbCardSelected;
+                _dabbChoiceFragment.ButtonsShallBeShown = false;
             }
             discardedCards = _dabbCards;
+            // TODO: Let player select trump
             trumpSuit = Common.CardSuit.Hearts;
-            return Common.GameTrigger.None;
+            return Common.GameTrigger.TrumpSelected;
         }
 
         private void SwapCards()
@@ -245,7 +281,12 @@ namespace BinokelDeluxe.DevUI.Screens
             lock (_mutex)
             {
                 _statusFragment.Font = content.Load<SpriteFont>("dev/devfont");
-                _playerChoiceFragment.Load(
+                _bidChoiceFragment.Load(
+                    content.Load<Texture2D>("dev/devbutton"),
+                    content.Load<Texture2D>("dev/devbutton_pressed"),
+                    content.Load<SpriteFont>("dev/devfont")
+                    );
+                _dabbChoiceFragment.Load(
                     content.Load<Texture2D>("dev/devbutton"),
                     content.Load<Texture2D>("dev/devbutton_pressed"),
                     content.Load<SpriteFont>("dev/devfont")
@@ -261,7 +302,8 @@ namespace BinokelDeluxe.DevUI.Screens
             lock (_mutex)
             {
                 _cardFragment.Update(gameTime, inputHandler);
-                _playerChoiceFragment.Update(gameTime, inputHandler);
+                _bidChoiceFragment.Update(gameTime, inputHandler);
+                _dabbChoiceFragment.Update(gameTime, inputHandler);
             }
         }
 
@@ -271,7 +313,8 @@ namespace BinokelDeluxe.DevUI.Screens
             {
                 _cardFragment.Draw(spriteBatch);
                 _statusFragment.Draw(spriteBatch);
-                _playerChoiceFragment.Draw(spriteBatch);
+                _bidChoiceFragment.Draw(spriteBatch);
+                _dabbChoiceFragment.Draw(spriteBatch);
             }
         }
     }
