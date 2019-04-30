@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace BinokelDeluxe.DevUI.Fragments
@@ -15,6 +16,7 @@ namespace BinokelDeluxe.DevUI.Fragments
         public event EventHandler<Common.CardEventArgs> CardClicked;
 
         private readonly Dictionary<Common.Card, DevCard> _cardGraphics = new Dictionary<Common.Card, DevCard>();
+        private List<Common.Card> _drawingOrder;
 
         private readonly Func<Texture2D> _getBackTexture;
         private readonly Func<Texture2D> _getFrontTexture;
@@ -22,7 +24,7 @@ namespace BinokelDeluxe.DevUI.Fragments
         private readonly Func<SpriteFont> _getFont;
 
         private int _dealerNumber = -1;
-        private IList<Common.Card> _clickableCards;
+        private HashSet<Common.Card> _clickableCards;
 
         // For less calculation
         private IList<Vector2> _playerPositions = null;
@@ -46,8 +48,12 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             _amountOfPlayers = cardsPerPlayer.Count();
             _amountOfCardsPerPlayer = cardsPerPlayer.First().Count();
-            _clickableCards = cardsPerPlayer.First().ToList();
-            dabbCards.ToList().ForEach(card => _clickableCards.Add(card));
+
+            _clickableCards = new HashSet<Common.Card>(cardsPerPlayer.First());
+            _clickableCards.UnionWith(dabbCards);
+
+            _drawingOrder = cardsPerPlayer.SelectMany(innerList => innerList).ToList();
+            _drawingOrder.AddRange(dabbCards);
 
             CalculatePlayerPositions();
             CalculateCardGraphics(cardsPerPlayer, dabbCards);
@@ -90,8 +96,11 @@ namespace BinokelDeluxe.DevUI.Fragments
             if (inputHandler.ReleasedPoint.HasValue)
             {
                 // Try detecting clicks on cards
-                foreach (var card in _clickableCards)
+                foreach (var card in _drawingOrder.Reverse<Common.Card>())
                 {
+                    // Skip cards of enemy players
+                    if (!_clickableCards.Contains(card)) continue;
+
                     var cardGraphics = _cardGraphics[card];
                     if (cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
                     {
@@ -105,11 +114,18 @@ namespace BinokelDeluxe.DevUI.Fragments
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _cardGraphics.Values.ToList().ForEach(card => card.Draw(spriteBatch));
+            if (_drawingOrder == null) return;
+
+            _drawingOrder.ForEach(card => _cardGraphics[card].Draw(spriteBatch));
         }
 
         public void SwapCards(Common.Card first, Common.Card second)
         {
+            Contract.Requires(first != null);
+            Contract.Requires(second != null);
+            Contract.Requires(Contract.Exists(_cardGraphics.Keys, x => x == first));
+            Contract.Requires(Contract.Exists(_cardGraphics.Keys, x => x == second));
+
             var firstCardGraphics = _cardGraphics[first].Clone();
             var secondCardGraphics = _cardGraphics[second].Clone();
 
@@ -120,6 +136,11 @@ namespace BinokelDeluxe.DevUI.Fragments
             _cardGraphics[second].Angle = firstCardGraphics.Angle;
             _cardGraphics[second].Position = firstCardGraphics.Position;
             _cardGraphics[second].IsSelected = false;
+
+            var indexOfFirstCard = _drawingOrder.IndexOf(first);
+            var indexOfSecondCard = _drawingOrder.IndexOf(second);
+            _drawingOrder[indexOfFirstCard] = second;
+            _drawingOrder[indexOfSecondCard] = first;
         }
 
         private void CalculateCardGraphics(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
