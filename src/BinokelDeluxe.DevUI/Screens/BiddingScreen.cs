@@ -106,22 +106,28 @@ namespace BinokelDeluxe.DevUI.Screens
             // TODO: Display potential bid amount
             lock (_mutex)
             {
+                // Reset button state
                 _playerChoiceFragment.ButtonsShallBeShown = true;
+                PassPressed = false;
+                BidPressed = false;
             }
 
-            bool choiceWasMade = false;
             while (!PassPressed && !BidPressed)
             {
                 Thread.Sleep(50);
             }
+            Common.GameTrigger trigger;
             if (BidPressed)
             {
-                return Common.GameTrigger.BidPlaced;
+                trigger = Common.GameTrigger.BidPlaced;
             }
             else
             {
-                return Common.GameTrigger.Passed;
+                trigger = Common.GameTrigger.Passed;
             }
+
+            _playerChoiceFragment.ButtonsShallBeShown = false;
+            return trigger;
         }
 
         public Common.GameTrigger LetUserExchangeCardsWithDabb()

@@ -116,8 +116,8 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayAIBid(int playerPosition, int bidAmount)
         {
-            _biddingScreen.SetPlayerBid(playerPosition, bidAmount);
             Thread.Sleep(500);
+            _biddingScreen.SetPlayerBid(playerPosition, bidAmount);
         }
 
         public void DisplayGameScore(IEnumerable<ScoreData> playerOrTeamScores)

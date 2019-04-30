@@ -94,8 +94,18 @@ namespace BinokelDeluxe.DevUI.Fragments
                                 card.DeckNumber.ToString()
                                 ));
                             inputHandler.Reset(); // Prevent the click from being processed any further
-                            break; // Detecting one card is sufficient
+                            return; // Detecting one card is sufficient
                         }
+                    }
+                }
+                foreach(var cardInDabb in _cardsInDabb)
+                {
+                    var cardGraphics = _cardGraphics[cardInDabb];
+                    if(cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
+                    {
+                        cardGraphics.IsCovered = !cardGraphics.IsCovered;
+                        inputHandler.Reset();
+                        return;
                     }
                 }
             }

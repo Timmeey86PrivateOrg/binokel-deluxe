@@ -16,7 +16,17 @@ namespace BinokelDeluxe.DevUI.Fragments
         public event EventHandler BidButtonClicked;
         public event EventHandler PassButtonClicked;
 
-        public bool ButtonsShallBeShown { get; set; } = false;
+        private bool _buttonsShallBeShown = false;
+        public bool ButtonsShallBeShown
+        {
+            get { return _buttonsShallBeShown; }
+            set
+            {
+                _bidButton.WasPressed = !value;
+                _passButton.WasPressed = !value;
+                _buttonsShallBeShown = value;
+            }
+        }
 
         private readonly DevButton _bidButton = new DevButton();
         private readonly DevButton _passButton = new DevButton();
