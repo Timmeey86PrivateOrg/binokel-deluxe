@@ -18,6 +18,7 @@ namespace BinokelDeluxe.DevUI
         private Rectangle _drawingArea;
         private readonly Texture2D _backTexture;
         private readonly Texture2D _frontTexture;
+        private readonly Texture2D _selectedTexture;
         private readonly SpriteFont _font;
         
         /// <summary>
@@ -50,15 +51,37 @@ namespace BinokelDeluxe.DevUI
         /// </summary>
         public bool IsCovered { get; set; } = true;
 
-        public DevCard(Texture2D backTexture, Texture2D frontTexture, SpriteFont font)
+        /// <summary>
+        /// True if selected, false otherwise (default).
+        /// </summary>
+        public bool IsSelected { get; set; } = false;
+
+        public DevCard(Texture2D backTexture, Texture2D frontTexture, Texture2D selectedTexture, SpriteFont font)
         {
             _backTexture = backTexture;
             _frontTexture = frontTexture;
+            _selectedTexture = selectedTexture;
             _font = font;
             // Make the card rotate around a point that is 1.5 times its height below it.
             _origin = new Vector2(.0f, backTexture.Height * 2.5f);
             // Make the card be drawn at a fracture of its texture size.
             _drawingArea = new Rectangle(0, 0, (int)Math.Round(backTexture.Width * ScaleFactor), (int)Math.Round(backTexture.Height * ScaleFactor));
+        }
+
+        /// <summary>
+        /// Creates a clone of this DevCard instance, with the Card pointing to the same instance.
+        /// </summary>
+        /// <returns>The cloned card graphics.</returns>
+        public DevCard Clone()
+        {
+            return new DevCard(_backTexture, _frontTexture, _selectedTexture, _font)
+            {
+                Angle = this.Angle,
+                Card = this.Card, // don't clone! Every card should exist only once
+                IsCovered = this.IsCovered,
+                IsSelected = this.IsSelected,
+                Position = this.Position
+            };
         }
 
         public void Update(GameTime gameTime, InputHandler inputHandler)
@@ -67,7 +90,8 @@ namespace BinokelDeluxe.DevUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var texture = IsCovered ? _backTexture : _frontTexture;
+            var frontTexture = IsSelected ? _selectedTexture : _frontTexture;
+            var texture = IsCovered ? _backTexture : frontTexture;
             spriteBatch.Draw(texture, _drawingArea, null, Color.White, Angle * MathHelper.Pi / 180f, _origin, SpriteEffects.None, 1.0f);
             if (!IsCovered)
             {

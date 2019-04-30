@@ -12,25 +12,28 @@ namespace BinokelDeluxe.DevUI.Fragments
     /// </summary>
     internal class CardFragment
     {
+        public event EventHandler<Common.CardEventArgs> CardClicked;
+
         private readonly Dictionary<Common.Card, DevCard> _cardGraphics = new Dictionary<Common.Card, DevCard>();
 
         private readonly Func<Texture2D> _getBackTexture;
         private readonly Func<Texture2D> _getFrontTexture;
+        private readonly Func<Texture2D> _getSelectedTexture;
         private readonly Func<SpriteFont> _getFont;
 
         private int _dealerNumber = -1;
-        private IEnumerable<IEnumerable<Common.Card>> _cardsPerPlayer;
-        private IEnumerable<Common.Card> _cardsInDabb;
+        private IList<Common.Card> _clickableCards;
 
         // For less calculation
         private IList<Vector2> _playerPositions = null;
         private int _amountOfPlayers = 0;
         private int _amountOfCardsPerPlayer = 0;
 
-        public CardFragment(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<SpriteFont> getFont)
+        public CardFragment(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<Texture2D> getSelectedTexture, Func<SpriteFont> getFont)
         {
             _getBackTexture = getCardBackTexture;
             _getFrontTexture = getCardFrontTexture;
+            _getSelectedTexture = getSelectedTexture;
             _getFont = getFont;
         }
 
@@ -43,8 +46,8 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             _amountOfPlayers = cardsPerPlayer.Count();
             _amountOfCardsPerPlayer = cardsPerPlayer.First().Count();
-            _cardsPerPlayer = cardsPerPlayer;
-            _cardsInDabb = dabbCards;
+            _clickableCards = cardsPerPlayer.First().ToList();
+            dabbCards.ToList().ForEach(card => _clickableCards.Add(card));
 
             CalculatePlayerPositions();
             CalculateCardGraphics(cardsPerPlayer, dabbCards);
@@ -56,7 +59,7 @@ namespace BinokelDeluxe.DevUI.Fragments
         /// <param name="cards">The cards to be uncovered.</param>
         public void UncoverCards(IEnumerable<Common.Card> cards)
         {
-            foreach( var card in cards)
+            foreach (var card in cards)
             {
                 _cardGraphics[card].IsCovered = false;
             }
@@ -71,7 +74,15 @@ namespace BinokelDeluxe.DevUI.Fragments
             _dealerNumber = dealerNumber;
             // TODO: Add dealer button
         }
-        
+
+        public void SetCardSelected(Common.Card card, bool selected)
+        {
+            if (_cardGraphics.ContainsKey(card))
+            {
+                _cardGraphics[card].IsSelected = selected;
+            }
+        }
+
         public void Update(GameTime gameTime, InputHandler inputHandler)
         {
             _cardGraphics.Values.ToList().ForEach(card => card.Update(gameTime, inputHandler));
@@ -79,33 +90,14 @@ namespace BinokelDeluxe.DevUI.Fragments
             if (inputHandler.ReleasedPoint.HasValue)
             {
                 // Try detecting clicks on cards
-                foreach (var playerCards in _cardsPerPlayer)
+                foreach (var card in _clickableCards)
                 {
-                    foreach (var card in playerCards.Reverse())
+                    var cardGraphics = _cardGraphics[card];
+                    if (cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
                     {
-                        var cardGraphics = _cardGraphics[card];
-                        if (cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
-                        {
-                            cardGraphics.IsCovered = !cardGraphics.IsCovered;
-                            Console.WriteLine(String.Format(
-                                "Clicked {0} of {1} from deck {2}",
-                                card.Type.ToString(),
-                                card.Suit.ToString(),
-                                card.DeckNumber.ToString()
-                                ));
-                            inputHandler.Reset(); // Prevent the click from being processed any further
-                            return; // Detecting one card is sufficient
-                        }
-                    }
-                }
-                foreach(var cardInDabb in _cardsInDabb)
-                {
-                    var cardGraphics = _cardGraphics[cardInDabb];
-                    if(cardGraphics.IsInDrawingArea(inputHandler.ReleasedPoint.Value))
-                    {
-                        cardGraphics.IsCovered = !cardGraphics.IsCovered;
-                        inputHandler.Reset();
-                        return;
+                        CardClicked?.Invoke(this, new Common.CardEventArgs(card));
+                        inputHandler.Reset(); // Prevent the click from being processed any further
+                        return; // Detecting one card is sufficient
                     }
                 }
             }
@@ -116,10 +108,25 @@ namespace BinokelDeluxe.DevUI.Fragments
             _cardGraphics.Values.ToList().ForEach(card => card.Draw(spriteBatch));
         }
 
+        public void SwapCards(Common.Card first, Common.Card second)
+        {
+            var firstCardGraphics = _cardGraphics[first].Clone();
+            var secondCardGraphics = _cardGraphics[second].Clone();
+
+            _cardGraphics[first].Angle = secondCardGraphics.Angle;
+            _cardGraphics[first].Position = secondCardGraphics.Position;
+            _cardGraphics[first].IsSelected = false;
+
+            _cardGraphics[second].Angle = firstCardGraphics.Angle;
+            _cardGraphics[second].Position = firstCardGraphics.Position;
+            _cardGraphics[second].IsSelected = false;
+        }
+
         private void CalculateCardGraphics(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
         {
             var backTexture = _getBackTexture();
             var frontTexture = _getFrontTexture();
+            var selectedTexture = _getSelectedTexture();
             var font = _getFont();
             var playerPosition = 0;
             var cardNumber = 0;
@@ -130,7 +137,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                 {
                     _cardGraphics.Add(
                         card,
-                        new DevCard(backTexture, frontTexture, font)
+                        new DevCard(backTexture, frontTexture, selectedTexture, font)
                         {
                             Card = card,
                             Position = _playerPositions[playerPosition],
@@ -150,11 +157,11 @@ namespace BinokelDeluxe.DevUI.Fragments
             var rowWidth = numberOfCardsPerRow * 40 - 2; // e.g. 3 * 38 + 2 * 2 margin
             var rowHeight = 2 * 60 + 2;
 
-            foreach ( var card in dabbCards)
+            foreach (var card in dabbCards)
             {
                 _cardGraphics.Add(
                     card,
-                    new DevCard(backTexture, frontTexture, font)
+                    new DevCard(backTexture, frontTexture, selectedTexture, font)
                     {
                         Card = card,
                         Position = new Vector2(

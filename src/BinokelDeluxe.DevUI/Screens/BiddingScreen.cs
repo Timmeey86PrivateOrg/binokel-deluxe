@@ -10,6 +10,7 @@ namespace BinokelDeluxe.DevUI.Screens
 {
     /// <summary>
     /// The screen which is used during the dealing and bidding phases.
+    /// For the actual UI, this code could probably be split into drawing and input handling code
     /// </summary>
     public class BiddingScreen : IUIScreen
     {
@@ -21,6 +22,9 @@ namespace BinokelDeluxe.DevUI.Screens
 
         private bool _bidPressed = false;
         private bool _passPressed = false;
+
+        private IList<IList<Common.Card>> _cardsPerPlayer;
+        private IList<Common.Card> _dabbCards;
 
         private bool BidPressed
         {
@@ -34,9 +38,9 @@ namespace BinokelDeluxe.DevUI.Screens
             get { lock (_mutex) { return _passPressed; } }
         }
 
-        public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<SpriteFont> getFont)
+        public BiddingScreen(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<Texture2D> getCardSelectedTexture, Func<SpriteFont> getFont)
         {
-            _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getFont);
+            _cardFragment = new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont);
             _statusFragment = new Fragments.StatusFragment();
             _playerChoiceFragment = new Fragments.PlayerChoiceFragment();
 
@@ -50,6 +54,12 @@ namespace BinokelDeluxe.DevUI.Screens
             {
                 _cardFragment.SetCards(cardsPerPlayer, dabbCards);
                 _statusFragment.DisplayWaitingStatus(cardsPerPlayer.Count());
+                _cardsPerPlayer = new List<IList<Common.Card>>();
+                foreach(var playerCards in cardsPerPlayer)
+                {
+                    _cardsPerPlayer.Add(playerCards.ToList());
+                }
+                _dabbCards = dabbCards.ToList();
             }
         }
 
@@ -130,9 +140,104 @@ namespace BinokelDeluxe.DevUI.Screens
             return trigger;
         }
 
-        public Common.GameTrigger LetUserExchangeCardsWithDabb()
+        private Common.Card _selectedPlayerCard = null;
+        private Common.Card SelectedPlayerCard
         {
+            get { lock (_mutex) { return _selectedPlayerCard; } }
+        }
+        private Common.Card _selectedDabbCard = null;
+        private Common.Card SelectedDabbCard
+        {
+            get { lock (_mutex) { return _selectedDabbCard; } }
+        }
+        private bool _exchangeFinished = false;
+        private bool ExchangeFinished
+        {
+            get { lock (_mutex) { return _exchangeFinished; } }
+        }
+        public Common.GameTrigger LetUserExchangeCardsWithDabb(out IEnumerable<Common.Card> discardedCards, out Common.CardSuit? trumpSuit)
+        {
+            lock (_mutex)
+            {
+                _cardFragment.CardClicked += OnPlayerCardSelected;
+                _cardFragment.CardClicked += OnDabbCardSelected;
+            }
+            // TODO: Offer some kind of "finished" button.
+            while (!ExchangeFinished)
+            {
+                while ((SelectedPlayerCard == null || SelectedDabbCard == null ) && !ExchangeFinished)
+                {
+                    Thread.Sleep(50);
+                }
+                if (ExchangeFinished) { break; }
+                // Both a player and a dabb card have been selected, exchange them.
+                SwapCards();
+                Thread.Sleep(30);
+            }
+
+            lock (_mutex)
+            {
+                _cardFragment.CardClicked -= OnPlayerCardSelected;
+                _cardFragment.CardClicked -= OnDabbCardSelected;
+            }
+            discardedCards = _dabbCards;
+            trumpSuit = Common.CardSuit.Hearts;
             return Common.GameTrigger.None;
+        }
+
+        private void SwapCards()
+        {
+            lock(_mutex)
+            {
+                var indexOfDabbCard = _dabbCards.IndexOf(_selectedDabbCard);
+                _dabbCards[indexOfDabbCard] = _selectedPlayerCard;
+
+                var indexOfPlayerCard = _cardsPerPlayer[0].IndexOf(_selectedPlayerCard);
+                _cardsPerPlayer[0][indexOfPlayerCard] = _selectedDabbCard;
+
+                _cardFragment.SwapCards(_selectedDabbCard, _selectedPlayerCard);
+                _selectedPlayerCard = null;
+                _selectedDabbCard = null;
+            }
+        }
+
+        private void OnPlayerCardSelected(object sender, Common.CardEventArgs e)
+        {
+            SelectCardOnClick(_cardsPerPlayer.First(), () => _selectedPlayerCard, (card) => _selectedPlayerCard = card, e.Card);
+        }
+
+        private void OnDabbCardSelected(object sender, Common.CardEventArgs e)
+        {
+            SelectCardOnClick(_dabbCards, () => _selectedDabbCard, (card) => _selectedDabbCard = card, e.Card);
+        }
+
+        private void SelectCardOnClick(
+            IEnumerable<Common.Card> validCards,
+            Func<Common.Card> getSelectedCard,
+            Action<Common.Card> setSelectedCard,
+            Common.Card card
+            )
+        {
+            if (validCards.Contains(card))
+            {
+                lock (_mutex)
+                {
+                    var selectedCard = getSelectedCard();
+                    if (selectedCard != null)
+                    {
+                        _cardFragment.SetCardSelected(selectedCard, false);
+                    }
+                    if (card != selectedCard)
+                    {
+                        _cardFragment.SetCardSelected(card, true);
+                        setSelectedCard(card);
+                    }
+                    else
+                    {
+                        setSelectedCard(null);
+                    }
+                }
+            }
         }
 
         public void Load(ContentManager content)

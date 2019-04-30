@@ -30,6 +30,7 @@ namespace BinokelDeluxe.DevUI
         private SpriteFont _font;
         private Texture2D _cardFrontTexture;
         private Texture2D _cardBackTexture;
+        private Texture2D _cardSelectedTexture;
         private Texture2D _backgroundTexture;
         private InputHandler _inputHandler = new InputHandler();
         private bool _exited = false;
@@ -57,6 +58,7 @@ namespace BinokelDeluxe.DevUI
             _biddingScreen = new Screens.BiddingScreen(
                 () => { return _cardBackTexture; },
                 () => { return _cardFrontTexture; },
+                () => { return _cardSelectedTexture; },
                 () => { return _font; }
                 );
         }
@@ -77,6 +79,7 @@ namespace BinokelDeluxe.DevUI
             _font = contentManager.Load<SpriteFont>("dev/devfont");
             _cardFrontTexture = contentManager.Load<Texture2D>("dev/frame");
             _cardBackTexture = contentManager.Load<Texture2D>("dev/back");
+            _cardSelectedTexture = contentManager.Load<Texture2D>("dev/frame_selected");
             _backgroundTexture = contentManager.Load<Texture2D>("dev/background");
 
             _contentManager = contentManager;
@@ -157,9 +160,7 @@ namespace BinokelDeluxe.DevUI
 
         public GameTrigger LetUserExchangeCardsWithDabb(out IEnumerable<Card> discardedCards, out CardSuit? trumpSuit)
         {
-            discardedCards = null;
-            trumpSuit = null;
-            return _biddingScreen.LetUserExchangeCardsWithDabb();
+            return _biddingScreen.LetUserExchangeCardsWithDabb(out discardedCards, out trumpSuit);
         }
 
         public GameTrigger LetUserPlaceFirstBidOrPass(int initialBidAmount)

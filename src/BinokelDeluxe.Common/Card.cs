@@ -64,4 +64,14 @@ namespace BinokelDeluxe.Common
             }
         }
     }
+
+    public class CardEventArgs : EventArgs
+    {
+        public Card Card { get; private set; }
+
+        public CardEventArgs(Card card)
+        {
+            Card = card;
+        }
+    }
 }
