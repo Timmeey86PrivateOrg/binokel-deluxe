@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BinokelDeluxe.Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -143,6 +144,8 @@ namespace BinokelDeluxe.DevUI.Fragments
             var font = _getFont();
             var playerPosition = 0;
             var cardNumber = 0;
+
+            _cardGraphics.Clear();
             foreach (var playerCards in cardsPerPlayer)
             {
                 cardNumber = 0;
@@ -155,12 +158,12 @@ namespace BinokelDeluxe.DevUI.Fragments
                             Card = card,
                             Position = _playerPositions[playerPosition],
                             // 10 degrees rotation per card, with the middle card having a rotation of zero.
-                            Angle = (cardNumber - _amountOfCardsPerPlayer / 2 - 1) * 10f
+                            Angle = CalculateAngle(cardNumber)
                         });
                     Debug.Assert(_cardGraphics.ContainsKey(card));
                     cardNumber++;
                 }
-                if(playerPosition == 0)
+                if (playerPosition == 0)
                 {
                     // Make the cards of the human player larger
                     playerCards.ToList().ForEach(card => _cardGraphics[card].ScaleFactor = 0.1f);
@@ -189,6 +192,11 @@ namespace BinokelDeluxe.DevUI.Fragments
                     });
                 cardNumber++;
             }
+        }
+
+        private float CalculateAngle(int cardNumber)
+        {
+            return (cardNumber - _amountOfCardsPerPlayer / 2 - 1) * 10f;
         }
 
         private void CalculatePlayerPositions()

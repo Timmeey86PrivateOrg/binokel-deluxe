@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BinokelDeluxe.Common;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -219,6 +220,18 @@ namespace BinokelDeluxe.DevUI.Screens
             // TODO: Let player select trump
             trumpSuit = Common.CardSuit.Hearts;
             return Common.GameTrigger.TrumpSelected;
+        }
+
+        public void RearrangeCardsForUser(IEnumerable<Card> rearrangedCards)
+        {
+            lock(_mutex)
+            {
+                _cardsPerPlayer[0] = rearrangedCards.ToList();
+                // Rather than swapping single cards, it's safer and more robust to just re-initialize the card fragment.
+                // Note: The bidding screen will not be reused at this point, but the card fragment may be reused by the next screen
+                _cardFragment.SetCards(_cardsPerPlayer, _dabbCards);
+                _cardFragment.UncoverCards(rearrangedCards);
+            }
         }
 
         private void SwapCards()

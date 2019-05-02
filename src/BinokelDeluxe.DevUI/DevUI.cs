@@ -204,11 +204,7 @@ namespace BinokelDeluxe.DevUI
 
         public void RearrangeCardsForUser(IEnumerable<Card> rearrangedCards)
         {
-            // TODO: Implement this
-            while(true)
-            {
-                Thread.Sleep(50);
-            }
+            _biddingScreen.RearrangeCardsForUser(rearrangedCards);
         }
 
         public void RemoveValidityState()

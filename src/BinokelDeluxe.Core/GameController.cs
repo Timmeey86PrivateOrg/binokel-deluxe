@@ -290,7 +290,6 @@ namespace BinokelDeluxe.Core
         }
 
         private Common.CardSuit? _trumpSuit = null;
-        private IEnumerable<Common.Card> _discardedCards = null;
 
         private bool _playerWentOut = false;
         private void EventSource_ExchangingCardsWithDabbStarted(object sender, GameLogic.PlayerPositionEventArgs e)
@@ -300,8 +299,25 @@ namespace BinokelDeluxe.Core
             Common.GameTrigger trigger;
             if (IsUser(e.PlayerPosition))
             {
-                trigger = _userInterface.LetUserExchangeCardsWithDabb(out _discardedCards, out _trumpSuit);
+                IEnumerable<Common.Card> discardedCards = null;
+                trigger = _userInterface.LetUserExchangeCardsWithDabb(out discardedCards, out _trumpSuit);
                 // TODO: Validate and process discarded cards and selected trump suit
+                var removedDabbCards = new HashSet<Common.Card>(_cardsInDabb);
+                var removedPlayerCards = new List<Common.Card>();
+                foreach(var discardedCard in discardedCards)
+                {
+                    if(_cardsInDabb.Contains(discardedCard))
+                    {
+                        // The card remains in dabb, remove it from the set of cards which could have been taken by the player
+                        removedDabbCards.Remove(discardedCard);
+                    }
+                    {
+                        // The card used to be a player card but was discarded
+                        removedPlayerCards.Add(discardedCard);
+                    }
+                }
+                _cardsInDabb = _cardsInDabb.Except(removedDabbCards.ToList()).Concat(removedPlayerCards).ToList();
+                _cardsPerPlayer[0] = _cardsPerPlayer[0].Except(removedPlayerCards).Concat(removedDabbCards.ToList());
                 // TODO: Actually rearrange cards
                 _userInterface.RearrangeCardsForUser(_cardsPerPlayer.First());
             }
@@ -310,7 +326,6 @@ namespace BinokelDeluxe.Core
                 // TODO: Implement AI
                 trigger = Common.GameTrigger.TrumpSelected;
                 _trumpSuit = Common.CardSuit.Hearts;
-                _discardedCards = new List<Common.Card>(_cardsInDabb);
             }
             
             ValidateTrigger(
