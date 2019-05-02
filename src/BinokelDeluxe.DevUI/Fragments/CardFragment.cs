@@ -174,9 +174,17 @@ namespace BinokelDeluxe.DevUI.Fragments
             cardNumber = 0;
             var centerPosition = new Vector2(400, 240);
             var numberOfCardsInDabb = dabbCards.Count();
-            var numberOfCardsPerRow = numberOfCardsInDabb / 2;
-            var rowWidth = numberOfCardsPerRow * 40 - 2; // e.g. 3 * 38 + 2 * 2 margin
-            var rowHeight = 2 * 60 + 2;
+            var spacing = 10;
+            var dabbScaleFactor = .1f;
+            var height = backTexture.Height * dabbScaleFactor;
+            var cardWidth = backTexture.Width * dabbScaleFactor;
+
+            var xBase = centerPosition.X - (numberOfCardsInDabb / 2.0f) * (cardWidth + spacing) + spacing;
+            var yBase = centerPosition.Y - (height / 2.0f);
+            // Correct y base by the origin offset which is used for drawing cards
+            yBase += (height * 2.5f);
+            // Shift the cards upwards a bit since player 0's cards are larger than the other ones
+            yBase -= 25;
 
             foreach (var card in dabbCards)
             {
@@ -185,10 +193,8 @@ namespace BinokelDeluxe.DevUI.Fragments
                     new DevCard(backTexture, frontTexture, selectedTexture, font)
                     {
                         Card = card,
-                        Position = new Vector2(
-                            centerPosition.X - rowWidth / 2 + (cardNumber % numberOfCardsPerRow) * 40,
-                            centerPosition.Y - rowHeight / 2 + (cardNumber / numberOfCardsPerRow) * 62 + 115
-                            )
+                        Position = new Vector2(xBase + cardNumber * (cardWidth + spacing), yBase),
+                        ScaleFactor = dabbScaleFactor
                     });
                 cardNumber++;
             }

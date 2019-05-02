@@ -40,22 +40,22 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             _finishButton = new DevButton()
             {
-                Position = new Vector2(500, 230),
+                Position = new Vector2(400 + 200 - 40, 220),
                 Text = "Finish"
             };
             _goOutButton = new DevButton()
             {
-                Position = new Vector2(500, 260),
+                Position = new Vector2(400 + 200 - 40, 278),
                 Text = "Go Out"
             };
             _bettelButton = new DevButton()
             {
-                Position = new Vector2(260, 230),
+                Position = new Vector2(400 - 200 - 40, 220),
                 Text = "Bettel"
             };
             _durchButton = new DevButton()
             {
-                Position = new Vector2(260, 260),
+                Position = new Vector2(400 - 200 - 40, 278),
                 Text = "Durch"
             };
 
@@ -63,11 +63,6 @@ namespace BinokelDeluxe.DevUI.Fragments
             {
                 _finishButton, _goOutButton, _bettelButton, _durchButton
             };
-            _buttons.ForEach(button =>
-            {
-                button.Width = 40;
-                button.Height = 24;
-            });
         }
 
         public void Load(Texture2D texture, Texture2D pressedTexture, SpriteFont font)
