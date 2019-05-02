@@ -126,17 +126,9 @@ namespace BinokelDeluxe.DevUI.Fragments
             Contract.Requires(Contract.Exists(_cardGraphics.Keys, x => x == first));
             Contract.Requires(Contract.Exists(_cardGraphics.Keys, x => x == second));
 
-            var firstCardGraphics = _cardGraphics[first].Clone();
-            var secondCardGraphics = _cardGraphics[second].Clone();
+            DevCard.SwapPositions(_cardGraphics[first], _cardGraphics[second]);
 
-            _cardGraphics[first].Angle = secondCardGraphics.Angle;
-            _cardGraphics[first].Position = secondCardGraphics.Position;
-            _cardGraphics[first].IsSelected = false;
-
-            _cardGraphics[second].Angle = firstCardGraphics.Angle;
-            _cardGraphics[second].Position = firstCardGraphics.Position;
-            _cardGraphics[second].IsSelected = false;
-
+            // Swap the drawing order as well so the new player card is not drawn above the other player cards.
             var indexOfFirstCard = _drawingOrder.IndexOf(first);
             var indexOfSecondCard = _drawingOrder.IndexOf(second);
             _drawingOrder[indexOfFirstCard] = second;
@@ -168,6 +160,11 @@ namespace BinokelDeluxe.DevUI.Fragments
                     Debug.Assert(_cardGraphics.ContainsKey(card));
                     cardNumber++;
                 }
+                if(playerPosition == 0)
+                {
+                    // Make the cards of the human player larger
+                    playerCards.ToList().ForEach(card => _cardGraphics[card].ScaleFactor = 0.1f);
+                }
                 playerPosition++;
             }
 
@@ -187,7 +184,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                         Card = card,
                         Position = new Vector2(
                             centerPosition.X - rowWidth / 2 + (cardNumber % numberOfCardsPerRow) * 40,
-                            centerPosition.Y - rowHeight / 2 + (cardNumber / numberOfCardsPerRow) * 62 + 150
+                            centerPosition.Y - rowHeight / 2 + (cardNumber / numberOfCardsPerRow) * 62 + 115
                             )
                     });
                 cardNumber++;
@@ -200,19 +197,19 @@ namespace BinokelDeluxe.DevUI.Fragments
             {
                 _playerPositions = new List<Vector2>()
                 {
-                    new Vector2(400, 480),
-                    new Vector2(650, 280),
-                    new Vector2(150, 280)
+                    new Vector2(400, 550),
+                    new Vector2(680, 250),
+                    new Vector2(120, 250)
                 };
             }
             else
             {
                 _playerPositions = new List<Vector2>()
                 {
-                    new Vector2(400, 480),
-                    new Vector2(650, 280),
-                    new Vector2(400, 200),
-                    new Vector2(150, 280)
+                    new Vector2(400, 550),
+                    new Vector2(680, 250),
+                    new Vector2(400, 180),
+                    new Vector2(120, 250)
                 };
             }
         }

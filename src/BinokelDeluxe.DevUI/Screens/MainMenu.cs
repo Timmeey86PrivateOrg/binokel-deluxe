@@ -9,7 +9,7 @@ namespace BinokelDeluxe.DevUI.Screens
     /// </summary>
     internal class MainMenu : IUIScreen
     {
-        private const int xOffset = 20;
+        private const int xOffset = (800-200) / 2;
         private const int yOffset = 20;
         private const int buttonWidth = 200;
         private const int buttonHeight = 100;

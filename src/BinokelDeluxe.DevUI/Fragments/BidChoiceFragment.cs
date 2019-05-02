@@ -33,11 +33,11 @@ namespace BinokelDeluxe.DevUI.Fragments
 
         public BidChoiceFragment()
         {
-            _bidButton.Position = new Vector2(480, 300);
+            _bidButton.Position = new Vector2(480, 250);
             _bidButton.Width = 40;
             _bidButton.Height = 24;
             _bidButton.Text = "Bid";
-            _passButton.Position = new Vector2(280, 300);
+            _passButton.Position = new Vector2(280, 250);
             _passButton.Width = 40;
             _passButton.Height = 24;
             _passButton.Text = "Pass";

@@ -13,9 +13,8 @@ namespace BinokelDeluxe.DevUI
     /// </summary>
     public class DevCard
     {
-        private const float ScaleFactor = .06f;
         private readonly Vector2 _origin;
-        private Rectangle _drawingArea;
+        private Rectangle _drawingArea = new Rectangle();
         private readonly Texture2D _backTexture;
         private readonly Texture2D _frontTexture;
         private readonly Texture2D _selectedTexture;
@@ -35,6 +34,17 @@ namespace BinokelDeluxe.DevUI
                 _drawingArea.Location = value.ToPoint();
             }
         }
+
+        private float _scaleFactor = .06f;
+        public float ScaleFactor
+        {
+            get { return _scaleFactor; }
+            set
+            {
+                _scaleFactor = value;
+                RecalculateDimensions();
+            }
+        } 
 
         /// <summary>
         /// Gets or sets the rotation angle in degrees.
@@ -64,8 +74,7 @@ namespace BinokelDeluxe.DevUI
             _font = font;
             // Make the card rotate around a point that is 1.5 times its height below it.
             _origin = new Vector2(.0f, backTexture.Height * 2.5f);
-            // Make the card be drawn at a fracture of its texture size.
-            _drawingArea = new Rectangle(0, 0, (int)Math.Round(backTexture.Width * ScaleFactor), (int)Math.Round(backTexture.Height * ScaleFactor));
+            RecalculateDimensions();
         }
 
         /// <summary>
@@ -80,9 +89,33 @@ namespace BinokelDeluxe.DevUI
                 Card = this.Card, // don't clone! Every card should exist only once
                 IsCovered = this.IsCovered,
                 IsSelected = this.IsSelected,
-                Position = this.Position
+                Position = this.Position,
+                ScaleFactor = this.ScaleFactor
             };
         }
+
+        /// <summary>
+        /// Swaps the positions of the two cards. Both DevCard objects will still display the card they displayed before, but somewhere else than before.
+        /// </summary>
+        /// <param name="first">The graphics of the first card.</param>
+        /// <param name="second">The graphics of the second card.</param>
+        public static void SwapPositions(DevCard first, DevCard second)
+        {
+            var firstClone = first.Clone();
+            var secondClone = second.Clone();
+
+            first.CopyPositionFrom(secondClone);
+            second.CopyPositionFrom(firstClone);
+        }
+
+        private void CopyPositionFrom(DevCard other)
+        {
+            Angle = other.Angle;
+            Position = other.Position;
+            ScaleFactor = other.ScaleFactor;
+            IsSelected = false; // the cards were most likely selected in order to select them for swapping positions.
+        }
+        
 
         public void Update(GameTime gameTime, InputHandler inputHandler)
         {
@@ -129,6 +162,13 @@ namespace BinokelDeluxe.DevUI
                 );
 
             return _drawingArea.Contains(translatedPosition);
+        }
+
+        private void RecalculateDimensions()
+        {
+            // Make the card be drawn at a fracture of its texture size.
+            _drawingArea.Width = (int)Math.Round(_backTexture.Width * ScaleFactor);
+            _drawingArea.Height = (int)Math.Round(_backTexture.Height * ScaleFactor);
         }
     }
 }

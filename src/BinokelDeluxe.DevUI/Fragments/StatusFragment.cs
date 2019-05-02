@@ -83,19 +83,19 @@ namespace BinokelDeluxe.DevUI.Fragments
             {
                 _playerTextPositions = new List<Vector2>()
                 {
-                    new Vector2(370, 420),
-                    new Vector2(620, 220),
-                    new Vector2(120, 220)
+                    new Vector2(375, 420),
+                    new Vector2(660, 180),
+                    new Vector2(110, 180)
                 };
             }
             else
             {
                 _playerTextPositions = new List<Vector2>()
                 {
-                    new Vector2(370, 420),
-                    new Vector2(620, 220),
-                    new Vector2(370, 140),
-                    new Vector2(120, 220)
+                    new Vector2(375, 420),
+                    new Vector2(660, 180),
+                    new Vector2(380, 100),
+                    new Vector2(100, 180)
                 };
             }
         }

@@ -40,22 +40,22 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             _finishButton = new DevButton()
             {
-                Position = new Vector2(500, 300),
+                Position = new Vector2(500, 230),
                 Text = "Finish"
             };
             _goOutButton = new DevButton()
             {
-                Position = new Vector2(500, 330),
+                Position = new Vector2(500, 260),
                 Text = "Go Out"
             };
             _bettelButton = new DevButton()
             {
-                Position = new Vector2(260, 300),
+                Position = new Vector2(260, 230),
                 Text = "Bettel"
             };
             _durchButton = new DevButton()
             {
-                Position = new Vector2(260, 330),
+                Position = new Vector2(260, 260),
                 Text = "Durch"
             };
 
