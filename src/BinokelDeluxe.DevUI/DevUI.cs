@@ -38,6 +38,7 @@ namespace BinokelDeluxe.DevUI
         // Screens
         private readonly Screens.MainMenu _mainMenu;
         private readonly Screens.BiddingScreen _biddingScreen;
+        private readonly Screens.MeldingScreen _meldingScreen;
 
         private static IUIScreen _nullScreen = new Screens.NullScreen();
         private IUIScreen _currentScreen = _nullScreen;
@@ -49,17 +50,18 @@ namespace BinokelDeluxe.DevUI
             _deviceManager = deviceManager;
             Resolution.Init(ref deviceManager);
 
+            Func<Texture2D> getDevButtonTexture = () => _devButtonTexture;
+            Func<Texture2D> getDevButtonPressedTexture = () => _devButtonPressedTexture;
+            Func<Texture2D> getCardBackTexture = () => _cardBackTexture;
+            Func<Texture2D> getCardFrontTexture = () => _cardFrontTexture;
+            Func<Texture2D> getCardSelectedTexture = () => _cardSelectedTexture;
+            Func<SpriteFont> getFont = () => _font;
+
             // Screen initialization
-            _mainMenu = new Screens.MainMenu(
-                () => { return _devButtonTexture; },
-                () => { return _devButtonPressedTexture; },
-                () => { return _font; }
-                );
-            _biddingScreen = new Screens.BiddingScreen(
-                () => { return _cardBackTexture; },
-                () => { return _cardFrontTexture; },
-                () => { return _cardSelectedTexture; },
-                () => { return _font; }
+            _mainMenu = new Screens.MainMenu(getDevButtonTexture, getDevButtonPressedTexture, getFont);
+            _biddingScreen = new Screens.BiddingScreen(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont);
+            _meldingScreen = new Screens.MeldingScreen(
+                () => new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont)
                 );
         }
         
@@ -119,7 +121,7 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayAIBid(int playerPosition, int bidAmount)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(42);
             _biddingScreen.SetPlayerBid(playerPosition, bidAmount);
         }
 
@@ -135,17 +137,20 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayMelds(IEnumerable<MeldData> meldsByPlayers)
         {
-            // TODO: Implement this
+            _meldingScreen.Load(_contentManager);
+            _meldingScreen.DisplayMelds(meldsByPlayers);
+            _currentScreen = _meldingScreen;
             while (true)
             {
                 Thread.Sleep(50);
             }
+            //_meldingScreen.Unload();
         }
 
         public void DisplayPlayerAsPassed(int playerPosition)
         {
             _biddingScreen.SetPlayerPassed(playerPosition);
-            Thread.Sleep(500);
+            Thread.Sleep(42);
         }
 
         public void HandleInvalidMove(IEnumerable<Card> validCards)
@@ -193,7 +198,7 @@ namespace BinokelDeluxe.DevUI
             _biddingScreen.SetCards(playerCards, dabbCards);
             _biddingScreen.StartDealing(dealerPosition);
             // No animation in Dev UI, switch to next action after two seconds
-            Thread.Sleep(500);
+            Thread.Sleep(42);
             _biddingScreen.FinishDealing();
         }
 
@@ -215,13 +220,13 @@ namespace BinokelDeluxe.DevUI
         public void UncoverCardsForUser(IEnumerable<Card> userCards)
         {
             _biddingScreen.UncoverCards(userCards);
-            Thread.Sleep(500);
+            Thread.Sleep(42);
         }
 
         public void UncoverDabb(IEnumerable<Card> cardsInDabb)
         {
             _biddingScreen.UncoverCards(cardsInDabb);
-            Thread.Sleep(500);
+            Thread.Sleep(42);
         }
     }
 }

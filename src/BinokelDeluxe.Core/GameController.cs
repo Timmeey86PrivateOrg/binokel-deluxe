@@ -213,7 +213,7 @@ namespace BinokelDeluxe.Core
             else
             {
                 _currentBidAmount = InitialBidAmount;
-                if(!IsUser(e.PlayerPosition))
+                if (!IsUser(e.PlayerPosition))
                 {
                     _userInterface.DisplayAIBid(e.PlayerPosition, _currentBidAmount);
                 }
@@ -238,7 +238,7 @@ namespace BinokelDeluxe.Core
             {
                 trigger = _userInterface.LetUserDoCounterBidOrPass(potentialBid);
                 ValidateTrigger(trigger, BidOrPassTriggers, "bidding");
-                if( trigger == Common.GameTrigger.BidPlaced)
+                if (trigger == Common.GameTrigger.BidPlaced)
                 {
                     trigger = bidTriggerType; // might be bid or counterbid
                 }
@@ -304,9 +304,9 @@ namespace BinokelDeluxe.Core
                 // TODO: Validate and process discarded cards and selected trump suit
                 var removedDabbCards = new HashSet<Common.Card>(_cardsInDabb);
                 var removedPlayerCards = new List<Common.Card>();
-                foreach(var discardedCard in discardedCards)
+                foreach (var discardedCard in discardedCards)
                 {
-                    if(_cardsInDabb.Contains(discardedCard))
+                    if (_cardsInDabb.Contains(discardedCard))
                     {
                         // The card remains in dabb, remove it from the set of cards which could have been taken by the player
                         removedDabbCards.Remove(discardedCard);
@@ -327,7 +327,7 @@ namespace BinokelDeluxe.Core
                 trigger = Common.GameTrigger.TrumpSelected;
                 _trumpSuit = Common.CardSuit.Hearts;
             }
-            
+
             ValidateTrigger(
                 trigger,
                 new HashSet<Common.GameTrigger>()
@@ -353,7 +353,30 @@ namespace BinokelDeluxe.Core
         private void EventSource_MeldingStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
             // TODO: Display actual melds
-            _userInterface.DisplayMelds(new List<Common.MeldData>());
+            _userInterface.DisplayMelds(
+                new List<Common.MeldData>()
+                {
+                    new Common.MeldData()
+                    {
+                        Melds = new List<Common.SingleMeld>()
+                        {
+                            new Common.SingleMeld() { Cards = _cardsPerPlayer[0].Take(5).ToList(), Points = 150 },
+                            new Common.SingleMeld() { Cards = _cardsPerPlayer[0].Skip(5).Take(2).ToList(), Points = 40 }
+                        }
+                    },
+                    new Common.MeldData()
+                    {
+                        Melds = new List<Common.SingleMeld>() { new Common.SingleMeld() { Cards = _cardsPerPlayer[1].Take(2).ToList(), Points = 20 } }
+                    },
+                    new Common.MeldData()
+                    {
+                        Melds = new List<Common.SingleMeld>() { new Common.SingleMeld() { Cards = _cardsPerPlayer[2].Take(4).ToList(), Points = 80 } }
+                    },
+                    new Common.MeldData()
+                    {
+                        Melds = new List<Common.SingleMeld>() { new Common.SingleMeld() { Cards = _cardsPerPlayer[3].Take(5).ToList(), Points = 50 } }
+                    }
+                });
             _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
         }
 
