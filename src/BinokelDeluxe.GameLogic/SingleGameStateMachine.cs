@@ -331,7 +331,7 @@ namespace BinokelDeluxe.GameLogic
                     properties.CurrentPlayerPosition = properties.TrickWinnerPosition;
 
                     // If there are no more cards left, end the game.
-                    if (properties.RemainingCards < 0)
+                    if (properties.RemainingCards <= 0)
                     {
                         _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
