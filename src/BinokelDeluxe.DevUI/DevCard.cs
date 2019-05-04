@@ -73,7 +73,7 @@ namespace BinokelDeluxe.DevUI
             _selectedTexture = selectedTexture;
             _font = font;
             // Make the card rotate around a point that is 1.5 times its height below it.
-            _origin = new Vector2(.0f, backTexture.Height * 2.5f);
+            _origin = new Vector2(backTexture.Width / 2.0f, backTexture.Height * 2.5f);
             RecalculateDimensions();
         }
 

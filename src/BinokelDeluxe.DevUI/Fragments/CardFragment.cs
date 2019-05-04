@@ -30,7 +30,6 @@ namespace BinokelDeluxe.DevUI.Fragments
         // For less calculation
         private IList<Vector2> _playerPositions = null;
         private int _amountOfPlayers = 0;
-        private int _amountOfCardsPerPlayer = 0;
 
         public CardFragment(Func<Texture2D> getCardBackTexture, Func<Texture2D> getCardFrontTexture, Func<Texture2D> getSelectedTexture, Func<SpriteFont> getFont)
         {
@@ -48,7 +47,6 @@ namespace BinokelDeluxe.DevUI.Fragments
         public void SetCards(IEnumerable<IEnumerable<Common.Card>> cardsPerPlayer, IEnumerable<Common.Card> dabbCards)
         {
             _amountOfPlayers = cardsPerPlayer.Count();
-            _amountOfCardsPerPlayer = cardsPerPlayer.First().Count();
 
             _clickableCards = new HashSet<Common.Card>(cardsPerPlayer.First());
             _clickableCards.UnionWith(dabbCards);
@@ -149,6 +147,7 @@ namespace BinokelDeluxe.DevUI.Fragments
             foreach (var playerCards in cardsPerPlayer)
             {
                 cardNumber = 0;
+                var cardCount = playerCards.Count();
                 foreach (var card in playerCards)
                 {
                     _cardGraphics.Add(
@@ -158,7 +157,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                             Card = card,
                             Position = _playerPositions[playerPosition],
                             // 10 degrees rotation per card, with the middle card having a rotation of zero.
-                            Angle = CalculateAngle(cardNumber)
+                            Angle = CalculateAngle(cardNumber, cardCount)
                         });
                     Debug.Assert(_cardGraphics.ContainsKey(card));
                     cardNumber++;
@@ -179,7 +178,11 @@ namespace BinokelDeluxe.DevUI.Fragments
             var height = backTexture.Height * dabbScaleFactor;
             var cardWidth = backTexture.Width * dabbScaleFactor;
 
-            var xBase = centerPosition.X - (numberOfCardsInDabb / 2.0f) * (cardWidth + spacing) + spacing;
+            // X Position of the first card: 
+            // Center - two times the width of a card plus its spacing,
+            // then corrected by half the width of the card since it's X origin is in the X center of the card,
+            // then corrected by half a spacing so (0,0) is directly between two cards rather than on the edge of the right one (in case of two cards).
+            var xBase = centerPosition.X - (numberOfCardsInDabb / 2.0f) * (cardWidth + spacing) + (cardWidth / 2.0f) + (spacing / 2.0f);
             var yBase = centerPosition.Y - (height / 2.0f);
             // Correct y base by the origin offset which is used for drawing cards
             yBase += (height * 2.5f);
@@ -200,9 +203,9 @@ namespace BinokelDeluxe.DevUI.Fragments
             }
         }
 
-        private float CalculateAngle(int cardNumber)
+        private float CalculateAngle(int cardNumber, int cardCount)
         {
-            return (cardNumber - _amountOfCardsPerPlayer / 2 - 1) * 10f;
+            return ((float)cardNumber - (cardCount - 1) / 2f) * 10f;
         }
 
         private void CalculatePlayerPositions()
