@@ -361,15 +361,29 @@ namespace BinokelDeluxe.GameLogic.Test
             SimulateWinningCard();
             SkipStartingNewRoundState();
 
+            // Make sure the score calculation start event is being fired
             bool eventWasCalled = false;
             _sut.EventSource.CountingPlayerOrTeamScoresStarted += (o, e) =>
             {
                 eventWasCalled = true;
             };
 
+            // Also make sure that the amount of new rounds matches the expected amount
+
+            var actualNumberOfRounds = 0;
+            _sut.EventSource.StartingNewRoundStarted += (o, e) =>
+            {
+                actualNumberOfRounds++;
+            };
+
             StartGame();
 
+            // The expected number of rounds was deduced from the table of amount of cards per player in the German Wikipedia: https://de.wikipedia.org/wiki/Binokel#Geben
+            var expectedNumberOfRounds = _ruleSettings.GameType == GameType.ThreePlayerGame ? 12 : 9;
+            expectedNumberOfRounds += _ruleSettings.SevensAreIncluded ? 2 : 0;
+
             Assert.That(eventWasCalled, "The state machine did not reach the Starting New Round (Trick Taking) phase.");
+            Assert.AreEqual(expectedNumberOfRounds, actualNumberOfRounds, "The were more or less rounds played than expected before ending the game.");
         }
 
         [Test, MaxTime(2000)]
@@ -400,7 +414,7 @@ namespace BinokelDeluxe.GameLogic.Test
 
 
 
-
+        // Starts the game. Since the state machine is currently synchronous, this call is blocking.
         private void StartGame()
         {
             _sut.TriggerSink.SendTrigger(Common.GameTrigger.GameStarted);
@@ -540,6 +554,11 @@ namespace BinokelDeluxe.GameLogic.Test
             _sut.EventSource.MeldingStarted += (o, e) =>
             {
                 _sut.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
+            };
+            // This event is only interesting for the UI so it can prepare things. There is no user/AI interaction involved
+            _sut.EventSource.TrickTakingStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.ReadyForTrickTaking);
             };
         }
         private void SkipCardPlacingState()
