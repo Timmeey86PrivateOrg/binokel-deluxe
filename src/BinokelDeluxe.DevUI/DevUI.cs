@@ -61,7 +61,8 @@ namespace BinokelDeluxe.DevUI
             _mainMenu = new Screens.MainMenu(getDevButtonTexture, getDevButtonPressedTexture, getFont);
             _biddingScreen = new Screens.BiddingScreen(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont);
             _meldingScreen = new Screens.MeldingScreen(
-                () => new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont)
+                () => new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont),
+                () => new Fragments.StatusFragment() { Font = getFont() }
                 );
         }
         
