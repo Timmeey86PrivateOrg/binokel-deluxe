@@ -52,7 +52,7 @@ namespace BinokelDeluxe.Shared
                     SevensAreIncluded = false
                 },
                 new List<string>() { null, "TEMPAI", "TEMPAI", "TEMPAI" }
-                );            
+                );
         }
 
         /// <summary>

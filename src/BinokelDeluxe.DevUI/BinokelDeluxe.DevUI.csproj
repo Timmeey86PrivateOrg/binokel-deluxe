@@ -51,6 +51,7 @@
     <Compile Include="Fragments\CardFragment.cs" />
     <Compile Include="Fragments\DabbChoiceFragment.cs" />
     <Compile Include="Fragments\BidChoiceFragment.cs" />
+    <Compile Include="Fragments\IndicatorFragment.cs" />
     <Compile Include="Fragments\StatusFragment.cs" />
     <Compile Include="Screens\BiddingScreen.cs" />
     <Compile Include="Screens\MeldingScreen.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Screens\MainMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolution.cs" />
+    <Compile Include="Screens\TrickTakingScreen.cs" />
     <Compile Include="TextureFunctions.cs" />
   </ItemGroup>
   <ItemGroup>

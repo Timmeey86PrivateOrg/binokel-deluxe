@@ -147,6 +147,13 @@ namespace BinokelDeluxe.GameLogic
 
         /// <summary>
         /// Event listeners should be implemented as follows:
+        /// Set every player up for the trick taking phase by showing them only their cards, with nothing in the middle.
+        /// Send a ReadyForTrickTaking trigger when done.
+        /// </summary>
+        event EventHandler<PlayerPositionEventArgs> TrickTakingStarted;
+
+        /// <summary>
+        /// Event listeners should be implemented as follows:
         /// Offer the player the chance to play a card of their choice (including invalid cards).
         /// Send a CardPlaced trigger when done.
         /// </summary>

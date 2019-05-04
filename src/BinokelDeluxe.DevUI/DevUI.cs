@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using BinokelDeluxe.Common;
@@ -39,6 +40,7 @@ namespace BinokelDeluxe.DevUI
         private readonly Screens.MainMenu _mainMenu;
         private readonly Screens.BiddingScreen _biddingScreen;
         private readonly Screens.MeldingScreen _meldingScreen;
+        private readonly Screens.TrickTakingScreen _trickTakingScreen;
 
         private static IUIScreen _nullScreen = new Screens.NullScreen();
         private IUIScreen _currentScreen = _nullScreen;
@@ -64,6 +66,11 @@ namespace BinokelDeluxe.DevUI
                 () => new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont),
                 () => new Fragments.StatusFragment() { Font = getFont() }
                 );
+            _trickTakingScreen = new Screens.TrickTakingScreen(
+                () => new Fragments.CardFragment(getCardBackTexture, getCardFrontTexture, getCardSelectedTexture, getFont),
+                () => new Fragments.StatusFragment() { Font = getFont() },
+                () => new Fragments.IndicatorFragment()
+                );
         }
         
         public void Exit()
@@ -76,6 +83,7 @@ namespace BinokelDeluxe.DevUI
             // Allow drawing on a virtual 800x480 screen (default resolution of many android devices) and stretch that to the actual device size.
             Resolution.SetVirtualResolution(800, 480);
             Resolution.SetResolution(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, _deviceManager.IsFullScreen);
+            //Resolution.SetResolution(800, 480, false);
 
             _devButtonTexture = contentManager.Load<Texture2D>("dev/devbutton");
             _devButtonPressedTexture = contentManager.Load<Texture2D>("dev/devbutton_pressed");
@@ -117,7 +125,7 @@ namespace BinokelDeluxe.DevUI
 
         public void ActivatePlayer(int playerPosition)
         {
-            throw new NotImplementedException();
+            _trickTakingScreen.ActivatePlayer(playerPosition);
         }
 
         public void DisplayAIBid(int playerPosition, int bidAmount)
@@ -128,6 +136,7 @@ namespace BinokelDeluxe.DevUI
 
         public void DisplayGameScore(IEnumerable<ScoreData> playerOrTeamScores)
         {
+            _trickTakingScreen.Unload();
             throw new NotImplementedException();
         }
 
@@ -141,11 +150,16 @@ namespace BinokelDeluxe.DevUI
             _meldingScreen.Load(_contentManager);
             _meldingScreen.DisplayMelds(meldsByPlayers);
             _currentScreen = _meldingScreen;
-            while (true)
-            {
-                Thread.Sleep(50);
-            }
-            //_meldingScreen.Unload();
+            // Display for five seconds (in a real UI, there would be a button..)
+            Thread.Sleep(2000);
+        }
+
+        public void PrepareTrickTaking(IEnumerable<IEnumerable<Common.Card>> cardsByPlayers, int dealerPosition)
+        {
+            _trickTakingScreen.Load(_contentManager);
+            _trickTakingScreen.Initialize(cardsByPlayers, dealerPosition);
+            _currentScreen = _trickTakingScreen;
+            _meldingScreen.Unload();
         }
 
         public void DisplayPlayerAsPassed(int playerPosition)
@@ -176,17 +190,20 @@ namespace BinokelDeluxe.DevUI
 
         public Card LetUserSelectCard()
         {
-            throw new NotImplementedException();
+            return _trickTakingScreen.LetUserSelectCard();
         }
 
         public void MoveCardsToTrickWinner(int playerPosition)
         {
-            throw new NotImplementedException();
+            // No animation here, simply clear the middle
+            _trickTakingScreen.ClearMiddle();
         }
 
         public void PlaceCardInMiddle(int playerPosition, Card card)
         {
-            throw new NotImplementedException();
+            _trickTakingScreen.PlaceCardInMiddle(playerPosition, card);
+            // No animation here
+            Thread.Sleep(42);
         }
 
         public void PlayDealingAnimation(

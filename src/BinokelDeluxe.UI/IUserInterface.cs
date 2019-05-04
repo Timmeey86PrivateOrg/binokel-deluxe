@@ -97,11 +97,18 @@ namespace BinokelDeluxe.UI
         /// <param name="rearrangedCards">The new order of cards of the human player.</param>
         void RearrangeCardsForUser(IEnumerable<Common.Card> rearrangedCards);
         /// <summary>
-        /// Implementes should display the given melds. The enumerable contains one entry for each player, ordered by player position on the table
+        /// Implementers should display the given melds. The enumerable contains one entry for each player, ordered by player position on the table
         /// (i.e. independent of who is the current dealer). The UI is free to decide whether a list of all cards, or the single melds as groups are displayed.
         /// </summary>
         /// <param name="meldsByPlayers">The melds made by each player.</param>
         void DisplayMelds(IEnumerable<Common.MeldData> meldsByPlayers);
+        /// <summary>
+        /// Implementers should reset the table or set up a new one so each player only sees their cards, and nothing is in the middle.
+        /// A dealer indicator may be shown, since in most cases, the dealer's right-hand player will be the first one to place a card.
+        /// </summary>
+        /// <param name="cardsByPlayers">The cards for each player.</param>
+        /// <param name="dealerNumber">The position of the dealer. This did not change from earlier phases but is supplied again so the UI does not have to store this information.</param>
+        void PrepareTrickTaking(IEnumerable<IEnumerable<Common.Card>> cardsByPlayers, int dealerPosition);
         /// <summary>
         /// Implementers should display a scoreboard for the current round as a result of the player who won the bidding phase going out.
         /// The list of score data will either contain data for three players or two teams.

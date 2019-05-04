@@ -20,6 +20,7 @@ namespace BinokelDeluxe.DevUI.Fragments
             Waiting,
             Dealing,
             Bidding,
+            Thinking,
             Passed
         }
 
@@ -62,6 +63,16 @@ namespace BinokelDeluxe.DevUI.Fragments
         {
             _playerStatuses[playerPosition] = PlayerStatus.Waiting;
             _playerBidAmounts[playerPosition] = amount;
+        }
+
+        public void SetPlayerWaiting(int playerPosition)
+        {
+            _playerStatuses[playerPosition] = PlayerStatus.Waiting;
+        }
+
+        public void SetPlayerThinking(int playerPosition)
+        {
+            _playerStatuses[playerPosition] = PlayerStatus.Thinking;
         }
 
         public void Draw(SpriteBatch spriteBatch)

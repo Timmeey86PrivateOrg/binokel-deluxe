@@ -17,6 +17,10 @@ namespace BinokelDeluxe.DevUI.Fragments
         public event EventHandler<Common.CardEventArgs> CardClicked;
 
         private readonly Dictionary<Common.Card, DevCard> _cardGraphics = new Dictionary<Common.Card, DevCard>();
+        /// <summary>
+        /// The cards in the middle during the trick-taking phase
+        /// </summary>
+        private readonly List<Common.Card> _middleCards = new List<Card>();
         private List<Common.Card> _drawingOrder;
 
         private readonly Func<Texture2D> _getBackTexture;
@@ -56,6 +60,87 @@ namespace BinokelDeluxe.DevUI.Fragments
 
             CalculatePlayerPositions();
             CalculateCardGraphics(cardsPerPlayer, dabbCards);
+        }
+
+        /// <summary>
+        /// Adds a card to the middle for the current trick. The card will be drawn above any other cards in the middle.
+        /// </summary>
+        /// <param name="playerPosition">The position of the player who dealt the card.</param>
+        /// <param name="card">The card to be played.</param>
+        public void AddCardToMiddle(int playerPosition, Common.Card card)
+        {
+            var centerPosition = new Vector2(400, 180);
+
+            // Place the player cards in a circle around the middle
+            int xFactor = 0;
+            int yFactor = 0;
+            switch( playerPosition )
+            {
+                case 0:
+                    xFactor = 0;
+                    yFactor = 1;
+                    break;
+                case 1:
+                    xFactor = 1;
+                    yFactor = 0;
+                    break;
+                case 2:
+                    xFactor = 0;
+                    yFactor = -1;
+                    break;
+                case 3:
+                    xFactor = -1;
+                    yFactor = 0;
+                    break;
+                default:
+                    Debug.Assert(false);
+                    break;
+            }
+
+            var backTexture = _getBackTexture();
+            var frontTexture = _getFrontTexture();
+            var selectedTexture = _getSelectedTexture();
+            var font = _getFont();
+
+            var middleScaleFactor = .4f;
+            var cardHeight = backTexture.Height * middleScaleFactor;
+            var cardWidth = backTexture.Width * middleScaleFactor;
+
+            var xDistance = cardWidth * 0.8f / 2.0f;
+            var yDistance = cardHeight * 0.8f / 2.0f;
+
+            var cardPos = new Vector2(
+                centerPosition.X + (xDistance * xFactor),
+                centerPosition.Y + (yDistance * yFactor) + (cardHeight * 2.5f) // * 2.5f negates the card's internal origin offset
+                );
+
+            // Draw the card in the middle
+            _cardGraphics[card] = new DevCard(backTexture, frontTexture, selectedTexture, font)
+            {
+                Angle = 0,
+                Card = card,
+                IsCovered = false,
+                IsSelected = false,
+                Position = cardPos,
+                ScaleFactor = middleScaleFactor
+            };
+            _drawingOrder.Remove(card);
+            _drawingOrder.Add(card);
+            _middleCards.Add(card);
+            if(_clickableCards.Contains(card))
+            {
+                _clickableCards.Remove(card);
+            }
+        }
+
+        public void ClearMiddle()
+        {
+            foreach (var card in _middleCards)
+            {
+                _cardGraphics.Remove(card);
+                _drawingOrder.Remove(card);
+            }
+            _middleCards.Clear();
         }
 
         /// <summary>
@@ -165,7 +250,7 @@ namespace BinokelDeluxe.DevUI.Fragments
                 if (playerPosition == 0)
                 {
                     // Make the cards of the human player larger
-                    playerCards.ToList().ForEach(card => _cardGraphics[card].ScaleFactor = 0.1f);
+                    playerCards.ToList().ForEach(card => _cardGraphics[card].ScaleFactor = 0.5f);
                 }
                 playerPosition++;
             }
@@ -174,7 +259,7 @@ namespace BinokelDeluxe.DevUI.Fragments
             var centerPosition = new Vector2(400, 240);
             var numberOfCardsInDabb = dabbCards.Count();
             var spacing = 10;
-            var dabbScaleFactor = .1f;
+            var dabbScaleFactor = .5f;
             var height = backTexture.Height * dabbScaleFactor;
             var cardWidth = backTexture.Width * dabbScaleFactor;
 

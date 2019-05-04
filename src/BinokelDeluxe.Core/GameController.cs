@@ -99,6 +99,7 @@ namespace BinokelDeluxe.Core
             sender.ExchangingCardsWithDabbStarted += EventSource_ExchangingCardsWithDabbStarted;
             sender.CalculatingGoingOutScoreStarted += EventSource_CalculatingGoingOutScoreStarted;
             sender.MeldingStarted += EventSource_MeldingStarted;
+            sender.TrickTakingStarted += Sender_TrickTakingStarted;
             sender.WaitingForCardStarted += EventSource_WaitingForCardStarted;
             sender.ValidatingCardStarted += EventSource_ValidatingCardStarted;
             sender.RevertingInvalidMoveStarted += EventSource_RevertingInvalidMoveStarted;
@@ -380,6 +381,13 @@ namespace BinokelDeluxe.Core
             _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
         }
 
+        private void Sender_TrickTakingStarted(object sender, GameLogic.PlayerPositionEventArgs e)
+        {
+            _userInterface.PrepareTrickTaking(_cardsPerPlayer, _currentDealer);
+            _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.ReadyForTrickTaking);
+        }
+
+
         private Common.Card _mostRecentCard = null;
         private void EventSource_WaitingForCardStarted(object sender, GameLogic.PlayerPositionEventArgs e)
         {
@@ -391,7 +399,8 @@ namespace BinokelDeluxe.Core
             else
             {
                 // TODO: Implement AI
-                _mostRecentCard = null;
+                _mostRecentCard = _cardsPerPlayer[e.PlayerPosition].First();
+                _cardsPerPlayer[e.PlayerPosition] = _cardsPerPlayer[e.PlayerPosition].Except(new List<Common.Card>() { _mostRecentCard });
             }
             _stateBridge.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
         }

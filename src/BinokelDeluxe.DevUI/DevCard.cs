@@ -35,7 +35,7 @@ namespace BinokelDeluxe.DevUI
             }
         }
 
-        private float _scaleFactor = .06f;
+        private float _scaleFactor = .3f;
         public float ScaleFactor
         {
             get { return _scaleFactor; }
@@ -123,14 +123,36 @@ namespace BinokelDeluxe.DevUI
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            // Note: This can probably be made a lot less complex by applying additional transformations to the sprite batch (and reverting them at the end)
+            //       Currently, each card and text places its origin way out of its own coordinates, since the draw method will rotate around the origin
+
+
+            var textScaleFactor = 0.5f;
+            var totalTextScale = ScaleFactor * textScaleFactor; 
+            // When scaling the text down, we need to scale the origin up (unsure why, but it's necessary).
+            float textOriginMultiplier = 1.0f / textScaleFactor;
+
+            var angle = Angle * MathHelper.Pi / 180f;
+
             var frontTexture = IsSelected ? _selectedTexture : _frontTexture;
             var texture = IsCovered ? _backTexture : frontTexture;
-            spriteBatch.Draw(texture, _drawingArea, null, Color.White, Angle * MathHelper.Pi / 180f, _origin, SpriteEffects.None, 1.0f);
+
+            // Draw the card itself
+            spriteBatch.Draw(texture, _drawingArea, null, Color.White, angle, _origin, SpriteEffects.None, 1.0f);
+
             if (!IsCovered)
             {
-                var text = String.Format("{0}{1}", Card.Suit.ToString().Substring(0, 1), Card.Type.ToString().Substring(0, 1));
-                var textOrigin = _origin * ScaleFactor * 5f + new Vector2(-20f, -20f);
-                spriteBatch.DrawString(_font, text, _drawingArea.Location.ToVector2(), Color.MonoGameOrange, Angle * MathHelper.Pi / 180f, textOrigin, .2f, SpriteEffects.None, 1.0f);
+                // If the card is uncovered, draw strings identifying its suit and type
+
+                var text = String.Format("{0}/{1}", Card.Suit.ToString().Substring(0, 1), Card.Type.ToString().Substring(0, 1));
+
+                var textSize = _font.MeasureString(text) * textScaleFactor;
+                // It's highly confusing which scale factor needs to be used when, but the following has been tested at all sizes and angles.
+                var firstTextOrigin = (_origin - new Vector2(15f, 15f) * ScaleFactor) * textOriginMultiplier;
+                var secondTextOrigin = (_origin - new Vector2(texture.Width - textSize.X, texture.Height - textSize.Y) + new Vector2(15f, 15f) * ScaleFactor) * textOriginMultiplier;
+
+                spriteBatch.DrawString(_font, text, _drawingArea.Location.ToVector2(), Color.MonoGameOrange, angle, firstTextOrigin, totalTextScale, SpriteEffects.None, 1.0f);
+                spriteBatch.DrawString(_font, text, _drawingArea.Location.ToVector2(), Color.MonoGameOrange, angle, secondTextOrigin, totalTextScale, SpriteEffects.None, 1.0f);
             }
         }
 

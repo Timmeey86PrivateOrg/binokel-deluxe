@@ -22,6 +22,7 @@ namespace BinokelDeluxe.GameLogic
         public event EventHandler<PlayerPositionEventArgs> ExchangingCardsWithDabbStarted;
         public event EventHandler<PlayerPositionEventArgs> CalculatingGoingOutScoreStarted;
         public event EventHandler<PlayerPositionEventArgs> MeldingStarted;
+        public event EventHandler<PlayerPositionEventArgs> TrickTakingStarted;
         public event EventHandler<PlayerPositionEventArgs> WaitingForCardStarted;
         public event EventHandler<PlayerPositionEventArgs> ValidatingCardStarted;
         public event EventHandler<PlayerPositionEventArgs> RevertingInvalidMoveStarted;
@@ -251,7 +252,7 @@ namespace BinokelDeluxe.GameLogic
         private void ConfigureMeldingPhase(SingleGameProperties properties)
         {
             _stateMachine.Configure(SingleGameState.Melding)
-                .Permit(Common.GameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking)
                 // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
                 // (human) players that they have seen the melds.
                 .OnEntry(() =>
@@ -265,6 +266,10 @@ namespace BinokelDeluxe.GameLogic
 
         private void ConfigureTrickTakingPhase(SingleGameProperties properties)
         {
+            _stateMachine.Configure(SingleGameState.TrickTaking)
+                .Permit(Common.GameTrigger.ReadyForTrickTaking, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .OnEntry(() => FireEvent(TrickTakingStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "TrickTakingStarted"));
+
             _stateMachine.Configure(SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 .SubstateOf(SingleGameState.TrickTaking)
                 .Permit(Common.GameTrigger.CardPlaced, SingleGameState.TrickTaking_ValidatingCard)

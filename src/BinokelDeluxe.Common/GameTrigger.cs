@@ -23,6 +23,7 @@ namespace BinokelDeluxe.Common
         BettelAnnounced,
         TrumpSelected,
         MeldsSeenByAllPlayers,
+        ReadyForTrickTaking,
         CardPlaced,
         InvalidCardPlaced,
         WinningCardPlaced,
