@@ -137,7 +137,10 @@ namespace BinokelDeluxe.DevUI
         public void DisplayGameScore(IEnumerable<ScoreData> playerOrTeamScores)
         {
             _trickTakingScreen.Unload();
-            throw new NotImplementedException();
+            while(true)
+            {
+                Thread.Sleep(30);
+            }
         }
 
         public void DisplayGoingOutScore(IEnumerable<ScoreData> playerOrTeamScores)

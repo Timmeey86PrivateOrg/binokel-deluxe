@@ -57,6 +57,8 @@ namespace BinokelDeluxe.DevUI.Screens
         {
             lock (_mutex)
             {
+                if (_cardFragment == null) return;
+
                 _cardFragment.Update(gameTime, inputHandler);
             }
         }
@@ -65,6 +67,8 @@ namespace BinokelDeluxe.DevUI.Screens
         {
             lock (_mutex)
             {
+                if (_cardFragment == null) return;
+
                 _cardFragment.Draw(spriteBatch);
                 _statusFragment.Draw(spriteBatch);
                 _indicatorFragment.Draw(spriteBatch);
@@ -92,9 +96,9 @@ namespace BinokelDeluxe.DevUI.Screens
         {
             lock (_mutex)
             {
+                Thread.Sleep(42);
                 _cardFragment.AddCardToMiddle(playerPosition, card);
                 _statusFragment.SetPlayerWaiting(playerPosition);
-                Thread.Sleep(500);
             }
         }
 
@@ -122,7 +126,7 @@ namespace BinokelDeluxe.DevUI.Screens
                 Thread.Sleep(30);
             }
             // Let the selection show for a bit
-            Thread.Sleep(500);
+            Thread.Sleep(42);
             lock (_mutex)
             {
                 _cardFragment.SetCardSelected(_chosenCard, false);

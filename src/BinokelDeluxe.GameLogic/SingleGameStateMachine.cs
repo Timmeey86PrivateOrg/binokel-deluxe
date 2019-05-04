@@ -88,12 +88,15 @@ namespace BinokelDeluxe.GameLogic
         /// <returns>A state machine for a single game.</returns>
         public void RefreshStateMachine(RuleSettings ruleSettings, int dealerPosition)
         {
+            var amountOfCards = ruleSettings.SevensAreIncluded ? 48 : 40;
+            var dabbSize = ruleSettings.SevensAreIncluded && ruleSettings.GameType == GameType.ThreePlayerGame ? 6 : 4;
+
             // Configure initial attributes
             var properties = new SingleGameProperties
             {
                 NumberOfPlayers = ruleSettings.GameType == GameType.ThreePlayerGame ? 3 : 4,
                 DealerPosition = dealerPosition,
-                RemainingCards = ruleSettings.SevensAreIncluded ? 48 : 40,
+                RemainingCards = amountOfCards - dabbSize,
                 CurrentPlayerPosition = -1,
                 NextPlayerPosition = -1,
                 TrickWinnerPosition = -1

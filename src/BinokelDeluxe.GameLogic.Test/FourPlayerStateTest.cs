@@ -369,8 +369,9 @@ namespace BinokelDeluxe.GameLogic.Test
             };
 
             // Also make sure that the amount of new rounds matches the expected amount
+            // Note: The actual number of rounds is initialized by one, since the event is not fired for the very first round.
 
-            var actualNumberOfRounds = 0;
+            var actualNumberOfRounds = 1;
             _sut.EventSource.StartingNewRoundStarted += (o, e) =>
             {
                 actualNumberOfRounds++;
