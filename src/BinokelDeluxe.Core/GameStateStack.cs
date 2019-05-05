@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-// DOCUMENTED
+﻿// DOCUMENTED
 
 namespace BinokelDeluxe.Core
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Stores information required for recreating and replaying a single game.
     /// </summary>
@@ -16,16 +16,17 @@ namespace BinokelDeluxe.Core
         public List<GameStateChangeInfo> DeltaChanges { get; set; } = new List<GameStateChangeInfo>();
 
         /// <summary>
-        /// Information required for creating an identical game.
+        /// Gets or sets information required for creating an identical game.
         /// </summary>
         public GameCreationInfo CreationInfo { get; set; }
+
         /// <summary>
         /// Pushes a state entry to the stack.
         /// </summary>
         /// <param name="entry">The most recent entry.</param>
         public void Push(GameStateChangeInfo entry)
         {
-            DeltaChanges.Add(entry);
+            this.DeltaChanges.Add(entry);
         }
 
         /// <summary>
@@ -35,11 +36,12 @@ namespace BinokelDeluxe.Core
         public GameStateChangeInfo Pop()
         {
             GameStateChangeInfo entry = null;
-            if (DeltaChanges.Count != 0)
+            if (this.DeltaChanges.Count != 0)
             {
-                entry = DeltaChanges[DeltaChanges.Count - 1];
-                DeltaChanges.RemoveAt(DeltaChanges.Count - 1);
+                entry = this.DeltaChanges[this.DeltaChanges.Count - 1];
+                this.DeltaChanges.RemoveAt(this.DeltaChanges.Count - 1);
             }
+
             return entry;
         }
 
@@ -49,19 +51,20 @@ namespace BinokelDeluxe.Core
         /// <returns>The entry which is currently on top of the stack.</returns>
         public GameStateChangeInfo Peek()
         {
-            if (DeltaChanges.Count == 0)
+            if (this.DeltaChanges.Count == 0)
             {
                 return null;
             }
             else
             {
-                return DeltaChanges[DeltaChanges.Count - 1];
+                return this.DeltaChanges[this.DeltaChanges.Count - 1];
             }
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return Equals(obj as GameStateStack);
+            return this.Equals(obj as GameStateStack);
         }
 
         /// <summary>
@@ -80,20 +83,21 @@ namespace BinokelDeluxe.Core
             }
 
             return
-                Common.ValueComparer<GameCreationInfo>.Equals(CreationInfo, other.CreationInfo) &&
-                Common.ListComparer<GameStateChangeInfo>.Equals(DeltaChanges, other.DeltaChanges);
+                Common.ValueComparer<GameCreationInfo>.Equals(this.CreationInfo, other.CreationInfo) &&
+                Common.ListComparer<GameStateChangeInfo>.Equals(this.DeltaChanges, other.DeltaChanges);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
-            unchecked // Overflow is fine, just wrap
+            // Overflow is fine, just wrap
+            unchecked
             {
                 int hash = 17;
-                hash = hash * 29 + Common.ValueComparer<GameCreationInfo>.GetHashCode(CreationInfo);
-                hash = hash * 29 + Common.ListComparer<GameStateChangeInfo>.GetHashCode(DeltaChanges);
+                hash = (hash * 29) + Common.ValueComparer<GameCreationInfo>.GetHashCode(this.CreationInfo);
+                hash = (hash * 29) + Common.ListComparer<GameStateChangeInfo>.GetHashCode(this.DeltaChanges);
                 return hash;
             }
         }
-
     }
 }
