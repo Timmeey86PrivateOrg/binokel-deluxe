@@ -1,21 +1,18 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BinokelDeluxe.Shared
+﻿namespace BinokelDeluxe.Shared
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input.Touch;
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public abstract class GameBase : Game
     {
-        protected GraphicsDeviceManager Graphics { private set; get; }
-        protected SpriteBatch SpriteBatch { private set; get; }
-        protected HungarianCardSprite CardSprite { private set; get; }
+        protected GraphicsDeviceManager Graphics { get; private set; }
+        protected SpriteBatch SpriteBatch { get; private set; }
+        protected HungarianCardSprite CardSprite { get; private set; }
 
         protected Core.GameController GameController { private set; get; }
         private DevUI.DevUI DevUI { set; get; }
