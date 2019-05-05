@@ -4,102 +4,6 @@
         <name>BinokelDeluxe.GameLogic</name>
     </assembly>
     <members>
-        <member name="F:BinokelDeluxe.GameLogic.GameType.ThreePlayerGame">
-            <summary>
-            A game where three players play against each other.
-            </summary>
-        </member>
-        <member name="F:BinokelDeluxe.GameLogic.GameType.FourPlayerCrossBinokelGame">
-            <summary>
-            A game where four players play in teams of two against each other.
-            </summary>
-        </member>
-        <member name="F:BinokelDeluxe.GameLogic.CountingType.TenPointsForAceToKing">
-            <summary>
-            Ten points for aces, tens and kings, zero points for the remainder.
-            </summary>
-        </member>
-        <member name="F:BinokelDeluxe.GameLogic.CountingType.DecreasingPointsForAceToUnter">
-            <summary>
-            Eleven points for aces, ten for tens, four for kings, 3 for obers, 2 for unters.
-            </summary>
-        </member>
-        <member name="T:BinokelDeluxe.GameLogic.RuleSettings">
-            <summary>
-            This class contains any setting which affects the game logic.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.GameType">
-            <summary>
-            Defines whether three or four player binokel is being played.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SevensAreIncluded">
-            <summary>
-            True if the cards which display a seven shall be included.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.CountingType">
-            <summary>
-            Defines the score of each card.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ScoresWillBeRounded">
-            <summary>
-            True if the score for each player/team shall be rounded towards the next multiple of ten.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForOthersWhenGoingOut">
-            <summary>
-            True if, when one player goes out, all others will receive 10 points per player in addition to their meld.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForSevenOfTrumps">
-            <summary>
-            True if the seven of trumps can be melded for ten points.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForLastTrickInsteadOfFirst">
-            <summary>
-            True if the ten points are awarded for winning the last trick, false if ten points are awarded for winning the first trick.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SevenOfTrumpsCanBeMeldedAndDiscarded">
-            <summary>
-            True if the seven of trumps may be discarded despite being melded.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.BettelsAreAllowed">
-            <summary>
-            True if a Bettel (attempt to lose all tricks, and gaining 1000 points in case of success) is allowed.
-            </summary>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SecondTrumpMustAlsoWin">
-            <summary>
-            True if when player B plays a trump because he cannot follow suit, player C is forced to play a higher trump if he has one and also cannot follow suit.
-            If false, player C still needs to play a trump but may play a lower trump than player B.
-            </summary>
-        </member>
-        <member name="M:BinokelDeluxe.GameLogic.RuleSettings.Equals(BinokelDeluxe.GameLogic.RuleSettings)">
-            <summary>
-            Checks whether this and other are equal.
-            Two rule settings objects are equal if all their properties are equal.
-            </summary>
-            <param name="other">The other object.</param>
-            <returns>True if this and other are equal.</returns>
-        </member>
-        <member name="T:BinokelDeluxe.GameLogic.ISingleGameTriggerSink">
-            <summary>
-            This interface can be used to send triggers to the internal state machine.
-            See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
-            </summary>
-        </member>
-        <member name="T:BinokelDeluxe.GameLogic.UnconnectedEventException">
-            <summary>
-            Thrown when there is no listener connected to an event.
-            Since the state machine will not switch states without anyone sending a trigger, the application would be stuck in that case.
-            </summary>
-        </member>
         <member name="T:BinokelDeluxe.GameLogic.ISingleGameEventSource">
             <summary>
             Defines events which are sent by the machine whenever it is waiting for a trigger.
@@ -244,11 +148,174 @@
             You need to prepare a new game for the next round.
             </summary>
         </member>
+        <member name="T:BinokelDeluxe.GameLogic.ISingleGameTriggerSink">
+            <summary>
+            This interface can be used to send triggers to the internal state machine.
+            See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.ISingleGameTriggerSink.SendTrigger(BinokelDeluxe.Common.GameTrigger)">
+            <summary>
+            Sends a trigger to the trigger sink.
+            </summary>
+            <param name="trigger">The trigger to be sent.</param>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.PlayerPairEventArgs">
+            <summary>
+            Provides event arguments for a pair of players.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.PlayerPairEventArgs.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.GameLogic.PlayerPairEventArgs"/> class.
+            </summary>
+            <param name="currentPlayerPosition">The position of the current player.</param>
+            <param name="nextPlayerPosition">The position of the next player, e.g. the player who is allowed to counter the bid.</param>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.PlayerPairEventArgs.CurrentPlayerPosition">
+            <summary>
+            Gets the position of the current player.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.PlayerPairEventArgs.NextPlayerPosition">
+            <summary>
+            Gets the position of the next player.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.PlayerPositionEventArgs">
+            <summary>
+            Provides event arguments for a pair of players.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.PlayerPositionEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.GameLogic.PlayerPositionEventArgs"/> class.
+            </summary>
+            <param name="playerPosition">THe position of the relevant player.</param>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.PlayerPositionEventArgs.PlayerPosition">
+            <summary>
+            Gets the position of the relevant player.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.GameType">
+            <summary>
+            The type of the Binokel Game. Currently, only three player and four player games are supported.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.GameType.ThreePlayerGame">
+            <summary>
+            A game where three players play against each other.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.GameType.FourPlayerCrossBinokelGame">
+            <summary>
+            A game where four players play in teams of two against each other.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.CountingType">
+            <summary>
+            The way card values are counted.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.CountingType.TenPointsForAceToKing">
+            <summary>
+            Ten points for aces, tens and kings, zero points for the remainder.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.CountingType.DecreasingPointsForAceToUnter">
+            <summary>
+            Eleven points for aces, ten for tens, four for kings, 3 for obers, 2 for unters.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.RuleSettings">
+            <summary>
+            This class contains any setting which affects the game logic.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.GameType">
+            <summary>
+            Gets or sets the type of the game, i.e. whether three or four player binokel is being played.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SevensAreIncluded">
+            <summary>
+            Gets or sets a value indicating whether the cards which display a seven shall be included.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.CountingType">
+            <summary>
+            Gets or sets the way the card values are being counted.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ScoresWillBeRounded">
+            <summary>
+            Gets or sets a value indicating whether the score for each player/team shall be rounded towards the next multiple of ten.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForOthersWhenGoingOut">
+            <summary>
+            Gets or sets a value indicating whether when one player goes out, all others will receive 10 points per player in addition to their meld.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForSevenOfTrumps">
+            <summary>
+            Gets or sets a value indicating whether extra points are awarded for melding the seven of trumps.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.ExtraPointsForLastTrickInsteadOfFirst">
+            <summary>
+            Gets or sets a value indicating whether ten points are awarded for winning the last trick rather than the first trick.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SevenOfTrumpsCanBeMeldedAndDiscarded">
+            <summary>
+             Gets or sets a value indicating whether the seven of trumps may be discarded despite being melded.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.BettelsAreAllowed">
+            <summary>
+             Gets or sets a value indicating whether a Bettel (attempt to lose all tricks, and gaining 1000 points in case of success) is allowed.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.RuleSettings.SecondTrumpMustAlsoWin">
+            <summary>
+             Gets or sets a value indicating whether when player B plays a trump because he cannot follow suit, player C is forced to play a higher trump
+             if he has one and also cannot follow suit. If false, player C still needs to play a trump but may play a lower trump than player B.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.RuleSettings.Equals(BinokelDeluxe.GameLogic.RuleSettings)">
+            <summary>
+            Checks whether this and other are equal.
+            Two rule settings objects are equal if all their properties are equal.
+            </summary>
+            <param name="other">The other object.</param>
+            <returns>True if this and other are equal.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.RuleSettings.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.RuleSettings.GetHashCode">
+            <inheritdoc/>
+        </member>
         <member name="T:BinokelDeluxe.GameLogic.SingleGameStateBridge">
             <summary>
             This class is the public interface for interacting with the internal state machine. The only access provided is through events and triggers.
             This allows keeping the whole state management an implementation detail which others will not depend on.
             </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateBridge.EventSource">
+            <summary>
+            Gets an object which will send events as described in the ISingleGameEventSource interface.
+            </summary>
+            <returns>The event source.</returns>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateBridge.TriggerSink">
+            <summary>
+            Gets an object which will process triggers as described in the ISingleGameTriggerSink interface.
+            Be sure to call PrepareNewGame before calling this.
+            </summary>
+            <returns>The trigger sink.</returns>
         </member>
         <member name="M:BinokelDeluxe.GameLogic.SingleGameStateBridge.PrepareNewGame(BinokelDeluxe.GameLogic.RuleSettings,System.Int32)">
             <summary>
@@ -257,44 +324,69 @@
             <param name="ruleSettings">The rule settings to be used.</param>
             <param name="dealerPosition">The position of the dealer on the table, where 0 is the human player (single player) or the host (multiplayer).</param>
         </member>
-        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateBridge.EventSource">
-            <summary>
-            Retrieves an object which will send events as described in the ISingleGameEventSource interface.
-            </summary>
-            <returns>The event source.</returns>
-        </member>
-        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateBridge.TriggerSink">
-            <summary>
-            Retrieves an object which will process triggers as described in the ISingleGameTriggerSink interface.
-            Be sure to call PrepareNewGame before calling this.
-            </summary>
-            <returns>The trigger sink.</returns>
-        </member>
         <member name="T:BinokelDeluxe.GameLogic.SingleGameStateMachine">
             <summary>
             This class manages the central state machine and serves as an event bridge for it.
             This class is an internal namespace class and should not be exposed directly.
-            See https://github.com/Timmeey86/binokel-deluxe/wiki/Glossary for the difference between player positions and numbers
+            See https://github.com/Timmeey86/binokel-deluxe/wiki/Glossary for the difference between player positions and numbers.
             </summary>
         </member>
-        <member name="T:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties">
-            <summary>
-            Stores properties for the current state of a single game.
-            </summary>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.DealingStarted">
+            <inheritdoc/>
         </member>
-        <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.FireEvent``1(System.EventHandler{``0},``0,System.String)">
-            <summary>
-            Fires an event which takes event arguments safely. If no event listener is connected, an exception will be thrown.
-            </summary>
-            <typeparam name="T">The type of the event arguments.</typeparam>
-            <param name="eventHandler">The handler of the event.</param>
-            <param name="eventArgs">The event arguments.</param>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.WaitingForFirstBidStarted">
+            <inheritdoc/>
         </member>
-        <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.FireEvent(System.EventHandler,System.String)">
-            <summary>
-            Fires an event which does not take event arguments safely. If no event listener is connected, an exception will be thrown.
-            </summary>
-            <param name="eventHandler">The handler of the event.</param>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.SwitchingPlayerBeforeFirstBidStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.WaitingForBidOrPassStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.WaitingForCounterOrPassStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.SwitchingCurrentBidPlayerStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.SwitchingCounterBidPlayerStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.ExchangingCardsWithDabbStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.CalculatingGoingOutScoreStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.MeldingStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.TrickTakingStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.WaitingForCardStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.ValidatingCardStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.RevertingInvalidMoveStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.SwitchingCurrentTrickPlayerStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.StartingNewRoundStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.CountingPlayerOrTeamScoresStarted">
+            <inheritdoc/>
+        </member>
+        <member name="E:BinokelDeluxe.GameLogic.SingleGameStateMachine.GameFinished">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.SendTrigger(BinokelDeluxe.Common.GameTrigger)">
+            <inheritdoc/>
         </member>
         <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.RefreshStateMachine(BinokelDeluxe.GameLogic.RuleSettings,System.Int32)">
             <summary>
@@ -303,12 +395,196 @@
             </summary>
             <param name="ruleSettings">The settings for this game.</param>
             <param name="dealerPosition">The Position of the dealing player for this game, starting at zero.</param>
-            <returns>A state machine for a single game.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.FireEvent``1(System.EventHandler{``0},``0,System.String)">
+            <summary>
+            Fires an event which takes event arguments safely. If no event listener is connected, an exception will be thrown.
+            </summary>
+            <typeparam name="T">The type of the event arguments.</typeparam>
+            <param name="eventHandler">The handler of the event.</param>
+            <param name="eventArgs">The event arguments.</param>
+            <param name="name">The name of the event (used for error handling).</param>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.FireEvent(System.EventHandler,System.String)">
+            <summary>
+            Fires an event which does not take event arguments safely. If no event listener is connected, an exception will be thrown.
+            </summary>
+            <param name="eventHandler">The handler of the event.</param>
+            <param name="name">The name of the event (used for error handling).</param>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties">
+            <summary>
+            Stores properties for the current state of a single game.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.NumberOfPlayers">
+            <summary>
+            Gets or sets the number of players.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.DealerPosition">
+            <summary>
+            Gets or sets the position of the dealer.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.RemainingCards">
+            <summary>
+            Gets or sets the number of remaining cards in the trick taking phase.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.CurrentPlayerPosition">
+            <summary>
+            Gets or sets the position of the current player.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.NextPlayerPosition">
+            <summary>
+            Gets or sets the position of the next player.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.GameLogic.SingleGameStateMachine.SingleGameProperties.TrickWinnerPosition">
+            <summary>
+            Gets or sets the position of the trick winner.
+            </summary>
         </member>
         <member name="T:BinokelDeluxe.GameLogic.SingleGameState">
             <summary>
             See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a graphical representation of the states.
             </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Initial">
+            <summary>
+            The initial state of the game.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Dealing">
+            <summary>
+            The phase where the dealer is distributing cards to the players and the dabb.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding">
+            <summary>
+            The phase where players are trying to outbid each other.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_WaitingForFirstBid">
+            <summary>
+            The substate of the bidding phase where the current player needs to place the first bid (or pass directly).
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_SwitchingFirstBidPlayer">
+            <summary>
+            The substate of the bidding phase where a player passed before placing the first bid, and the next player is being notified that they may place the bid.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_WaitingForCurrentPlayer">
+            <summary>
+            The substate of the bidding phase where an action (bid or pass) is being awaited from the current player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_WaitingForNextPlayer">
+            <summary>
+            The substate of the bidding phase where an action (counter or pass) is being awaited from the next player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_SwitchingCurrentPlayer">
+            <summary>
+            The substate of the bidding phase where the current player passed (after the initial bid) and the next player is about to become the new current player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bidding_SwitchingNextPlayer">
+            <summary>
+            The substate of the bidding phase where the next player passed and the player after that one is about to become the new "next" player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.ExchangingCardsWithTheDabb">
+            <summary>
+            The phase where the winner of the bidding phase is allowed to exchange cards with the dabb.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Durch">
+            <summary>
+            The phase where the winner of the bidding phase decided to do a "Durch" (This is TBD).
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Bettel">
+            <summary>
+            The phase where the winner of the bidding phase decided to do a "Bettel" (This is TBD).
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.CountingGoingOutScore">
+            <summary>
+            The phase where the winner of the bidding phase decided to "go out" and the score for all players is being calculated.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Melding">
+            <summary>
+            The phase where the winner of the bidding phase selected a trump and everyone is displaying their melds to everyone else.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking">
+            <summary>
+            The phase where tricks are being played for.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_WaitingForCurrentPlayer">
+            <summary>
+            The substate of the trick taking phase where a card is being awaited from the current player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_ValidatingCard">
+            <summary>
+            The substate of the trick taking phase where the card played by the current player is being validated.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_RevertingInvalidMove">
+            <summary>
+            The substate of the trick taking phase where an invalid card was placed and the move needs to be reverted.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_RememberingWinningPlayer">
+            <summary>
+            The substate of the trick taking phase where the winning player is being remembered for the score calculation later on.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_SwitchingToNextPlayer">
+            <summary>
+            The substate of the trick taking phase where a player placed a valid card and the next player is being notified that they may place a card.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.TrickTaking_StartingNewRound">
+            <summary>
+            The substate of the trick taking phase where a new round is being started since the previous trick is over.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.CountingGameScore">
+            <summary>
+            The substate of the trick taking phase where all cards have been played and the final score for the game is being calculated.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.GameLogic.SingleGameState.End">
+            <summary>
+            The state where the state machine ended, and a new one needs to be initialized for the next game.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.GameLogic.UnconnectedEventException">
+            <summary>
+            Thrown when there is no listener connected to an event.
+            Since the state machine will not switch states without anyone sending a trigger, the application would be stuck in that case.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.UnconnectedEventException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.GameLogic.UnconnectedEventException"/> class.
+            </summary>
+            <param name="eventName">The name of the event which has no listeners.</param>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.UnconnectedEventException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.GameLogic.UnconnectedEventException"/> class.
+            </summary>
+            <param name="info">The serialization info.</param>
+            <param name="context">The streaming context.</param>
         </member>
     </members>
 </doc>

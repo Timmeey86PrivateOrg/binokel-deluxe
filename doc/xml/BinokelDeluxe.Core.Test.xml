@@ -4,5 +4,10 @@
         <name>BinokelDeluxe.Core.Test</name>
     </assembly>
     <members>
+        <member name="T:BinokelDeluxe.Core.Test.GameStateStackTest">
+            <summary>
+            This class tests the Game State Stack.
+            </summary>
+        </member>
     </members>
 </doc>

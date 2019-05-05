@@ -4,9 +4,22 @@
         <name>BinokelDeluxe.Droid</name>
     </assembly>
     <members>
+        <member name="T:BinokelDeluxe.Droid.Activity1">
+            <summary>
+            The main android activity.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Droid.Activity1.OnCreate(Android.OS.Bundle)">
+            <inheritdoc/>
+        </member>
         <member name="T:BinokelDeluxe.Droid.AndroidGame">
             <summary>
             This is the main type for your game.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Droid.AndroidGame.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Droid.AndroidGame"/> class.
             </summary>
         </member>
         <member name="M:BinokelDeluxe.Droid.AndroidGame.ExitButtonsArePressed">
@@ -20,14 +33,29 @@
             Quits the game in an Android specific way.
             </summary>
         </member>
-        <member name="T:BinokelDeluxe.Shared.HungarianCardSprite">
-            <summary>
-            This class provides the appropriate image for each card.
-            </summary>
-        </member>
         <member name="T:BinokelDeluxe.Shared.GameBase">
             <summary>
             This is the main type for your game.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Shared.GameBase"/> class.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Shared.GameBase.Graphics">
+            <summary>
+            Gets the graphics device manager.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Shared.GameBase.SpriteBatch">
+            <summary>
+            Gets the sprite batch used for drawing.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Shared.GameBase.GameController">
+            <summary>
+            Gets the game controller used by the game.
             </summary>
         </member>
         <member name="M:BinokelDeluxe.Shared.GameBase.Initialize">
@@ -61,7 +89,7 @@
             <summary>
             Check whether or not the exit buttons are currently pressed. This is usually the back or escape key.
             </summary>
-            <returns></returns>
+            <returns>True in case the exit buttons are currently being pressed.</returns>
         </member>
         <member name="M:BinokelDeluxe.Shared.GameBase.QuitGame">
             <summary>
@@ -73,11 +101,6 @@
             This is called when the game should draw itself.
             </summary>
             <param name="gameTime">Provides a snapshot of timing values.</param>
-        </member>
-        <member name="T:BinokelDeluxe.Shared.TogglableCard">
-            <summary>
-            Defines a card which can be toggled
-            </summary>
         </member>
     </members>
 </doc>

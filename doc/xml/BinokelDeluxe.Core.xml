@@ -13,7 +13,8 @@
         </member>
         <member name="M:BinokelDeluxe.Core.GameController.#ctor(BinokelDeluxe.UI.IUserInterface)">
             <summary>
-            Creates a new game controller for the given user interface. Note: This should best be created and used outside of the UI thread.
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Core.GameController"/> class.
+            Note: This should best be created and used outside of the UI thread.
             </summary>
             <param name="userInterface">The user interface to be used.</param>
         </member>
@@ -31,22 +32,22 @@
         </member>
         <member name="P:BinokelDeluxe.Core.GameCreationInfo.Version">
             <summary>
-            The version of the game state store/restore mechanism, in case it gets changed in future. This allows for upgrading older saves.
+            Gets or sets the version of the game state store/restore mechanism, in case it gets changed in future. This allows for upgrading older saves.
             </summary>
         </member>
         <member name="P:BinokelDeluxe.Core.GameCreationInfo.RandomSeed">
             <summary>
-            The random seed which was used to iniitalize the random number generator.
+            Gets or sets the random seed which was used to iniitalize the random number generator.
             </summary>
         </member>
         <member name="P:BinokelDeluxe.Core.GameCreationInfo.AIStrategyTypes">
             <summary>
-            Contains a type for each player position which is null in case of a human player or an AI Strategy type otherwise.
+            Gets or sets a type for each player position which is null in case of a human player or an AI Strategy type otherwise.
             </summary>
         </member>
         <member name="P:BinokelDeluxe.Core.GameCreationInfo.RuleSettings">
             <summary>
-            The rule settings the game was started with.
+            Gets or sets the rule settings the game was started with.
             </summary>
         </member>
         <member name="M:BinokelDeluxe.Core.GameCreationInfo.PlayerIsHuman(System.Int32)">
@@ -64,8 +65,14 @@
             - They have the same list of strategy types in the same order and
             - They have equal rule settings.
             </summary>
-            <param name="other"></param>
-            <returns></returns>
+            <param name="other">The other object.</param>
+            <returns>True if the two objects are equal.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameCreationInfo.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameCreationInfo.GetHashCode">
+            <inheritdoc/>
         </member>
         <member name="T:BinokelDeluxe.Core.GameStateChangeInfo">
             <summary>
@@ -74,13 +81,22 @@
         </member>
         <member name="P:BinokelDeluxe.Core.GameStateChangeInfo.HumanTrigger">
             <summary>
-            The trigger which was used by the human player to initiate the state change (optional).
+            Gets or sets the trigger which was used by the human player to initiate the state change (optional).
             </summary>
         </member>
         <member name="P:BinokelDeluxe.Core.GameStateChangeInfo.CardPlayedByHuman">
             <summary>
-            The card which was played by the human to trigger the state change (optional).
+            Gets or sets the card which was played by the human to trigger the state change (optional).
             </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameStateChangeInfo.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameStateChangeInfo.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameStateChangeInfo.Equals(BinokelDeluxe.Core.GameStateChangeInfo)">
+            <inheritdoc/>
         </member>
         <member name="T:BinokelDeluxe.Core.GameStateStack">
             <summary>
@@ -94,7 +110,7 @@
         </member>
         <member name="P:BinokelDeluxe.Core.GameStateStack.CreationInfo">
             <summary>
-            Information required for creating an identical game.
+            Gets or sets information required for creating an identical game.
             </summary>
         </member>
         <member name="M:BinokelDeluxe.Core.GameStateStack.Push(BinokelDeluxe.Core.GameStateChangeInfo)">
@@ -115,6 +131,9 @@
             </summary>
             <returns>The entry which is currently on top of the stack.</returns>
         </member>
+        <member name="M:BinokelDeluxe.Core.GameStateStack.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
         <member name="M:BinokelDeluxe.Core.GameStateStack.Equals(BinokelDeluxe.Core.GameStateStack)">
             <summary>
             Checks whether or not other is equal to this. Two Game State Stack objects are considered equal if
@@ -124,6 +143,19 @@
             </summary>
             <param name="other">The other object.</param>
             <returns>True if other is equal to this.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.Core.GameStateStack.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:BinokelDeluxe.Core.Test">
+            <summary>
+            Temporary static test class. Ignore this.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Core.Test.TestMethod">
+            <summary>
+            Temporary static test method. Ignore this.
+            </summary>
         </member>
     </members>
 </doc>
