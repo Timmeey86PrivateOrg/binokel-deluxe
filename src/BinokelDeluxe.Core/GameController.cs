@@ -109,7 +109,6 @@ namespace BinokelDeluxe.Core
             sender.GameFinished += EventSource_GameFinished;
         }
 
-        // TODO: The following methods, or at least their implementations, need to go to another class.
         private bool IsUser(int position)
         {
             return position == UserPosition;

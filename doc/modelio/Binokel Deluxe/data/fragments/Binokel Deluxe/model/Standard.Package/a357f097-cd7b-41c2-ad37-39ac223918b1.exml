@@ -15,6 +15,7 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="List" mc="Standard.Class" uid="896cfcef-71ae-4487-9f48-241a30aac1e8"/>
+        <COMPID name="IEnumerable" mc="Standard.Class" uid="fef852e6-972c-45cf-a4b9-61241af987ce"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

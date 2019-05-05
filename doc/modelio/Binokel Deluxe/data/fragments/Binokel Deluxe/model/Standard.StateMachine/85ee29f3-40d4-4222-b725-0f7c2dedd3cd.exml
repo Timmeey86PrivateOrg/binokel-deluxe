@@ -936,6 +936,11 @@ Currently, only the current and next players and the number of cards remaining a
                               <ATT name="status">1970354901745664</ATT>
                             </ATTRIBUTES>
                             <DEPENDENCIES>
+                              <LINK relation="Trigger">
+                                <REFOBJ>
+                                  <ID name="ReadyForTrickTaking" mc="Standard.Event" uid="4edf308f-0d49-465f-beae-984b310f838f"/>
+                                </REFOBJ>
+                              </LINK>
                               <LINK relation="Target">
                                 <REFOBJ>
                                   <ID name="Waiting for current player" mc="Standard.State" uid="fb04a345-015e-4652-8902-61688d4757cc"/>
@@ -1737,6 +1742,20 @@ Currently, only the current and next players and the number of cards remaining a
           <DEPENDENCIES>
             <LINK relation="Model">
               <ID name="NewRoundStarted" mc="Standard.Signal" uid="f92eb578-f9b0-41be-b76a-fe829f33412f"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="ReadyForTrickTaking" mc="Standard.Event" uid="4edf308f-0d49-465f-beae-984b310f838f"/>
+          <ATTRIBUTES>
+            <ATT name="Expression"></ATT>
+            <ATT name="Kind">SignalEvent</ATT>
+            <ATT name="Name"><![CDATA[ReadyForTrickTaking]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Model">
+              <ID name="ReadyForTrickTaking" mc="Standard.Signal" uid="cfa87e1d-9276-4a75-abdf-a99db3e3d233"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

@@ -160,6 +160,59 @@
           </DEPENDENCIES>
         </OBJECT>
         <COMPID name="Card" mc="Standard.Class" uid="bdeae7c2-056a-4d48-bb92-eaccbf96f971"/>
+        <COMPID name="CardEventArgs" mc="Standard.Class" uid="fca50d33-1dea-44f6-8674-4b115af727d6"/>
+        <COMPID name="MeldData" mc="Standard.Class" uid="134307c8-ffa8-45c0-a11f-6fb154d4b51e"/>
+        <COMPID name="SingleMeld" mc="Standard.Class" uid="51a55e20-ddd9-44c5-8346-f6c21722dfe9"/>
+        <COMPID name="NonCode" mc="Standard.Package" uid="50efaf20-58f8-47ff-a288-858b5514b1f0"/>
+        <OBJECT>
+          <ID name="ScoreType" mc="Standard.Enumeration" uid="9a2ef2e7-c08c-4fd5-916d-9539e3eb0f4d"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[ScoreType]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="PlayerScore" mc="Standard.EnumerationLiteral" uid="70ef3ac5-6333-47e0-95b0-22d749dadb0c"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[PlayerScore]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="TeamScore" mc="Standard.EnumerationLiteral" uid="e57fadb4-ebc4-442f-b230-5900452ed430"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[TeamScore]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Note" uid="8a646ff3-968a-4cfa-a2f6-49f6ee8c257e"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[The type of the score.]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="ScoreData" mc="Standard.Class" uid="14aae11a-40d9-442e-93a4-b6323ab78a33"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

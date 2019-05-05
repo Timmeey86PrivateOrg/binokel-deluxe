@@ -43,7 +43,6 @@ namespace BinokelDeluxe.Shared
 
             TouchPanel.EnabledGestures = GestureType.Tap;
 
-            // TODO: Add user interface
             GameController = new Core.GameController(DevUI);
             GameController.StartNewGame(
                 new GameLogic.RuleSettings()
