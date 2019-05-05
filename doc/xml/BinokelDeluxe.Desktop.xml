@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BinokelDeluxe.Desktop</name>
+    </assembly>
+    <members>
+        <member name="T:BinokelDeluxe.Desktop.DesktopGame">
+            <summary>
+            This is the main type for your game.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Desktop.DesktopGame.ExitButtonsArePressed">
+            <summary>
+            Make the game exit when the back button is pressed.
+            </summary>
+            <returns>True if the game shall exit.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.Desktop.DesktopGame.Initialize">
+            <summary>
+            Sets the mouse visible on desktop environments only.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Desktop.Program">
+            <summary>
+            The main class.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Desktop.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Shared.HungarianCardSprite">
+            <summary>
+            This class provides the appropriate image for each card.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Shared.GameBase">
+            <summary>
+            This is the main type for your game.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.Initialize">
+            <summary>
+            Allows the game to perform any initialization it needs to before starting to run.
+            This is where it can query for any required services and load any non-graphic
+            related content.  Calling base.Initialize will enumerate through any components
+            and initialize them as well.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.LoadContent">
+            <summary>
+            LoadContent will be called once per game and is the place to load
+            all of your content.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.UnloadContent">
+            <summary>
+            UnloadContent will be called once per game and is the place to unload
+            game-specific content.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Allows the game to run logic such as updating the world,
+            checking for collisions, gathering input, and playing audio.
+            </summary>
+            <param name="gameTime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.ExitButtonsArePressed">
+            <summary>
+            Check whether or not the exit buttons are currently pressed. This is usually the back or escape key.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.QuitGame">
+            <summary>
+            Quits the game. This is a separate method since Exit() is not supported on all platforms.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Shared.GameBase.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            This is called when the game should draw itself.
+            </summary>
+            <param name="gameTime">Provides a snapshot of timing values.</param>
+        </member>
+        <member name="T:BinokelDeluxe.Shared.TogglableCard">
+            <summary>
+            Defines a card which can be toggled
+            </summary>
+        </member>
+    </members>
+</doc>

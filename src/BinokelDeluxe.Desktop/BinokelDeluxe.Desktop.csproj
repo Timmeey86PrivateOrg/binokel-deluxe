@@ -16,6 +16,8 @@
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <CodeAnalysisRuleSet>$(SolutionDir)\stylecop\BinokelDeluxe.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(SolutionDir)..\doc\xml\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>

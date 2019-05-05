@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BinokelDeluxe.GameLogic.Test</name>
+    </assembly>
+    <members>
+        <member name="T:BinokelDeluxe.GameLogic.Test.FourPlayerStateTest">
+            <summary>
+            Defines tests for the SingleGameStateBridge for four players.
+            See https://github.com/Timmeey86/binokel-deluxe/wiki/Glossary for the difference between player positions and numbers.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.GameLogic.Test.FourPlayerStateTest.GetPlayerPosition(System.Int32,System.Int32)">
+            <summary>
+            Retrieves the position on the table of the player with the given number, where the dealerPosition represents number zero.
+            </summary>
+            <param name="playerNumber">The number of the player, where 0 = dealer, 1 = right-hand player of dealer, etc.</param>
+            <param name="dealerPosition">The position on the table where 0 = human player (single game) or host (multiplayer).</param>
+            <returns>The position for the given number in the current game.</returns>
+        </member>
+    </members>
+</doc>

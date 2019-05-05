@@ -17,6 +17,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <CodeAnalysisRuleSet>$(SolutionDir)\stylecop\BinokelDeluxe.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(SolutionDir)..\doc\xml\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
