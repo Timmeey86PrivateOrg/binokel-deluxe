@@ -1,34 +1,46 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BinokelDeluxe.Shared
+﻿namespace BinokelDeluxe.Shared
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input.Touch;
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public abstract class GameBase : Game
     {
-        protected GraphicsDeviceManager Graphics { private set; get; }
-        protected SpriteBatch SpriteBatch { private set; get; }
-        protected HungarianCardSprite CardSprite { private set; get; }
-
-        protected Core.GameController GameController { private set; get; }
-        private DevUI.DevUI DevUI { set; get; }
-        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameBase"/> class.
+        /// </summary>
         protected GameBase()
         {
-            Graphics = new GraphicsDeviceManager(this);
-            Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
-            Graphics.ApplyChanges();
+            this.Graphics = new GraphicsDeviceManager(this)
+            {
+                SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight,
+            };
+            this.Graphics.ApplyChanges();
 
-            Content.RootDirectory = "Content";
-            DevUI = new DevUI.DevUI(Graphics);
+            this.Content.RootDirectory = "Content";
+            this.DevUI = new DevUI.DevUI(this.Graphics);
         }
+
+        /// <summary>
+        /// Gets the graphics device manager.
+        /// </summary>
+        protected GraphicsDeviceManager Graphics { get; private set; }
+
+        /// <summary>
+        /// Gets the sprite batch used for drawing.
+        /// </summary>
+        protected SpriteBatch SpriteBatch { get; private set; }
+
+        /// <summary>
+        /// Gets the game controller used by the game.
+        /// </summary>
+        protected Core.GameController GameController { get; private set; }
+
+        private DevUI.DevUI DevUI { get; set; }
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -40,18 +52,16 @@ namespace BinokelDeluxe.Shared
         {
             base.Initialize();
 
-
             TouchPanel.EnabledGestures = GestureType.Tap;
 
-            GameController = new Core.GameController(DevUI);
-            GameController.StartNewGame(
+            this.GameController = new Core.GameController(this.DevUI);
+            this.GameController.StartNewGame(
                 new GameLogic.RuleSettings()
                 {
                     GameType = GameLogic.GameType.FourPlayerCrossBinokelGame,
-                    SevensAreIncluded = false
+                    SevensAreIncluded = false,
                 },
-                new List<string>() { null, "TEMPAI", "TEMPAI", "TEMPAI" }
-                );
+                new List<string>() { null, "TEMPAI", "TEMPAI", "TEMPAI" });
         }
 
         /// <summary>
@@ -61,10 +71,8 @@ namespace BinokelDeluxe.Shared
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
-            CardSprite = new HungarianCardSprite(SpriteBatch, Content);
-            CardSprite.Load();
-            DevUI.LoadContent(Content);
+            this.SpriteBatch = new SpriteBatch(this.GraphicsDevice);
+            this.DevUI.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -75,8 +83,7 @@ namespace BinokelDeluxe.Shared
         {
             // TODO: Unload any non ContentManager content here
         }
-        
-        bool _gameIsRunning = false;
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -84,19 +91,14 @@ namespace BinokelDeluxe.Shared
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (ExitButtonsArePressed())
+            if (this.ExitButtonsArePressed())
             {
-                DevUI.Exit();
-                QuitGame();
+                this.DevUI.Exit();
+                this.QuitGame();
                 return;
             }
-            if (!_gameIsRunning)
-            {
-                _gameIsRunning = true;
 
-            }
-            
-            DevUI.Update(gameTime);
+            this.DevUI.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -104,7 +106,7 @@ namespace BinokelDeluxe.Shared
         /// <summary>
         /// Check whether or not the exit buttons are currently pressed. This is usually the back or escape key.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True in case the exit buttons are currently being pressed.</returns>
         protected abstract bool ExitButtonsArePressed();
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace BinokelDeluxe.Shared
         /// </summary>
         protected virtual void QuitGame()
         {
-            Exit();
+            this.Exit();
         }
 
         /// <summary>
@@ -121,10 +123,9 @@ namespace BinokelDeluxe.Shared
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            DevUI.Draw(SpriteBatch);
+            this.DevUI.Draw(this.SpriteBatch);
 
             base.Draw(gameTime);
         }
     }
 }
-

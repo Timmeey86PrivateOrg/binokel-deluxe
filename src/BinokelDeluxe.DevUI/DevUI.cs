@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using BinokelDeluxe.Common;
 using BinokelDeluxe.UI;
@@ -42,7 +40,7 @@ namespace BinokelDeluxe.DevUI
         private readonly Screens.MeldingScreen _meldingScreen;
         private readonly Screens.TrickTakingScreen _trickTakingScreen;
 
-        private static IUIScreen _nullScreen = new Screens.NullScreen();
+        private static readonly IUIScreen _nullScreen = new Screens.NullScreen();
         private IUIScreen _currentScreen = _nullScreen;
 
         public DevUI(GraphicsDeviceManager deviceManager)

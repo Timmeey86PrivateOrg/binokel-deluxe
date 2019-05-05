@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BinokelDeluxe.Common</name>
+    </assembly>
+    <members>
+        <member name="T:BinokelDeluxe.Common.CardSuit">
+            <summary>
+            The suit of a card.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardSuit.Acorns">
+            <summary>
+            The "Acorns" suit.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardSuit.Leaves">
+            <summary>
+            The "Leaves" suit.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardSuit.Hearts">
+            <summary>
+            The "Hearts" suit.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardSuit.Bells">
+            <summary>
+            The "Bells" suit.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.CardType">
+            <summary>
+            The type of a card.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.Seven">
+            <summary>
+            A card with the number seven.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.Unter">
+            <summary>
+            A card represented by an "U" letter.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.Ober">
+            <summary>
+            A card represented by an "O" letter.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.King">
+            <summary>
+            A card represented by a "K" letter.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.Ten">
+            <summary>
+            A card with the number ten.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.CardType.Ace">
+            <summary>
+            A card represented by an "A" letter.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.Card">
+            <summary>
+            Represents a unique card in the game.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.Card.Suit">
+            <summary>
+            Gets or sets the suit of the card.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.Card.Type">
+            <summary>
+            Gets or sets the type of the card.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.Card.DeckNumber">
+            <summary>
+            Gets or sets the number of the deck (0 or 1).
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Common.Card.Equals(BinokelDeluxe.Common.Card)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Common.Card.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Common.Card.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:BinokelDeluxe.Common.CardEventArgs">
+            <summary>
+            This class can be used to forward a Card object through the event mechanism.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Common.CardEventArgs.#ctor(BinokelDeluxe.Common.Card)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Common.CardEventArgs"/> class.
+            </summary>
+            <param name="card">The card to be made available for event listeners.</param>
+        </member>
+        <member name="P:BinokelDeluxe.Common.CardEventArgs.Card">
+            <summary>
+            Gets the card for which this event was fired.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.GameTrigger">
+            <summary>
+            Defines triggers the state machine will react to.
+            See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+            Check the comment of each event to know which trigger to fire.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.None">
+            <summary>
+            This is used to indicate that no trigger was associated with an action, rather than having a nullable GameTrigger member.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.GameStarted">
+            <summary>
+            Send this trigger to start the game.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.DealingFinished">
+            <summary>
+            Send this trigger once a dealing animation was finished.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.BidPlaced">
+            <summary>
+            Send this trigger whenever a bid was placed by any player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.BidCountered">
+            <summary>
+            Send this trigger whenever the bid of the current player was countered.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.Passed">
+            <summary>
+            Send this trigger whenever any player passed.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.PlayerSwitched">
+            <summary>
+            Send this trigger whenever a player switch was finished (e.g. when another player is shown as the active player).
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.GoingOut">
+            <summary>
+            Send this trigger when a player decided to go out in the "Dabb" phase.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.DurchAnnounced">
+            <summary>
+            Send this trigger when a player announced a "Durch" in the "Dabb" phase.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.BettelAnnounced">
+            <summary>
+            Send this trigger when a player announced a "Bettel" in the "Dabb" phase.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.TrumpSelected">
+            <summary>
+            Send this trigger when a player finishes the "Dabb" phase by selecting a trump for the trick taking phase.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.MeldsSeenByAllPlayers">
+            <summary>
+            Send this trigger as soon as all players confirmed seeing the melds of all players.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.ReadyForTrickTaking">
+            <summary>
+            Send this trigger as soon as the UI is ready for trick taking. This is a separate step since the UI usually has to initialize
+            several things between displaying melds and letting a player place the first card.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.CardPlaced">
+            <summary>
+            Send this trigger whenever a card was placed by the active player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.InvalidCardPlaced">
+            <summary>
+            Send this trigger whenever an invalid card was placed.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.WinningCardPlaced">
+            <summary>
+            Send this trigger when the card being placed beats all other cards currently in the middle. The first card is always a winning card.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.LosingCardPlaced">
+            <summary>
+            Send this trigger when the card being placed does not beat all other cards currently in the middle.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.RevertingFinished">
+            <summary>
+            Send this trigger when reverting an invalid move was finished.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.NewRoundStarted">
+            <summary>
+            Send this trigger whenever a new trick taking round started.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.ScoreCalculationFinished">
+            <summary>
+            Send this trigger whenever the score calculation was finished.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.GameTrigger.Internal">
+            <summary>
+            Internal trigger used for automatic state transitions. Do not use this outside of the state machine.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.IConfigurable">
+            <summary>
+            This interface is used to identify classes which store settings.
+            Since reflections will be used to work with these classes, the interface currently does not define any methods.
+            Implementers must have the [Serializable()] attribute.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.ListComparer`1">
+            <summary>
+            This class allows comparing two lists with each other.
+            The lists are considered equal if they have the same order of elements, and the elements at each position are equal.
+            This usually requires the elements to implement IEquatable&lt;T&gt;, Equals and GetHashCode.
+            Note that this is basically the IEqualityComparer pattern, but the class is static since it is used a lot.
+            </summary>
+            <typeparam name="T">The type of the list elements to be compared.</typeparam>
+        </member>
+        <member name="M:BinokelDeluxe.Common.ListComparer`1.Equals(System.Collections.Generic.IList{`0},System.Collections.Generic.IList{`0})">
+            <summary>
+            Checks whether or not x is equal to y.
+            The lists are considered equal if they have the same order of elements, and the elements at each position are equal.
+            </summary>
+            <param name="x">the first list.</param>
+            <param name="y">the second list.</param>
+            <returns>True if the lists contain the same order of elements, and the elements at each position are equal.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.Common.ListComparer`1.GetHashCode(System.Collections.Generic.IList{`0})">
+            <summary>
+            Retrieves the hash code for the given object.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The hash code.</returns>
+        </member>
+        <member name="T:BinokelDeluxe.Common.MeldData">
+            <summary>
+            Stores data about all melds of a single player.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.MeldData.Melds">
+            <summary>
+            Gets or sets the melds of a single player. May contain the same card multiple times (e.g. Pair + Binokel).
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.MeldData.Cards">
+            <summary>
+            Gets a distinct list of melded cards ordered by suit and then descending type (Ace to Seven).
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.MeldData.Points">
+            <summary>
+            Gets the accumulated points of all melds.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.ScoreType">
+            <summary>
+            The type of the score.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.ScoreType.PlayerScore">
+            <summary>
+            The score is for a single player.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.Common.ScoreType.TeamScore">
+            <summary>
+            The score is for a team in a four player Cross-Binokel game.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.ScoreData">
+            <summary>
+            Contains the score of a single player or team (in case of cross-Binokel).
+            This is a struct, so you need to pass it as a ref object if you want to modify it.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.ScoreType">
+            <summary>
+            Gets or sets the type of the score.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.BiddingPoints">
+            <summary>
+            Gets or sets the points of the bidding phase in case the player or team won that phase.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.MeldedPoints">
+            <summary>
+            Gets or sets the amount of points which were melded.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.TrickPoints">
+            <summary>
+            Gets or sets the amount of points received for winning tricks.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.ExtraPoints">
+            <summary>
+            Gets or sets the extra points which were received, e.g. because a player went out, or a Bettel or Durch was won or lost.
+            This value may be negative.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.RoundScore">
+            <summary>
+            Gets or sets the amount of points for the current round. Note that melded points are only counted if at least one trick was won.
+            This value may be negative.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.ScoreData.TotalScore">
+            <summary>
+            Gets or sets the total score of all rounds played so far.
+            This value may be negative.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.SerializableVersion">
+            <summary>
+            Provides a serializable, comparable version.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Common.SerializableVersion.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Common.SerializableVersion"/> class.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Common.SerializableVersion.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BinokelDeluxe.Common.SerializableVersion"/> class.
+            </summary>
+            <param name="major">The major version number.</param>
+            <param name="minor">The minor version number.</param>
+        </member>
+        <member name="P:BinokelDeluxe.Common.SerializableVersion.Major">
+            <summary>
+            Gets or sets the major version number.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.SerializableVersion.Minor">
+            <summary>
+            Gets or sets the minor version number.
+            </summary>
+        </member>
+        <member name="M:BinokelDeluxe.Common.SerializableVersion.Equals(BinokelDeluxe.Common.SerializableVersion)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Common.SerializableVersion.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BinokelDeluxe.Common.SerializableVersion.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:BinokelDeluxe.Common.SingleMeld">
+            <summary>
+            Stores information about a single meld, consisting of several cards.
+            If a card is part of multiple melds, it will be part of several SingleMeld objects.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.SingleMeld.Cards">
+            <summary>
+            Gets or sets the cards related to this meld.
+            </summary>
+        </member>
+        <member name="P:BinokelDeluxe.Common.SingleMeld.Points">
+            <summary>
+            Gets or sets the points of this meld.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.Common.ValueComparer`1">
+            <summary>
+            This class allows comparing two nullable objects with each other.
+            This usually requires the elements to implement IEquatable&lt;T&gt;, Equals and GetHashCode.
+            Note that this is basically the IEqualityComparer pattern, but the class is static since it is used a lot.
+            </summary>
+            <typeparam name="T">The type of value to be compared.</typeparam>
+        </member>
+        <member name="M:BinokelDeluxe.Common.ValueComparer`1.Equals(`0,`0)">
+            <summary>
+            Checks whether or not x and y are equal.
+            X and y are considered equal if they are either both null, or both not null and their Equals implementation returns true.
+            </summary>
+            <param name="x">The first object.</param>
+            <param name="y">The second object.</param>
+            <returns>True if both objects are equal.</returns>
+        </member>
+        <member name="M:BinokelDeluxe.Common.ValueComparer`1.GetHashCode(`0)">
+            <summary>
+            Retrieves the hash code for the given object.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The hash code.</returns>
+        </member>
+    </members>
+</doc>

@@ -16,6 +16,8 @@
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <CodeAnalysisRuleSet>$(SolutionDir)\stylecop\BinokelDeluxe.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>$(SolutionDir)..\doc\xml\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -146,6 +148,13 @@
       <Project>{83c242b6-0331-4d6f-8ff5-7222899e8cc7}</Project>
       <Name>BinokelDeluxe.Validation</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.1.118</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="..\BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

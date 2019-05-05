@@ -1,62 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
-// DOCUMENTED
+﻿// DOCUMENTED
 
 namespace BinokelDeluxe.GameLogic
 {
-    /// <summary>
-    /// This interface can be used to send triggers to the internal state machine.
-    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
-    /// </summary>
-    public interface ISingleGameTriggerSink
-    {
-        void SendTrigger(Common.GameTrigger trigger);
-    }
+    using System;
 
-    /// <summary>
-    /// Thrown when there is no listener connected to an event.
-    /// Since the state machine will not switch states without anyone sending a trigger, the application would be stuck in that case.
-    /// </summary>
-    [System.Serializable]
-    public class UnconnectedEventException : Exception
-    {
-        public UnconnectedEventException(string eventName)
-            : base(String.Format(
-                "Nothing is connected to the {0} event. This would cause the application to be stuck. Connect something to this event and fire the right trigger at the end of it.",
-                eventName
-                ))
-        {
-        }
-
-        protected UnconnectedEventException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-        {
-        }
-    }
-
-    public class PlayerPairEventArgs : EventArgs
-    {
-        public PlayerPairEventArgs(int currentPlayerPosition, int nextPlayerPosition)
-        {
-            CurrentPlayerPosition = currentPlayerPosition;
-            NextPlayerPosition = nextPlayerPosition;
-        }
-
-        public int CurrentPlayerPosition { get; set; }
-        public int NextPlayerPosition { get; set; }
-    }
-    public class PlayerPositionEventArgs : EventArgs
-    {
-        public PlayerPositionEventArgs(int playerPosition)
-        {
-            PlayerPosition = playerPosition;
-        }
-
-        public int PlayerPosition { get; set; }
-    }
     /// <summary>
     /// Defines events which are sent by the machine whenever it is waiting for a trigger.
     /// </summary>
@@ -112,7 +59,6 @@ namespace BinokelDeluxe.GameLogic
         /// Send a PlayerSwitched trigger when done.
         /// </summary>
         event EventHandler<PlayerPositionEventArgs> SwitchingCounterBidPlayerStarted;
-
 
         /// <summary>
         /// Event listeners should be implemented as follows:

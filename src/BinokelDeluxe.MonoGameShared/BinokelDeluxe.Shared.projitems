@@ -9,8 +9,6 @@
     <Import_RootNamespace>BinokelDeluxe.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)HungarianCardSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TogglableCard.cs" />
   </ItemGroup>
 </Project>

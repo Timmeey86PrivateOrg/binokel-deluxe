@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BinokelDeluxe.AI</name>
+    </assembly>
+    <members>
+        <member name="T:BinokelDeluxe.AI.IAIPlugin">
+            <summary>
+            Placeholder for an interface for artificial intelligence plugins.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.AI.TempAI1">
+            <summary>
+            Temporary AI plugin required for testing the AI Plugin interface.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.AI.TempAI2">
+            <summary>
+            Temporary AI plugin required for testing the AI Plugin interface.
+            </summary>
+        </member>
+        <member name="T:BinokelDeluxe.AI.TempAI3">
+            <summary>
+            Temporary AI plugin required for testing the AI Plugin interface.
+            </summary>
+        </member>
+    </members>
+</doc>

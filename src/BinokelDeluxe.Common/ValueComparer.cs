@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BinokelDeluxe.Common
+﻿namespace BinokelDeluxe.Common
 {
     /// <summary>
     /// This class allows comparing two nullable objects with each other.
     /// This usually requires the elements to implement IEquatable&lt;T&gt;, Equals and GetHashCode.
     /// Note that this is basically the IEqualityComparer pattern, but the class is static since it is used a lot.
     /// </summary>
+    /// <typeparam name="T">The type of value to be compared.</typeparam>
     public static class ValueComparer<T>
     {
         /// <summary>
@@ -21,10 +18,10 @@ namespace BinokelDeluxe.Common
         public static bool Equals(T x, T y)
         {
             return
-                x == null && y == null ||
-                x != null && x.Equals(y);
+                (x == null && y == null) ||
+                (x != null && x.Equals(y));
         }
-                
+
         /// <summary>
         /// Retrieves the hash code for the given object.
         /// </summary>

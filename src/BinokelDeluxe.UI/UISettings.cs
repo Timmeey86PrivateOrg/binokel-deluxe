@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BinokelDeluxe.UI
+﻿namespace BinokelDeluxe.UI
 {
+    /// <summary>
+    /// This class will contain settings for the user interface in the future.
+    /// </summary>
     public class UISettings : Common.IConfigurable
     {
     }

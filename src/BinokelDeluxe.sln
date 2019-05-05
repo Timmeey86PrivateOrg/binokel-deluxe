@@ -31,6 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinokelDeluxe.AI", "Binokel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinokelDeluxe.DevUI", "BinokelDeluxe.DevUI\BinokelDeluxe.DevUI.csproj", "{DB744B25-B39F-4947-8548-2B91CBC02D23}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C9A6AB1-7DEB-429C-9BB2-8679975B7269}"
+	ProjectSection(SolutionItems) = preProject
+		stylecop\BinokelDeluxe.ruleset = stylecop\BinokelDeluxe.ruleset
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems*{3c00814f-5fac-47fa-92dd-669b48ea3c11}*SharedItemsImports = 13

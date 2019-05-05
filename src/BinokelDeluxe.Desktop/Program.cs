@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace BinokelDeluxe.Desktop
+﻿namespace BinokelDeluxe.Desktop
 {
+    using System;
+
     /// <summary>
     /// The main class.
     /// </summary>
@@ -11,7 +11,7 @@ namespace BinokelDeluxe.Desktop
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Core.Test.TestMethod();
             using (var game = new DesktopGame())
