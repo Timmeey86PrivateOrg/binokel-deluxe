@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BinokelDeluxe.Common
+﻿namespace BinokelDeluxe.Common
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// This class allows comparing two lists with each other.
     /// The lists are considered equal if they have the same order of elements, and the elements at each position are equal.
     /// This usually requires the elements to implement IEquatable&lt;T&gt;, Equals and GetHashCode.
     /// Note that this is basically the IEqualityComparer pattern, but the class is static since it is used a lot.
     /// </summary>
+    /// <typeparam name="T">The type of the list elements to be compared.</typeparam>
     public static class ListComparer<T>
     {
         /// <summary>
-        /// Checks whether or not x is equal to y. 
+        /// Checks whether or not x is equal to y.
         /// The lists are considered equal if they have the same order of elements, and the elements at each position are equal.
         /// </summary>
         /// <param name="x">the first list.</param>
@@ -22,8 +21,8 @@ namespace BinokelDeluxe.Common
         public static bool Equals(IList<T> x, IList<T> y)
         {
             return
-                x == null && y == null ||
-                x != null && y != null && System.Linq.Enumerable.SequenceEqual(x, y);
+                (x == null && y == null) ||
+                (x != null && y != null && System.Linq.Enumerable.SequenceEqual(x, y));
         }
 
         /// <summary>
@@ -33,13 +32,15 @@ namespace BinokelDeluxe.Common
         /// <returns>The hash code.</returns>
         public static int GetHashCode(IList<T> obj)
         {
-            unchecked // overflow is fine, just wrap
+            // overflow is fine, just wrap
+            unchecked
             {
                 int hash = 17;
                 foreach (var value in obj)
                 {
-                    hash = hash * 29 + value.GetHashCode();
+                    hash = (hash * 29) + value.GetHashCode();
                 }
+
                 return hash;
             }
         }

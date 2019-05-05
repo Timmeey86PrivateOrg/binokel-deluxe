@@ -1,25 +1,41 @@
-﻿using System;
-
-namespace BinokelDeluxe.Common
+﻿namespace BinokelDeluxe.Common
 {
+    using System;
+
     /// <summary>
-    /// Provides a serializable version.
+    /// Provides a serializable, comparable version.
     /// </summary>
     public sealed class SerializableVersion : IEquatable<SerializableVersion>
     {
-        public int Major { get; set; }
-        public int Minor { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableVersion"/> class.
+        /// </summary>
         public SerializableVersion()
         {
-
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SerializableVersion"/> class.
+        /// </summary>
+        /// <param name="major">The major version number.</param>
+        /// <param name="minor">The minor version number.</param>
         public SerializableVersion(int major, int minor)
         {
-            Major = major;
-            Minor = minor;
+            this.Major = major;
+            this.Minor = minor;
         }
 
+        /// <summary>
+        /// Gets or sets the major version number.
+        /// </summary>
+        public int Major { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minor version number.
+        /// </summary>
+        public int Minor { get; set; }
+
+        /// <inheritdoc/>
         public bool Equals(SerializableVersion other)
         {
             if (other == null)
@@ -27,21 +43,24 @@ namespace BinokelDeluxe.Common
                 return false;
             }
 
-            return Major == other.Major && Minor == other.Minor;
+            return this.Major == other.Major && this.Minor == other.Minor;
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return Equals(obj as SerializableVersion);
+            return this.Equals(obj as SerializableVersion);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
-            unchecked // overflow is fine, just wrap
+            // overflow is fine, just wrap
+            unchecked
             {
                 int hash = 17;
-                hash = hash * 29 + Major;
-                hash = hash * 29 + Minor;
+                hash = (hash * 29) + this.Major;
+                hash = (hash * 29) + this.Minor;
                 return hash;
             }
         }
