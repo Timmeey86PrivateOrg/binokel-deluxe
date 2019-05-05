@@ -27,9 +27,14 @@ namespace BinokelDeluxe.Droid
             return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed;
         }
 
-        protected override ScaleFactor GetDisplayScaleFactor()
+        /// <summary>
+        /// Quits the game in an Android specific way.
+        /// </summary>
+        protected override void QuitGame()
         {
-            return new ScaleFactor() { XScale = 2.0f, YScale = 2.0f };
+            // Exit currently does not work for Android.
+            // See https://github.com/MonoGame/MonoGame/issues/5702
+            Game.Activity.MoveTaskToBack(true);
         }
     }
 }

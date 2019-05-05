@@ -33,6 +33,7 @@
         <COMPID name="WinningCardPlaced" mc="Standard.Signal" uid="78daf6a4-4f39-446d-83ff-f188bbce7157"/>
         <COMPID name="LosingCardPlaced" mc="Standard.Signal" uid="5248097b-1d74-42ce-99e9-7e14e74e1a64"/>
         <COMPID name="NewRoundStarted" mc="Standard.Signal" uid="f92eb578-f9b0-41be-b76a-fe829f33412f"/>
+        <COMPID name="ReadyForTrickTaking" mc="Standard.Signal" uid="cfa87e1d-9276-4a75-abdf-a99db3e3d233"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

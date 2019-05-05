@@ -22,6 +22,7 @@ namespace BinokelDeluxe.GameLogic
         public event EventHandler<PlayerPositionEventArgs> ExchangingCardsWithDabbStarted;
         public event EventHandler<PlayerPositionEventArgs> CalculatingGoingOutScoreStarted;
         public event EventHandler<PlayerPositionEventArgs> MeldingStarted;
+        public event EventHandler<PlayerPositionEventArgs> TrickTakingStarted;
         public event EventHandler<PlayerPositionEventArgs> WaitingForCardStarted;
         public event EventHandler<PlayerPositionEventArgs> ValidatingCardStarted;
         public event EventHandler<PlayerPositionEventArgs> RevertingInvalidMoveStarted;
@@ -31,7 +32,7 @@ namespace BinokelDeluxe.GameLogic
         public event EventHandler GameFinished;
 
         // Interface implementation. See ISingleGameTriggerSink for comments.
-        public void SendTrigger(SingleGameTrigger trigger)
+        public void SendTrigger(Common.GameTrigger trigger)
         {
             if(_stateMachine != null)
             {
@@ -76,7 +77,7 @@ namespace BinokelDeluxe.GameLogic
         private void FireEvent(EventHandler eventHandler, string name) =>
             FireEvent(eventHandler == null ? null : new EventHandler<EventArgs>(eventHandler), EventArgs.Empty, name);
 
-        private Stateless.StateMachine<SingleGameState, SingleGameTrigger> _stateMachine = null;
+        private Stateless.StateMachine<SingleGameState, Common.GameTrigger> _stateMachine = null;
 
         /// <summary>
         /// Creates a state machine for the given rule settings.
@@ -87,23 +88,26 @@ namespace BinokelDeluxe.GameLogic
         /// <returns>A state machine for a single game.</returns>
         public void RefreshStateMachine(RuleSettings ruleSettings, int dealerPosition)
         {
+            var amountOfCards = ruleSettings.SevensAreIncluded ? 48 : 40;
+            var dabbSize = ruleSettings.SevensAreIncluded && ruleSettings.GameType == GameType.ThreePlayerGame ? 6 : 4;
+
             // Configure initial attributes
             var properties = new SingleGameProperties
             {
                 NumberOfPlayers = ruleSettings.GameType == GameType.ThreePlayerGame ? 3 : 4,
                 DealerPosition = dealerPosition,
-                RemainingCards = ruleSettings.SevensAreIncluded ? 48 : 40,
+                RemainingCards = amountOfCards - dabbSize,
                 CurrentPlayerPosition = -1,
                 NextPlayerPosition = -1,
                 TrickWinnerPosition = -1
             };
 
-            _stateMachine = new Stateless.StateMachine<SingleGameState, SingleGameTrigger>(SingleGameState.Initial);
+            _stateMachine = new Stateless.StateMachine<SingleGameState, Common.GameTrigger>(SingleGameState.Initial);
             // Ignore triggers which should not be available.
             _stateMachine.OnUnhandledTrigger((state, trigger) => { });
 
             _stateMachine.Configure(SingleGameState.Initial)
-                .Permit(SingleGameTrigger.GameStarted, SingleGameState.Dealing);
+                .Permit(Common.GameTrigger.GameStarted, SingleGameState.Dealing);
 
             ConfigureDealingPhase(properties);
             ConfigureBiddingPhase(properties);
@@ -119,7 +123,7 @@ namespace BinokelDeluxe.GameLogic
         {
             // Dealing phase
             _stateMachine.Configure(SingleGameState.Dealing)
-                .Permit(SingleGameTrigger.DealingFinished, SingleGameState.Bidding_WaitingForFirstBid)
+                .Permit(Common.GameTrigger.DealingFinished, SingleGameState.Bidding_WaitingForFirstBid)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = (properties.DealerPosition + 1) % properties.NumberOfPlayers;
@@ -134,15 +138,15 @@ namespace BinokelDeluxe.GameLogic
             // Bidding phase
             _stateMachine.Configure(SingleGameState.Bidding_WaitingForFirstBid)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingFirstBidPlayer)
+                .Permit(Common.GameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
+                .Permit(Common.GameTrigger.Passed, SingleGameState.Bidding_SwitchingFirstBidPlayer)
                 // Let listeners know we are waiting for a player to either make the first bid or pass.
                 .OnEntry(() => FireEvent(WaitingForFirstBidStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "WaitingForFirstBidStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingFirstBidPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForFirstBid)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(Common.GameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForFirstBid)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = properties.NextPlayerPosition;
@@ -152,7 +156,7 @@ namespace BinokelDeluxe.GameLogic
                     // (this is extremely rare and not clearly defined in any rules)
                     if (properties.CurrentPlayerPosition == properties.DealerPosition)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                        _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
                     else
                     {
@@ -163,22 +167,22 @@ namespace BinokelDeluxe.GameLogic
 
             _stateMachine.Configure(SingleGameState.Bidding_WaitingForNextPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.BidCountered, SingleGameState.Bidding_WaitingForCurrentPlayer)
-                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingNextPlayer)
+                .Permit(Common.GameTrigger.BidCountered, SingleGameState.Bidding_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.Passed, SingleGameState.Bidding_SwitchingNextPlayer)
                 // Let the UI know we are waiting for the next player to either counter bid or pass.
                 .OnEntry(() => FireEvent(WaitingForCounterOrPassStarted, new PlayerPositionEventArgs(properties.NextPlayerPosition), "WaitingForCounterOrPassStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_WaitingForCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Passed, SingleGameState.Bidding_SwitchingCurrentPlayer)
+                .Permit(Common.GameTrigger.BidPlaced, SingleGameState.Bidding_WaitingForNextPlayer)
+                .Permit(Common.GameTrigger.Passed, SingleGameState.Bidding_SwitchingCurrentPlayer)
                 // Let the UI know we are waiting for the current player to either increase their bid (i.e. counter the next player) or pass.
                 .OnEntry(() => FireEvent(WaitingForBidOrPassStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "WaitingForBidOrPassStarted"));
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingCurrentPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(Common.GameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = properties.NextPlayerPosition;
@@ -188,7 +192,7 @@ namespace BinokelDeluxe.GameLogic
                     // and whoever placed that bid passed.
                     if (properties.CurrentPlayerPosition == properties.DealerPosition)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                        _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
                     else
                     {
@@ -199,8 +203,8 @@ namespace BinokelDeluxe.GameLogic
 
             _stateMachine.Configure(SingleGameState.Bidding_SwitchingNextPlayer)
                 .SubstateOf(SingleGameState.Bidding)
-                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
+                .Permit(Common.GameTrigger.PlayerSwitched, SingleGameState.Bidding_WaitingForNextPlayer)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.ExchangingCardsWithTheDabb)
                 .OnEntry(() =>
                 {
                     properties.NextPlayerPosition = (properties.NextPlayerPosition + 1) % properties.NumberOfPlayers;
@@ -209,7 +213,7 @@ namespace BinokelDeluxe.GameLogic
                     // since every player after them (and before them) passed.
                     if (properties.NextPlayerPosition == (properties.DealerPosition + 1) % properties.NumberOfPlayers)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                        _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
                     else
                     {
@@ -222,16 +226,16 @@ namespace BinokelDeluxe.GameLogic
         private void ConfigureDabbPhase(SingleGameProperties properties)
         {
             _stateMachine.Configure(SingleGameState.ExchangingCardsWithTheDabb)
-                .Permit(SingleGameTrigger.GoingOut, SingleGameState.CountingGoingOutScore)
-                .Permit(SingleGameTrigger.DurchAnnounced, SingleGameState.Durch)
-                .Permit(SingleGameTrigger.BettelAnnounced, SingleGameState.Bettel)
-                .Permit(SingleGameTrigger.TrumpSelected, SingleGameState.Melding)
+                .Permit(Common.GameTrigger.GoingOut, SingleGameState.CountingGoingOutScore)
+                .Permit(Common.GameTrigger.DurchAnnounced, SingleGameState.Durch)
+                .Permit(Common.GameTrigger.BettelAnnounced, SingleGameState.Bettel)
+                .Permit(Common.GameTrigger.TrumpSelected, SingleGameState.Melding)
                 // Let the UI know we are waiting for the current player to exchange cards with the dabb and do a choice between
                 // going out, selecting a trump or announcing a durch or bettel (if allowed).
                 .OnEntry(() => FireEvent(ExchangingCardsWithDabbStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "ExchangingCardsWithDabbStarted"));
 
             _stateMachine.Configure(SingleGameState.CountingGoingOutScore)
-                .Permit(SingleGameTrigger.ScoreCalculationFinished, SingleGameState.End)
+                .Permit(Common.GameTrigger.ScoreCalculationFinished, SingleGameState.End)
                 // Let the UI know we are waiting for the going out score to be calculated.
                 .OnEntry(() => FireEvent(CalculatingGoingOutScoreStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "CalculatingGoingOutScoreStarted"));
         }
@@ -251,7 +255,7 @@ namespace BinokelDeluxe.GameLogic
         private void ConfigureMeldingPhase(SingleGameProperties properties)
         {
             _stateMachine.Configure(SingleGameState.Melding)
-                .Permit(SingleGameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.MeldsSeenByAllPlayers, SingleGameState.TrickTaking)
                 // Let the UI know we are waiting to display the melds of all players and wait for confirmation of all
                 // (human) players that they have seen the melds.
                 .OnEntry(() =>
@@ -265,34 +269,38 @@ namespace BinokelDeluxe.GameLogic
 
         private void ConfigureTrickTakingPhase(SingleGameProperties properties)
         {
+            _stateMachine.Configure(SingleGameState.TrickTaking)
+                .Permit(Common.GameTrigger.ReadyForTrickTaking, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .OnEntry(() => FireEvent(TrickTakingStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "TrickTakingStarted"));
+
             _stateMachine.Configure(SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.CardPlaced, SingleGameState.TrickTaking_ValidatingCard)
+                .Permit(Common.GameTrigger.CardPlaced, SingleGameState.TrickTaking_ValidatingCard)
                 // Let the UI know we are waiting for the current player to place a card.
                 .OnEntry(() => FireEvent(WaitingForCardStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "WaitingForCardStarted"));
 
             _stateMachine.Configure(SingleGameState.TrickTaking_ValidatingCard)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.WinningCardPlaced, SingleGameState.TrickTaking_RememberingWinningPlayer)
-                .Permit(SingleGameTrigger.LosingCardPlaced, SingleGameState.TrickTaking_SwitchingToNextPlayer)
-                .Permit(SingleGameTrigger.InvalidCardPlaced, SingleGameState.TrickTaking_RevertingInvalidMove)
+                .Permit(Common.GameTrigger.WinningCardPlaced, SingleGameState.TrickTaking_RememberingWinningPlayer)
+                .Permit(Common.GameTrigger.LosingCardPlaced, SingleGameState.TrickTaking_SwitchingToNextPlayer)
+                .Permit(Common.GameTrigger.InvalidCardPlaced, SingleGameState.TrickTaking_RevertingInvalidMove)
                 // Let the UI know we are waiting for the card to be validated.
                 .OnEntry(() => FireEvent(ValidatingCardStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "ValidatingCardStarted"));
 
             _stateMachine.Configure(SingleGameState.TrickTaking_RememberingWinningPlayer)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.TrickTaking_SwitchingToNextPlayer)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.TrickTaking_SwitchingToNextPlayer)
                 .OnEntry(() =>
                 {
                     properties.TrickWinnerPosition = properties.CurrentPlayerPosition;
                     // Automatically switch to the next state.
-                    _stateMachine.Fire(SingleGameTrigger.Internal);
+                    _stateMachine.Fire(Common.GameTrigger.Internal);
                 });
 
             _stateMachine.Configure(SingleGameState.TrickTaking_SwitchingToNextPlayer)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.PlayerSwitched, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.TrickTaking_StartingNewRound)
+                .Permit(Common.GameTrigger.PlayerSwitched, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.TrickTaking_StartingNewRound)
                 .OnEntry(() =>
                 {
                     properties.CurrentPlayerPosition = (properties.CurrentPlayerPosition + 1) % properties.NumberOfPlayers;
@@ -301,7 +309,7 @@ namespace BinokelDeluxe.GameLogic
                     // If all players placed a card, start a new round
                     if (properties.RemainingCards % properties.NumberOfPlayers == 0)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                        _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
                     else
                     {
@@ -312,23 +320,23 @@ namespace BinokelDeluxe.GameLogic
 
             _stateMachine.Configure(SingleGameState.TrickTaking_RevertingInvalidMove)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.RevertingFinished, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.RevertingFinished, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
                 // Let the UI know we are waiting for an invalid move to be reverted.
                 .OnEntry(() => FireEvent(RevertingInvalidMoveStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "RevertingInvalidMoveStarted"));
 
             _stateMachine.Configure(SingleGameState.TrickTaking_StartingNewRound)
                 .SubstateOf(SingleGameState.TrickTaking)
-                .Permit(SingleGameTrigger.NewRoundStarted, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
-                .Permit(SingleGameTrigger.Internal, SingleGameState.CountingGameScore)
+                .Permit(Common.GameTrigger.NewRoundStarted, SingleGameState.TrickTaking_WaitingForCurrentPlayer)
+                .Permit(Common.GameTrigger.Internal, SingleGameState.CountingGameScore)
                 .OnEntry(() =>
                 {
                     // Whoever won the trick is now allowed to place the first card in the next roud.
                     properties.CurrentPlayerPosition = properties.TrickWinnerPosition;
 
                     // If there are no more cards left, end the game.
-                    if (properties.RemainingCards < 0)
+                    if (properties.RemainingCards <= 0)
                     {
-                        _stateMachine.Fire(SingleGameTrigger.Internal);
+                        _stateMachine.Fire(Common.GameTrigger.Internal);
                     }
                     else
                     {
@@ -341,7 +349,7 @@ namespace BinokelDeluxe.GameLogic
         private void ConfigureEndPhase(SingleGameProperties properties)
         {
             _stateMachine.Configure(SingleGameState.CountingGameScore)
-                .Permit(SingleGameTrigger.ScoreCalculationFinished, SingleGameState.End)
+                .Permit(Common.GameTrigger.ScoreCalculationFinished, SingleGameState.End)
                 // Let the UI know we are waiting for the final score to be calcualted.
                 .OnEntry(() => FireEvent(CountingPlayerOrTeamScoresStarted, new PlayerPositionEventArgs(properties.CurrentPlayerPosition), "CountingPlayerOrTeamScoresStarted"));
 

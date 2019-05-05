@@ -361,15 +361,30 @@ namespace BinokelDeluxe.GameLogic.Test
             SimulateWinningCard();
             SkipStartingNewRoundState();
 
+            // Make sure the score calculation start event is being fired
             bool eventWasCalled = false;
             _sut.EventSource.CountingPlayerOrTeamScoresStarted += (o, e) =>
             {
                 eventWasCalled = true;
             };
 
+            // Also make sure that the amount of new rounds matches the expected amount
+            // Note: The actual number of rounds is initialized by one, since the event is not fired for the very first round.
+
+            var actualNumberOfRounds = 1;
+            _sut.EventSource.StartingNewRoundStarted += (o, e) =>
+            {
+                actualNumberOfRounds++;
+            };
+
             StartGame();
 
+            // The expected number of rounds was deduced from the table of amount of cards per player in the German Wikipedia: https://de.wikipedia.org/wiki/Binokel#Geben
+            var expectedNumberOfRounds = _ruleSettings.GameType == GameType.ThreePlayerGame ? 12 : 9;
+            expectedNumberOfRounds += _ruleSettings.SevensAreIncluded ? 2 : 0;
+
             Assert.That(eventWasCalled, "The state machine did not reach the Starting New Round (Trick Taking) phase.");
+            Assert.AreEqual(expectedNumberOfRounds, actualNumberOfRounds, "The were more or less rounds played than expected before ending the game.");
         }
 
         [Test, MaxTime(2000)]
@@ -400,10 +415,10 @@ namespace BinokelDeluxe.GameLogic.Test
 
 
 
-
+        // Starts the game. Since the state machine is currently synchronous, this call is blocking.
         private void StartGame()
         {
-            _sut.TriggerSink.SendTrigger(SingleGameTrigger.GameStarted);
+            _sut.TriggerSink.SendTrigger(Common.GameTrigger.GameStarted);
         }
 
         /// <summary>
@@ -421,7 +436,7 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.DealingStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.DealingFinished);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.DealingFinished);
             };
         }
         private void SkipBiddingPhase(int playerNumber, int dealerPosition)
@@ -434,22 +449,22 @@ namespace BinokelDeluxe.GameLogic.Test
             {
                 if (e.PlayerPosition == playerPosition)
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.BidCountered);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.BidCountered);
                 }
                 else
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.Passed);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.Passed);
                 }
             };
             _sut.EventSource.WaitingForBidOrPassStarted += (o, e) =>
             {
                 if (e.PlayerPosition == playerPosition)
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.BidPlaced);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.BidPlaced);
                 }
                 else
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.Passed);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.Passed);
                 }
             };
         }
@@ -461,11 +476,11 @@ namespace BinokelDeluxe.GameLogic.Test
             {
                 if (e.PlayerPosition == playerPosition)
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.BidPlaced);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.BidPlaced);
                 }
                 else
                 {
-                    _sut.TriggerSink.SendTrigger(SingleGameTrigger.Passed);
+                    _sut.TriggerSink.SendTrigger(Common.GameTrigger.Passed);
                 }
             };
         }
@@ -473,62 +488,62 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.WaitingForCounterOrPassStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.Passed);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.Passed);
             };
         }
         private void MakePlayersCounterButPassWhenCountered()
         {
             _sut.EventSource.WaitingForBidOrPassStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.Passed);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.Passed);
             };
             _sut.EventSource.WaitingForCounterOrPassStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.BidCountered);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.BidCountered);
             };
         }
         private void SkipPlayerSwitchingPhases()
         {
             _sut.EventSource.SwitchingPlayerBeforeFirstBidStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCounterBidPlayerStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCurrentBidPlayerStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
             };
             _sut.EventSource.SwitchingCurrentTrickPlayerStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.PlayerSwitched);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.PlayerSwitched);
             };
         }
         private void MakePlayerGoOut()
         {
             _sut.EventSource.ExchangingCardsWithDabbStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.GoingOut);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.GoingOut);
             };
         }
         private void SkipScoreCalculationPhases()
         {
             _sut.EventSource.CalculatingGoingOutScoreStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.ScoreCalculationFinished);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
             };
             _sut.EventSource.CountingPlayerOrTeamScoresStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.ScoreCalculationFinished);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.ScoreCalculationFinished);
             };
         }
         private void MakePlayerSelectTrump()
         {
             _sut.EventSource.ExchangingCardsWithDabbStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.TrumpSelected);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.TrumpSelected);
             };
         }
         private void SkipDabbPhase()
@@ -539,14 +554,19 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.MeldingStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.MeldsSeenByAllPlayers);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.MeldsSeenByAllPlayers);
+            };
+            // This event is only interesting for the UI so it can prepare things. There is no user/AI interaction involved
+            _sut.EventSource.TrickTakingStarted += (o, e) =>
+            {
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.ReadyForTrickTaking);
             };
         }
         private void SkipCardPlacingState()
         {
             _sut.EventSource.WaitingForCardStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.CardPlaced);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
             };
         }
         private void SkipCardPlacingStateOnce()
@@ -555,7 +575,7 @@ namespace BinokelDeluxe.GameLogic.Test
             handler = (o, e) =>
             {
                 _sut.EventSource.WaitingForCardStarted -= handler;
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.CardPlaced);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.CardPlaced);
             };
             _sut.EventSource.WaitingForCardStarted += handler;
         }
@@ -563,35 +583,35 @@ namespace BinokelDeluxe.GameLogic.Test
         {
             _sut.EventSource.ValidatingCardStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.InvalidCardPlaced);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.InvalidCardPlaced);
             };
         }
         private void SimulateLosingCard()
         {
             _sut.EventSource.ValidatingCardStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.LosingCardPlaced);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.LosingCardPlaced);
             };
         }
         private void SimulateWinningCard()
         {
             _sut.EventSource.ValidatingCardStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.WinningCardPlaced);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.WinningCardPlaced);
             };
         }
         private void SkipRevertingState()
         {
             _sut.EventSource.RevertingInvalidMoveStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.RevertingFinished);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.RevertingFinished);
             };
         }
         private void SkipStartingNewRoundState()
         {
             _sut.EventSource.StartingNewRoundStarted += (o, e) =>
             {
-                _sut.TriggerSink.SendTrigger(SingleGameTrigger.NewRoundStarted);
+                _sut.TriggerSink.SendTrigger(Common.GameTrigger.NewRoundStarted);
             };
         }
     }

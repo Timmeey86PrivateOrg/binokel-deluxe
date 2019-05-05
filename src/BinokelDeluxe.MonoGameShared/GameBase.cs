@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BinokelDeluxe.Shared
 {
-    public struct ScaleFactor
-    {
-        public float XScale;
-        public float YScale;
-    }
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -18,12 +17,17 @@ namespace BinokelDeluxe.Shared
         protected SpriteBatch SpriteBatch { private set; get; }
         protected HungarianCardSprite CardSprite { private set; get; }
 
+        protected Core.GameController GameController { private set; get; }
+        private DevUI.DevUI DevUI { set; get; }
+        
         protected GameBase()
         {
             Graphics = new GraphicsDeviceManager(this);
             Graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
             Graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
+            DevUI = new DevUI.DevUI(Graphics);
         }
 
         /// <summary>
@@ -34,9 +38,20 @@ namespace BinokelDeluxe.Shared
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
 
+
+            TouchPanel.EnabledGestures = GestureType.Tap;
+
+            GameController = new Core.GameController(DevUI);
+            GameController.StartNewGame(
+                new GameLogic.RuleSettings()
+                {
+                    GameType = GameLogic.GameType.FourPlayerCrossBinokelGame,
+                    SevensAreIncluded = false
+                },
+                new List<string>() { null, "TEMPAI", "TEMPAI", "TEMPAI" }
+                );
         }
 
         /// <summary>
@@ -49,6 +64,7 @@ namespace BinokelDeluxe.Shared
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             CardSprite = new HungarianCardSprite(SpriteBatch, Content);
             CardSprite.Load();
+            DevUI.LoadContent(Content);
         }
 
         /// <summary>
@@ -59,7 +75,8 @@ namespace BinokelDeluxe.Shared
         {
             // TODO: Unload any non ContentManager content here
         }
-
+        
+        bool _gameIsRunning = false;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -69,10 +86,17 @@ namespace BinokelDeluxe.Shared
         {
             if (ExitButtonsArePressed())
             {
-                Exit();
+                DevUI.Exit();
+                QuitGame();
+                return;
             }
+            if (!_gameIsRunning)
+            {
+                _gameIsRunning = true;
 
-            // TODO: Add your update logic here            
+            }
+            
+            DevUI.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -84,12 +108,11 @@ namespace BinokelDeluxe.Shared
         protected abstract bool ExitButtonsArePressed();
 
         /// <summary>
-        /// Retrieves the scale factors for X and Y scaling.
+        /// Quits the game. This is a separate method since Exit() is not supported on all platforms.
         /// </summary>
-        /// <returns>The factor to be used.</returns>
-        protected virtual ScaleFactor GetDisplayScaleFactor()
+        protected virtual void QuitGame()
         {
-            return new ScaleFactor { XScale = 1.0f, YScale = 1.0f };
+            Exit();
         }
 
         /// <summary>
@@ -98,26 +121,7 @@ namespace BinokelDeluxe.Shared
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            SpriteBatch.Begin();
-
-            var scaleFactor = GetDisplayScaleFactor();
-
-            var yOffset = 5 * scaleFactor.XScale;
-            foreach (Common.CardSuit suit in Enum.GetValues(typeof(Common.CardSuit)))
-            {
-                var xOffset = 5 * scaleFactor.YScale;
-                foreach (Common.CardType type in Enum.GetValues(typeof(Common.CardType)))
-                {
-                    CardSprite.Draw(
-                        new Common.Card() { Suit = suit, Type = type },
-                        new Rectangle((int)xOffset, (int)yOffset, (int)( 65 * scaleFactor.XScale ), (int)( 100 * scaleFactor.YScale )));
-                    xOffset += 70 * scaleFactor.XScale;
-                }
-                yOffset += 105 * scaleFactor.YScale;
-            }
-            SpriteBatch.End();
+            DevUI.Draw(SpriteBatch);
 
             base.Draw(gameTime);
         }

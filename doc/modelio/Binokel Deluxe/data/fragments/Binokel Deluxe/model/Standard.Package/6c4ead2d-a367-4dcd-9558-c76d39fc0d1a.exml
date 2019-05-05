@@ -15,17 +15,188 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <OBJECT>
-          <ID name="SingleGameTrigger" mc="Standard.Enumeration" uid="09bf2550-045e-454f-9c58-c109478083b7"/>
+          <ID name="GameTrigger" mc="Standard.Enumeration" uid="09bf2550-045e-454f-9c58-c109478083b7"/>
           <ATTRIBUTES>
             <ATT name="IsElementary">true</ATT>
             <ATT name="IsAbstract">false</ATT>
             <ATT name="IsLeaf">false</ATT>
             <ATT name="IsRoot">false</ATT>
             <ATT name="Visibility">Public</ATT>
-            <ATT name="Name"><![CDATA[SingleGameTrigger]]></ATT>
+            <ATT name="Name"><![CDATA[GameTrigger]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
-          <DEPENDENCIES></DEPENDENCIES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="None" mc="Standard.EnumerationLiteral" uid="a118ea7c-c532-4f20-b80c-9dd545a98662"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[None]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="GameStarted" mc="Standard.EnumerationLiteral" uid="550e47de-b1a9-489e-84f4-4b41b5d9b287"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[GameStarted]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="DealingFinished" mc="Standard.EnumerationLiteral" uid="2020f946-8d6d-40af-95d7-84100b237bdb"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[DealingFinished]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="BidPlaced" mc="Standard.EnumerationLiteral" uid="cdbe3c73-9d59-45d8-b643-b27b38e5e58f"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[BidPlaced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="BidCountered" mc="Standard.EnumerationLiteral" uid="1db131d8-98a3-44ac-815e-93763cf2c0a0"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[BidCountered]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Passed" mc="Standard.EnumerationLiteral" uid="7ccae58b-d630-475a-b6fd-5f5efeee59a2"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Passed]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="PlayerSwitched" mc="Standard.EnumerationLiteral" uid="3d237d97-67a2-443e-9453-59032c5d4919"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[PlayerSwitched]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="GoingOut" mc="Standard.EnumerationLiteral" uid="28ff9a70-60bb-4727-9c08-adcf91ee8604"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[GoingOut]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="DurchAnnounced" mc="Standard.EnumerationLiteral" uid="a74f929d-c0fe-4425-aaa3-b2da684e9b64"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[DurchAnnounced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="BettelAnnounced" mc="Standard.EnumerationLiteral" uid="f428f207-6c19-4b17-a1b3-e4608ca8293e"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[BettelAnnounced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="TrumpSelected" mc="Standard.EnumerationLiteral" uid="54932701-4f8d-4da0-a5f4-8f8678aa16e3"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[TrumpSelected]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="MeldsSeenByAllPlayers" mc="Standard.EnumerationLiteral" uid="61c1fae1-2283-4926-9dd4-76d28a0e675d"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[MeldsSeenByAllPlayers]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="ReadyForTrickTaking" mc="Standard.EnumerationLiteral" uid="619cd6a8-f140-4bd2-891e-c6b4a0d451c6"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[ReadyForTrickTaking]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="CardPlaced" mc="Standard.EnumerationLiteral" uid="0175cdd9-02fd-4611-90a2-b5f750b1c13c"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[CardPlaced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="InvalidCardPlaced" mc="Standard.EnumerationLiteral" uid="988c71a8-6127-4f3d-9003-2c866f2ae4f8"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[InvalidCardPlaced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="WinningCardPlaced" mc="Standard.EnumerationLiteral" uid="123385e9-28a1-4127-a154-501f0bdf8a8a"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[WinningCardPlaced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="LosingCardPlaced" mc="Standard.EnumerationLiteral" uid="e3392929-2b87-4e5c-ab62-c3d60e3daf81"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[LosingCardPlaced]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="RevertingFinished" mc="Standard.EnumerationLiteral" uid="69b47254-f8a6-4f7b-97e0-31aff78b0798"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[RevertingFinished]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="NewRoundStarted" mc="Standard.EnumerationLiteral" uid="00cfd79b-802a-4aa9-bda7-a8e32b0af9e3"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[NewRoundStarted]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="ScoreCalculationFinished" mc="Standard.EnumerationLiteral" uid="fc2609ce-ff25-4c89-941e-799ef0d9e8e4"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[ScoreCalculationFinished]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="Internal" mc="Standard.EnumerationLiteral" uid="439e137c-e751-48d9-a5c9-1ae1505e82c8"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[Internal]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
         </OBJECT>
         <COMPID name="ISingleGameTriggerSink" mc="Standard.Interface" uid="c1222b9d-2407-4454-9600-c9a91795fe2f"/>
         <COMPID name="PlayerPairEventArgs" mc="Standard.Class" uid="5849d4e6-05cd-4c60-a4f8-cf22f81ec059"/>

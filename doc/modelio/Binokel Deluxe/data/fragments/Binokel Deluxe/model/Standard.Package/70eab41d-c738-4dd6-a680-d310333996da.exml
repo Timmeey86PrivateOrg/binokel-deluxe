@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Forums" version="4">
+  <OBJECT>
+    <ID name="Forums" mc="Standard.Package" uid="70eab41d-c738-4dd6-a680-d310333996da"/>
+    <PID name="Concepts" mc="Standard.Package" uid="13b3494e-861f-4292-a6e0-eb9f9f5616d0"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Forums]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Interface" mc="Standard.Package" uid="e90f875b-10ab-486a-8015-1e41db7079b6"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

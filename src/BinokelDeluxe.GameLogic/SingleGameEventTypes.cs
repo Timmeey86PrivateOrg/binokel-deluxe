@@ -8,41 +8,12 @@ using System.Text;
 namespace BinokelDeluxe.GameLogic
 {
     /// <summary>
-    /// Defines triggers the state machine will react to.
-    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
-    /// Check the comment of each event to know which trigger to fire.
-    /// </summary>
-    public enum SingleGameTrigger
-    {
-        None,
-        GameStarted,
-        DealingFinished,
-        BidPlaced,
-        BidCountered,
-        Passed,
-        PlayerSwitched,
-        GoingOut,
-        DurchAnnounced,
-        BettelAnnounced,
-        TrumpSelected,
-        MeldsSeenByAllPlayers,
-        CardPlaced,
-        InvalidCardPlaced,
-        WinningCardPlaced,
-        LosingCardPlaced,
-        RevertingFinished,
-        NewRoundStarted,
-        ScoreCalculationFinished,
-        Internal
-    }
-
-    /// <summary>
     /// This interface can be used to send triggers to the internal state machine.
     /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
     /// </summary>
     public interface ISingleGameTriggerSink
     {
-        void SendTrigger(SingleGameTrigger trigger);
+        void SendTrigger(Common.GameTrigger trigger);
     }
 
     /// <summary>
@@ -173,6 +144,13 @@ namespace BinokelDeluxe.GameLogic
         /// Send a MeldsSeenByAllPlayers trigger when done.
         /// </summary>
         event EventHandler<PlayerPositionEventArgs> MeldingStarted;
+
+        /// <summary>
+        /// Event listeners should be implemented as follows:
+        /// Set every player up for the trick taking phase by showing them only their cards, with nothing in the middle.
+        /// Send a ReadyForTrickTaking trigger when done.
+        /// </summary>
+        event EventHandler<PlayerPositionEventArgs> TrickTakingStarted;
 
         /// <summary>
         /// Event listeners should be implemented as follows:

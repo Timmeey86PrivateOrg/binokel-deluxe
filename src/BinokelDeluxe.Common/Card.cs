@@ -64,4 +64,24 @@ namespace BinokelDeluxe.Common
             }
         }
     }
+
+    /// <summary>
+    /// This class can be used to forward a Card object through the event mechanism.
+    /// </summary>
+    public class CardEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Gets the card for which this event was fired.
+        /// </summary>
+        public Card Card { get; private set; }
+
+        /// <summary>
+        /// Creates event arguments for the given card object.
+        /// </summary>
+        /// <param name="card">The card object to be made available for event listeners.</param>
+        public CardEventArgs(Card card)
+        {
+            Card = card;
+        }
+    }
 }

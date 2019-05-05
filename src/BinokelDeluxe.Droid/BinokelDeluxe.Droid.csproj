@@ -39,6 +39,7 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,6 +50,10 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AotAssemblies>false</AotAssemblies>
+    <EnableLLVM>false</EnableLLVM>
+    <BundleAssemblies>false</BundleAssemblies>
+    <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -102,6 +107,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BinokelDeluxe.AI\BinokelDeluxe.AI.csproj">
+      <Project>{85244586-f1b4-4988-b1be-7eecbfda565e}</Project>
+      <Name>BinokelDeluxe.AI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BinokelDeluxe.Common\BinokelDeluxe.Common.csproj">
       <Project>{c1f3589d-431d-4ed9-becb-3a786424672f}</Project>
       <Name>BinokelDeluxe.Common</Name>
@@ -110,10 +119,37 @@
       <Project>{b202b28e-7c24-486b-adef-5e2de28ec8ed}</Project>
       <Name>BinokelDeluxe.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.DevUI\BinokelDeluxe.DevUI.csproj">
+      <Project>{db744b25-b39f-4947-8548-2b91cbc02d23}</Project>
+      <Name>BinokelDeluxe.DevUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.GameLogic\BinokelDeluxe.GameLogic.csproj">
+      <Project>{ace8e0d9-af61-45f3-98e2-97442c3adb44}</Project>
+      <Name>BinokelDeluxe.GameLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.Learning\BinokelDeluxe.Learning.csproj">
+      <Project>{186ecb6c-fefd-459c-a1b7-d785feaea6bf}</Project>
+      <Name>BinokelDeluxe.Learning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.UI\BinokelDeluxe.UI.csproj">
+      <Project>{8f1df4f8-44f9-4f3e-89fd-96ca35d30ba5}</Project>
+      <Name>BinokelDeluxe.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinokelDeluxe.Validation\BinokelDeluxe.Validation.csproj">
+      <Project>{83c242b6-0331-4d6f-8ff5-7222899e8cc7}</Project>
+      <Name>BinokelDeluxe.Validation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\BinokelDeluxe.MonoGameShared\BinokelDeluxe.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

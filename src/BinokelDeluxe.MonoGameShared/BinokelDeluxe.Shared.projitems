@@ -11,5 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)HungarianCardSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TogglableCard.cs" />
   </ItemGroup>
 </Project>

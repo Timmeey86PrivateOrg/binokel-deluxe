@@ -12,6 +12,11 @@
       <ATT name="Name"><![CDATA[Concepts]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
-    <DEPENDENCIES></DEPENDENCIES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Threading" mc="Standard.Package" uid="bf0a1392-935b-4fb4-9c65-26b559457b9e"/>
+        <COMPID name="Forums" mc="Standard.Package" uid="70eab41d-c738-4dd6-a680-d310333996da"/>
+      </COMP>
+    </DEPENDENCIES>
   </OBJECT>
 </EXT>

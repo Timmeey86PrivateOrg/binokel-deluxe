@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="NonCode" version="4">
+  <OBJECT>
+    <ID name="NonCode" mc="Standard.Package" uid="50efaf20-58f8-47ff-a288-858b5514b1f0"/>
+    <PID name="Common" mc="Standard.Package" uid="c9515b97-384f-43b6-b209-ec4f84af1c0f"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[NonCode]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="List_Card" mc="Standard.Class" uid="8dcddb78-643e-48e4-9fcf-5b75035c1d1e"/>
+        <COMPID name="List_SingleMeld" mc="Standard.Class" uid="db8a0a84-487f-4a1a-8832-fe46d83d8486"/>
+        <COMPID name="IEnumerable_Card" mc="Standard.Class" uid="3f74c17c-b745-4fb7-a6d5-ae526abc1926"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

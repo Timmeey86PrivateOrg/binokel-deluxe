@@ -30,6 +30,7 @@
         <COMPID name="SwitchingCurrentTrickPlayerStarted" mc="Standard.Signal" uid="135915bd-706a-4d0f-aced-a7cc4b9de200"/>
         <COMPID name="StartingNewRoundStarted" mc="Standard.Signal" uid="620facc9-122b-40e1-9ebe-d676ffee80d4"/>
         <COMPID name="CountingPlayerOrTeamScoresStarted" mc="Standard.Signal" uid="f52cf3af-a8d2-429e-82a2-711799ac7352"/>
+        <COMPID name="TrickTakingStarted" mc="Standard.Signal" uid="dbacd85f-23b6-48a7-8e87-cf2dcc023605"/>
       </COMP>
       <COMP relation="Descriptor">
         <OBJECT>
