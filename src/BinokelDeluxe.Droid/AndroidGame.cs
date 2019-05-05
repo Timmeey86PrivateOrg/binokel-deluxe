@@ -1,6 +1,4 @@
-using BinokelDeluxe.Shared;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace BinokelDeluxe.Droid
@@ -10,6 +8,9 @@ namespace BinokelDeluxe.Droid
     /// </summary>
     public class AndroidGame : Shared.GameBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndroidGame"/> class.
+        /// </summary>
         public AndroidGame()
         {
             Graphics.IsFullScreen = true;

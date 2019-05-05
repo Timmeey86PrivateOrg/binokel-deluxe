@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-namespace BinokelDeluxe.Desktop
+﻿namespace BinokelDeluxe.Desktop
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
