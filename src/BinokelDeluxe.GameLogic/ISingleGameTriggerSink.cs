@@ -8,7 +8,7 @@ namespace BinokelDeluxe.GameLogic
 
     /// <summary>
     /// This interface can be used to send triggers to the internal state machine.
-    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+    /// See https://raw.githubusercontent.com/Timmeey86/binokel-deluxe/master/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
     /// </summary>
     public interface ISingleGameTriggerSink
     {

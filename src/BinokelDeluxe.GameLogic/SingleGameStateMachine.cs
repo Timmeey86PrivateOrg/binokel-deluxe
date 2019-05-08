@@ -79,7 +79,7 @@ namespace BinokelDeluxe.GameLogic
 
         /// <summary>
         /// Creates a state machine for the given rule settings.
-        /// Check https://github.com/Timmeey86/binokel-deluxe/wiki/State-Machines for an overview of possible states and transitions.
+        /// Check https://github.com/Timmeey86/binokel-deluxe/wiki/(Concept)-State-Machines for an overview of possible states and transitions.
         /// </summary>
         /// <param name="ruleSettings">The settings for this game.</param>
         /// <param name="dealerPosition">The Position of the dealing player for this game, starting at zero.</param>

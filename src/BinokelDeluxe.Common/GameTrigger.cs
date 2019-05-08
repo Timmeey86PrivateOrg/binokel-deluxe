@@ -4,7 +4,7 @@ namespace BinokelDeluxe.Common
 {
     /// <summary>
     /// Defines triggers the state machine will react to.
-    /// See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+    /// See https://raw.githubusercontent.com/Timmeey86/binokel-deluxe/master/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
     /// Check the comment of each event to know which trigger to fire.
     /// </summary>
     public enum GameTrigger
