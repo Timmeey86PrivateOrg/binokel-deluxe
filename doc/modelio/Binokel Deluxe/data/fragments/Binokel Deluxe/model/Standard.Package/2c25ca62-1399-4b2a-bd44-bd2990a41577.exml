@@ -18,6 +18,7 @@
         <COMPID name="GameStateChangeInfo" mc="Standard.Class" uid="f2f56f2d-cd13-40a7-85de-3a495a83d1c6"/>
         <COMPID name="GameStateStack" mc="Standard.Class" uid="925c3ce3-f480-4d45-9312-b31dc7bd7527"/>
         <COMPID name="NonCode" mc="Standard.Package" uid="faaf0f23-7cbc-4ce6-9e47-1ad441d6e18c"/>
+        <COMPID name="PhaseControl" mc="Standard.Package" uid="588788c7-0450-4f15-a5e3-b6b2bec6de8e"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="Classes related to Game State" mc="Standard.ClassDiagram" uid="886fe5f0-046d-47d6-a7a7-bdacae77cc69"/>

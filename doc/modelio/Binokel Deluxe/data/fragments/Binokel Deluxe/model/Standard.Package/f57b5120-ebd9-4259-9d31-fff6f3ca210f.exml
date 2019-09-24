@@ -1,0 +1,548 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Phase Dependency" version="4">
+  <OBJECT>
+    <ID name="Phase Dependency" mc="Standard.Package" uid="f57b5120-ebd9-4259-9d31-fff6f3ca210f"/>
+    <PID name="System Design" mc="Standard.Package" uid="6d8845a2-760c-4034-b799-88e94d58136e"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[Phase Dependency]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedInformationFlow">
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="f1b123e9-1831-4ba5-83f9-ec6e7c09735b"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Dealing Phase" mc="Standard.Class" uid="8df52b9b-6812-4088-a6ba-655e2d1b58e3"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Bidding Phase" mc="Standard.Class" uid="a8d03dbc-ca04-4adb-8ffd-4df972a5e713"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Player Cards" mc="Standard.InformationItem" uid="534fe12b-9f78-4f2b-b323-6c8575a2d48c"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Dabb Cards" mc="Standard.InformationItem" uid="696b2459-b691-48fc-b245-46c909f878f1"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="e78a9254-9f2d-401a-ac4b-4ffe8d6316e9"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Dealing Phase" mc="Standard.Class" uid="8df52b9b-6812-4088-a6ba-655e2d1b58e3"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Dealer Position" mc="Standard.InformationItem" uid="45e0213d-7f43-42f4-84a8-c9124626fb04"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="0b5837e3-b9ba-4bf6-a743-763562b76a4a"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Bidding Phase" mc="Standard.Class" uid="a8d03dbc-ca04-4adb-8ffd-4df972a5e713"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Dealer Position" mc="Standard.InformationItem" uid="45e0213d-7f43-42f4-84a8-c9124626fb04"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Initial Bid Amount" mc="Standard.InformationItem" uid="8506c01c-048a-46d0-a9b1-c0d65c647966"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="AI Bidding Implementation" mc="Standard.InformationItem" uid="597d9457-0a23-414a-931a-e50c571fffce"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="AI Player Positions" mc="Standard.InformationItem" uid="803cf9d6-fc89-4735-9abe-1b340b164637"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="ba6b6250-86b6-45bd-a089-85629fd7c68e"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Bidding Phase" mc="Standard.Class" uid="a8d03dbc-ca04-4adb-8ffd-4df972a5e713"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Dabb Phase" mc="Standard.Class" uid="91d49a72-5024-4a11-82b4-40fb699b2892"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Bid Winner Position" mc="Standard.InformationItem" uid="42e3cef4-6849-4f97-80f2-fea8e4546db1"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Bids" mc="Standard.InformationItem" uid="a43cde01-a054-4f7d-b37e-d01645c3c563"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="add5bf93-bd9a-4580-a249-c0b7b6eb82d5"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Dabb Phase" mc="Standard.Class" uid="91d49a72-5024-4a11-82b4-40fb699b2892"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Going Out Phase" mc="Standard.Class" uid="de9b9636-788c-4a6f-b7e4-a2e7dd84cfb0"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Bid Winner Position" mc="Standard.InformationItem" uid="42e3cef4-6849-4f97-80f2-fea8e4546db1"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Bids" mc="Standard.InformationItem" uid="a43cde01-a054-4f7d-b37e-d01645c3c563"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="339fb6d4-3a8d-497b-bbb3-714a6afa5a8c"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Dabb Phase" mc="Standard.Class" uid="91d49a72-5024-4a11-82b4-40fb699b2892"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Melding Phase" mc="Standard.Class" uid="74e16327-2845-4037-8191-a61b799b55a5"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="90fb9475-2ab9-4f66-8687-562accb48477"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Melding Phase" mc="Standard.Class" uid="74e16327-2845-4037-8191-a61b799b55a5"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Trick Taking Phase" mc="Standard.Class" uid="46054e55-652e-49e6-a584-d6d8f3ee34f7"/>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="f11c4894-f76b-4932-b85e-ccad3af8178a"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Trick Taking Phase" mc="Standard.Class" uid="46054e55-652e-49e6-a584-d6d8f3ee34f7"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Score Display Phase" mc="Standard.Class" uid="0631b834-3246-46d4-a007-87a2eaee1927"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Trick Score Sum" mc="Standard.InformationItem" uid="d0c016ce-3e90-46e8-a7a5-f11fff73b0a7"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Final Trick Winner" mc="Standard.InformationItem" uid="63cf5851-341f-4825-8a55-a69e8a57f09e"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="0d2b5e5a-707b-449d-be8e-cc4f1b21421e"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Score Display Phase" mc="Standard.Class" uid="0631b834-3246-46d4-a007-87a2eaee1927"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Bid Winner Position" mc="Standard.InformationItem" uid="42e3cef4-6849-4f97-80f2-fea8e4546db1"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Bids" mc="Standard.InformationItem" uid="a43cde01-a054-4f7d-b37e-d01645c3c563"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Score" mc="Standard.InformationItem" uid="dba438a6-1607-423a-90d3-e881d798e497"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="901a691f-5c1b-4fc5-af89-90dc4fde317e"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Trick Taking Phase" mc="Standard.Class" uid="46054e55-652e-49e6-a584-d6d8f3ee34f7"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Dealer Position" mc="Standard.InformationItem" uid="45e0213d-7f43-42f4-84a8-c9124626fb04"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Cards" mc="Standard.InformationItem" uid="534fe12b-9f78-4f2b-b323-6c8575a2d48c"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Card Validation Implementation" mc="Standard.InformationItem" uid="44f875b0-fd1c-48d5-9124-54e061d60b57"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="AI Trick Playing Implementation" mc="Standard.InformationItem" uid="b55aaa6f-3517-4626-99b0-4276bd23120e"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Team Composition" mc="Standard.InformationItem" uid="d584dba5-50a6-47a8-ae4c-f0f4a8e1aa04"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="efa302f3-9ea2-4bf4-961b-19caa8f1e0c0"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Melding Phase" mc="Standard.Class" uid="74e16327-2845-4037-8191-a61b799b55a5"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Team Composition" mc="Standard.InformationItem" uid="d584dba5-50a6-47a8-ae4c-f0f4a8e1aa04"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="Player Melds" mc="Standard.InformationItem" uid="47e99af9-73b5-439a-b1e6-c3f8afaa3f2e"/>
+              </REFOBJ>
+            </LINK>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Note" uid="5b480070-5758-4d2e-b138-519ba6c97002"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[<Enter note text here>]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="4ff1a6a6-d704-48e5-bb1c-13edea94a8a2"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Dabb Phase" mc="Standard.Class" uid="91d49a72-5024-4a11-82b4-40fb699b2892"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Dabb Cards" mc="Standard.InformationItem" uid="696b2459-b691-48fc-b245-46c909f878f1"/>
+              </REFOBJ>
+              <REFOBJ>
+                <ID name="AI Dabb Exchange Implementation" mc="Standard.InformationItem" uid="4b0a2f0b-1a24-4b61-bd77-e88470f3b515"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="Standard.InformationFlow" uid="df7cbe66-17aa-40b4-85b9-85a804362f96"/>
+          <ATTRIBUTES>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="InformationSource">
+              <ID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+            </LINK>
+            <LINK relation="InformationTarget">
+              <ID name="Going Out Phase" mc="Standard.Class" uid="de9b9636-788c-4a6f-b7e4-a2e7dd84cfb0"/>
+            </LINK>
+            <LINK relation="Conveyed">
+              <REFOBJ>
+                <ID name="Player Score" mc="Standard.InformationItem" uid="dba438a6-1607-423a-90d3-e881d798e497"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="OwnedElement">
+        <OBJECT>
+          <ID name="Initial Bid Amount" mc="Standard.InformationItem" uid="8506c01c-048a-46d0-a9b1-c0d65c647966"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Initial Bid Amount]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="AI Bidding Implementation" mc="Standard.InformationItem" uid="597d9457-0a23-414a-931a-e50c571fffce"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[AI Bidding Implementation]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="AI Player Positions" mc="Standard.InformationItem" uid="803cf9d6-fc89-4735-9abe-1b340b164637"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[AI Player Positions]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Player Bids" mc="Standard.InformationItem" uid="a43cde01-a054-4f7d-b37e-d01645c3c563"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Player Bids]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Bid Winner Position" mc="Standard.InformationItem" uid="42e3cef4-6849-4f97-80f2-fea8e4546db1"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Bid Winner Position]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="AI Dabb Exchange Implementation" mc="Standard.InformationItem" uid="4b0a2f0b-1a24-4b61-bd77-e88470f3b515"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[AI Dabb Exchange Implementation]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Discarded Cards" mc="Standard.InformationItem" uid="fd1fa4da-cbbf-4814-9529-26dc96e0d571"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Discarded Cards]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Player Score" mc="Standard.InformationItem" uid="dba438a6-1607-423a-90d3-e881d798e497"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Player Score]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Player Melds" mc="Standard.InformationItem" uid="47e99af9-73b5-439a-b1e6-c3f8afaa3f2e"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Player Melds]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Team Composition" mc="Standard.InformationItem" uid="d584dba5-50a6-47a8-ae4c-f0f4a8e1aa04"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Team Composition]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Card Validation Implementation" mc="Standard.InformationItem" uid="44f875b0-fd1c-48d5-9124-54e061d60b57"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Card Validation Implementation]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="AI Trick Playing Implementation" mc="Standard.InformationItem" uid="b55aaa6f-3517-4626-99b0-4276bd23120e"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[AI Trick Playing Implementation]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Trick Score Sum" mc="Standard.InformationItem" uid="d0c016ce-3e90-46e8-a7a5-f11fff73b0a7"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Trick Score Sum]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Final Trick Winner" mc="Standard.InformationItem" uid="63cf5851-341f-4825-8a55-a69e8a57f09e"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Final Trick Winner]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="Dealing Phase" mc="Standard.Class" uid="8df52b9b-6812-4088-a6ba-655e2d1b58e3"/>
+        <COMPID name="Bidding Phase" mc="Standard.Class" uid="a8d03dbc-ca04-4adb-8ffd-4df972a5e713"/>
+        <COMPID name="Dabb Phase" mc="Standard.Class" uid="91d49a72-5024-4a11-82b4-40fb699b2892"/>
+        <COMPID name="Melding Phase" mc="Standard.Class" uid="74e16327-2845-4037-8191-a61b799b55a5"/>
+        <COMPID name="Trick Taking Phase" mc="Standard.Class" uid="46054e55-652e-49e6-a584-d6d8f3ee34f7"/>
+        <COMPID name="Going Out Phase" mc="Standard.Class" uid="de9b9636-788c-4a6f-b7e4-a2e7dd84cfb0"/>
+        <COMPID name="Score Display Phase" mc="Standard.Class" uid="0631b834-3246-46d4-a007-87a2eaee1927"/>
+        <OBJECT>
+          <ID name="Dealer Position" mc="Standard.InformationItem" uid="45e0213d-7f43-42f4-84a8-c9124626fb04"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Dealer Position]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Player Cards" mc="Standard.InformationItem" uid="534fe12b-9f78-4f2b-b323-6c8575a2d48c"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Player Cards]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Dabb Cards" mc="Standard.InformationItem" uid="696b2459-b691-48fc-b245-46c909f878f1"/>
+          <ATTRIBUTES>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Dabb Cards]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <COMPID name="Controller" mc="Standard.Class" uid="691e207f-5334-45ec-be5c-ea5cecac8d67"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Phase Dependencies" mc="Standard.ClassDiagram" uid="59a337fd-216a-42e0-b07b-1b0875f48cdf"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

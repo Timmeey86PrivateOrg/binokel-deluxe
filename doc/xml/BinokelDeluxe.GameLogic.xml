@@ -151,7 +151,7 @@
         <member name="T:BinokelDeluxe.GameLogic.ISingleGameTriggerSink">
             <summary>
             This interface can be used to send triggers to the internal state machine.
-            See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
+            See https://raw.githubusercontent.com/Timmeey86/binokel-deluxe/master/doc/modelio/img/08_01_SingleGameStateMachine.png for the used triggers and related transitions.
             </summary>
         </member>
         <member name="M:BinokelDeluxe.GameLogic.ISingleGameTriggerSink.SendTrigger(BinokelDeluxe.Common.GameTrigger)">
@@ -391,7 +391,7 @@
         <member name="M:BinokelDeluxe.GameLogic.SingleGameStateMachine.RefreshStateMachine(BinokelDeluxe.GameLogic.RuleSettings,System.Int32)">
             <summary>
             Creates a state machine for the given rule settings.
-            Check https://github.com/Timmeey86/binokel-deluxe/wiki/State-Machines for an overview of possible states and transitions.
+            Check https://github.com/Timmeey86/binokel-deluxe/wiki/(Concept)-State-Machines for an overview of possible states and transitions.
             </summary>
             <param name="ruleSettings">The settings for this game.</param>
             <param name="dealerPosition">The Position of the dealing player for this game, starting at zero.</param>
@@ -449,7 +449,7 @@
         </member>
         <member name="T:BinokelDeluxe.GameLogic.SingleGameState">
             <summary>
-            See https://github.com/Timmeey86/binokel-deluxe/blob/statemachine/doc/modelio/img/08_01_SingleGameStateMachine.png for a graphical representation of the states.
+            See https://raw.githubusercontent.com/Timmeey86/binokel-deluxe/master/doc/modelio/img/08_01_SingleGameStateMachine.png for a graphical representation of the states.
             </summary>
         </member>
         <member name="F:BinokelDeluxe.GameLogic.SingleGameState.Initial">

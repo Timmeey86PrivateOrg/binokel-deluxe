@@ -15,6 +15,7 @@
     <DEPENDENCIES>
       <COMP relation="OwnedElement">
         <COMPID name="Interface" mc="Standard.Package" uid="e90f875b-10ab-486a-8015-1e41db7079b6"/>
+        <COMPID name="Package" mc="Standard.Package" uid="3095c96e-034c-4344-90a8-f8418ad70d10"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

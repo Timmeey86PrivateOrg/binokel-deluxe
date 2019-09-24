@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="PhaseControl" version="4">
+  <OBJECT>
+    <ID name="PhaseControl" mc="Standard.Package" uid="588788c7-0450-4f15-a5e3-b6b2bec6de8e"/>
+    <PID name="Core" mc="Standard.Package" uid="2c25ca62-1399-4b2a-bd44-bd2990a41577"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[PhaseControl]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="PhaseCompositor" mc="Standard.Class" uid="fd1dae91-9c52-4462-a663-13614ac0030f"/>
+        <COMPID name="DealingPhaseController" mc="Standard.Class" uid="e99d2dd5-6ef3-4018-80e7-0d031db9493c"/>
+        <COMPID name="BiddingPhaseController" mc="Standard.Class" uid="b6e1ad01-0083-472a-9ef9-9b18836e7936"/>
+        <COMPID name="DabbPhaseController" mc="Standard.Class" uid="f8a098cd-28bd-4dbc-8f5c-61d5815b47d5"/>
+        <COMPID name="GoingOutPhaseController" mc="Standard.Class" uid="d4a34c75-6995-4138-87b1-db369bce62fc"/>
+        <COMPID name="MeldingPhaseController" mc="Standard.Class" uid="3bb50b68-6ce6-4aec-b1ee-c0904d72884b"/>
+        <COMPID name="TrickTakingPhaseController" mc="Standard.Class" uid="2b1f24fc-4ac6-4758-a6c1-0a30d9b8e35e"/>
+        <COMPID name="ScoreDisplayPhaseControlller" mc="Standard.Class" uid="223adaa3-ab0b-44b2-8383-564983b0a6a7"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

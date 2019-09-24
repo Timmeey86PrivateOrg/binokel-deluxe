@@ -32,6 +32,7 @@
         <COMPID name="Software Architecture Enthusiast" mc="Standard.Actor" uid="cc48dec7-a339-405f-87c1-e9333effc67b"/>
         <COMPID name="Components" mc="Standard.Package" uid="991fa102-2df5-431a-a591-fc568d9f4280"/>
         <COMPID name="Signals" mc="Standard.Package" uid="54f21889-4e01-4cc9-8405-87f1272841c3"/>
+        <COMPID name="Phase Dependency" mc="Standard.Package" uid="f57b5120-ebd9-4259-9d31-fff6f3ca210f"/>
       </COMP>
       <COMP relation="Product">
         <COMPID name="High Level Use Cases" mc="Standard.UseCaseDiagram" uid="16bece41-04d9-44db-8ee0-47ef852f0574"/>

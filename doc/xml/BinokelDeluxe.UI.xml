@@ -9,6 +9,21 @@
             The actions which are possible in the main menu.
             </summary>
         </member>
+        <member name="F:BinokelDeluxe.UI.MainMenuActions.StartGame">
+            <summary>
+            The action for starting the game.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.UI.MainMenuActions.DisplayScoreboard">
+            <summary>
+            The action for displaying the score board.
+            </summary>
+        </member>
+        <member name="F:BinokelDeluxe.UI.MainMenuActions.Quit">
+            <summary>
+            The action for quitting the game.
+            </summary>
+        </member>
         <member name="T:BinokelDeluxe.UI.IUserInterface">
             <summary>
             Defines the interface for accessig the User Interface.
@@ -112,7 +127,7 @@
             A dealer indicator may be shown, since in most cases, the dealer's right-hand player will be the first one to place a card.
             </summary>
             <param name="cardsByPlayers">The cards for each player.</param>
-            <param name="dealerNumber">The position of the dealer. This did not change from earlier phases but is supplied again so the UI does not have to store this information.</param>
+            <param name="dealerPosition">The position of the dealer. This did not change from earlier phases but is supplied again so the UI does not have to store this information.</param>
         </member>
         <member name="M:BinokelDeluxe.UI.IUserInterface.DisplayGoingOutScore(System.Collections.Generic.IEnumerable{BinokelDeluxe.Common.ScoreData})">
             <summary>
@@ -163,6 +178,11 @@
             Implementers should display a scoreboard for the current game as a result of all cards being placed.
             </summary>
             <param name="playerOrTeamScores">The scores of the players or teams, where the first player (or team) is the user.</param>
+        </member>
+        <member name="T:BinokelDeluxe.UI.UISettings">
+            <summary>
+            This class will contain settings for the user interface in the future.
+            </summary>
         </member>
     </members>
 </doc>

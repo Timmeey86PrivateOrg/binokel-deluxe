@@ -4,5 +4,10 @@
         <name>BinokelDeluxe.Learning</name>
     </assembly>
     <members>
+        <member name="T:BinokelDeluxe.Learning.LearningSettings">
+            <summary>
+            This class will contain settings for the learning mode in the future.
+            </summary>
+        </member>
     </members>
 </doc>

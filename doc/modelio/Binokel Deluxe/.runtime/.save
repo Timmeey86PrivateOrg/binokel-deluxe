@@ -1,9 +1,2 @@
-#Sun May 05 10:41:13 CEST 2019
-org.modelio.diagram.editor.OpenedDiagrams7='Diagram' {71f61e8e-788d-4f98-a4d8-bfee396891e9} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams6='Threading Classes' {4312ef01-adf8-4fcf-890d-e9b1ca7e1fed} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams5='Classes related to Game State' {886fe5f0-046d-47d6-a7a7-bdacae77cc69} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams4='GameLogic Module' {5e21a4d2-1635-4d7c-acb0-03d6a5f5df0f} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams3='Single Game State Machine' {afd71466-a864-4979-85be-766fae49233a} Standard.StateMachineDiagram
-org.modelio.diagram.editor.OpenedDiagrams2='Component Overview' {c36c42a8-9082-48d4-83e6-add8b3a073ba} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams1='System Context' {cdd43a84-9d17-4b71-8c92-78cecad7b95b} Standard.ClassDiagram
-org.modelio.diagram.editor.OpenedDiagrams0='High Level Use Cases' {16bece41-04d9-44db-8ee0-47ef852f0574} Standard.UseCaseDiagram
+#Tue Sep 24 21:26:22 CEST 2019
+org.modelio.diagram.editor.OpenedDiagrams0='Phase Dependencies' {59a337fd-216a-42e0-b07b-1b0875f48cdf} Standard.ClassDiagram
